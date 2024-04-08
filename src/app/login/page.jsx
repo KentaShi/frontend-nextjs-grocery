@@ -30,7 +30,7 @@ const LoginPage = () => {
     return (
         <Card color="transparent" shadow={false}>
             <Typography variant="h4" color="blue-gray">
-                Login
+                Log In
             </Typography>
             <Typography color="gray" className="mt-1 font-normal">
                 Nice to meet you! Enter your details to Login.

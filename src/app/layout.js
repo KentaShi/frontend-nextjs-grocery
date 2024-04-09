@@ -1,6 +1,8 @@
 import { Inter } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/Navbar"
+import { AuthProvider } from "@/contexts/auth/state"
+import { Toaster } from "react-hot-toast"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -13,12 +15,19 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <body>
-                <div className="relative mb-8 h-full w-full bg-white">
-                    <div className="sticky top-0 z-[999] flex w-full items-center">
-                        <Navbar />
+                <AuthProvider>
+                    <div className="relative mb-8 h-full w-full bg-white">
+                        <div className="sticky top-0 z-[999] flex w-full items-center">
+                            <Navbar />
+                        </div>
+                        <div className="container mx-auto flex">
+                            <div className="flex justify-center w-full items-center py-6 rounded">
+                                {children}
+                            </div>
+                        </div>
                     </div>
-                    <div className="container mx-auto flex">{children}</div>
-                </div>
+                    <Toaster />
+                </AuthProvider>
             </body>
         </html>
     )

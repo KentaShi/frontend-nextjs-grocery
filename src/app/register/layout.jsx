@@ -6,11 +6,7 @@ export const metadata = {
 }
 
 const RegisterLayout = ({ children }) => {
-    return (
-        <div className="flex justify-center items-center py-6 rounded">
-            {children}
-        </div>
-    )
+    return <div>{children}</div>
 }
 
 export default RegisterLayout

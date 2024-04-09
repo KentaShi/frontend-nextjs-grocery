@@ -1,14 +1,16 @@
+import { getData, postData } from "@/utils/api"
 import axios from "axios"
 
-const BASE_URL = "http://localhost:3030"
-
 export const register = async (data) => {
-    return await axios.post(`${BASE_URL}/api/accsess/register`, data)
+    return await postData("/api/access/register", data)
 }
 
 export const login = async (data) => {
-    return await axios.post(`${BASE_URL}/api/accsess/login`, data)
+    return await postData("/api/access/login", data)
 }
-export const refreshToken = async (data) => {
-    return await axios.post(`${BASE_URL}/api/accsess/refresh-token`, data)
+export const refreshToken = async (data, tokens) => {
+    return await postData("/api/access/refresh-token", data, {
+        authentication: tokens.accessToken,
+        "x-refresh-token": tokens.refreshToken,
+    })
 }

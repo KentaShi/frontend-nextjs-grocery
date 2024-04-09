@@ -6,11 +6,7 @@ export const metadata = {
 }
 
 const LayoutLogin = ({ children }) => {
-    return (
-        <div className="flex justify-center w-full items-center py-6 rounded">
-            {children}
-        </div>
-    )
+    return <div>{children}</div>
 }
 
 export default LayoutLogin

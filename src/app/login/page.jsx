@@ -9,7 +9,14 @@ import {
     Button,
     Typography,
 } from "@material-tailwind/react"
+import { login } from "@/service/access"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/contexts/auth/state"
+import { ACTIONS } from "@/contexts/auth/action"
+import toast from "react-hot-toast"
 const LoginPage = () => {
+    const router = useRouter()
+    const { dispatch } = useAuth()
     const initState = {
         username: "",
         password: "",
@@ -22,9 +29,25 @@ const LoginPage = () => {
         setLoginData({ ...loginData, [name]: value })
     }
 
-    const handleSubmitLogin = (e) => {
+    const handleSubmitLogin = async (e) => {
         e.preventDefault()
-        console.log(loginData)
+        const res = await login(loginData)
+        console.log("res login: ", res)
+        const metadata = res.metadata
+        if (res.status === 200) {
+            dispatch({
+                type: ACTIONS.LOGIN,
+                payload: { user: metadata.user, tokens: metadata.tokens },
+            })
+            toast.success(res.message)
+            router.push("/profile")
+        }
+        if (res.status === 401) {
+            toast.error(res.message)
+        }
+        if (res.status === 404) {
+            toast.error(res.message)
+        }
         setLoginData(initState)
     }
     return (

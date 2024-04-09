@@ -8,6 +8,7 @@ import {
     Typography,
     Button,
     IconButton,
+    Collapse,
     Card,
 } from "@material-tailwind/react"
 export default function StickyNavbar() {
@@ -31,6 +32,16 @@ export default function StickyNavbar() {
                 <a href="#" className="flex items-center">
                     Products
                 </a>
+            </Typography>
+            <Typography
+                as="li"
+                variant="paragraph"
+                color="blue-gray"
+                className="p-1 font-normal"
+            >
+                <Link href="/profile" className="flex items-center">
+                    Profile
+                </Link>
             </Typography>
         </ul>
     )
@@ -93,17 +104,14 @@ export default function StickyNavbar() {
                     </IconButton>
                 </div>
             </div>
-            <MobileNav open={openNav}>
+            <Collapse open={openNav}>
                 {navList}
                 <div className="flex items-center gap-x-1">
-                    <Button fullWidth variant="text" size="sm" className="">
-                        <span>Log In</span>
-                    </Button>
                     <Button fullWidth variant="gradient" size="sm" className="">
-                        <span>Sign in</span>
+                        <span>Log in</span>
                     </Button>
                 </div>
-            </MobileNav>
+            </Collapse>
         </Navbar>
     )
 }

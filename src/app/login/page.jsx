@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/auth/state"
 import { ACTIONS } from "@/contexts/auth/action"
 import toast from "react-hot-toast"
+import Cookies from "js-cookie"
 const LoginPage = () => {
     const router = useRouter()
     const { dispatch } = useAuth()
@@ -32,12 +33,21 @@ const LoginPage = () => {
     const handleSubmitLogin = async (e) => {
         e.preventDefault()
         const res = await login(loginData)
-        console.log("res login: ", res)
+
         const metadata = res.metadata
+        console.log("res login: ", metadata)
         if (res.status === 200) {
             dispatch({
                 type: ACTIONS.LOGIN,
                 payload: { user: metadata.user, tokens: metadata.tokens },
+            })
+            Cookies.set("access_token", metadata.tokens.accessToken, {
+                expires: 7,
+                secure: true,
+            })
+            Cookies.set("refresh_token", metadata.tokens.refreshToken, {
+                expires: 7,
+                secure: true,
             })
             toast.success(res.message)
             router.push("/profile")

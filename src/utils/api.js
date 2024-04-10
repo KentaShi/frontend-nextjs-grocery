@@ -16,7 +16,7 @@ export const getData = async (url, headers = {}) => {
         })
         return response.data
     } catch (error) {
-        throw error
+        return error.response.data
     }
 }
 

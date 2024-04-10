@@ -3,7 +3,7 @@ import { initState } from "./state"
 
 const reducer = (state, action) => {
     switch (action.type) {
-        case ACTIONS.AUTH: {
+        case ACTIONS.LOGIN: {
             return {
                 ...state,
                 isAuthenticated: true,

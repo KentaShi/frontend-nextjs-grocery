@@ -1,15 +1,16 @@
 "use client"
 
+import { getAuth } from "@/service/access"
 import reducer from "./reducer"
 import React, { createContext, useContext, useEffect, useReducer } from "react"
+import Cookies from "js-cookie"
+import toast from "react-hot-toast"
+import { ACTIONS } from "./action"
 
 export const initState = {
     isAuthenticated: false,
     user: null,
-    tokens: {
-        accessToken: null,
-        refreshToken: null,
-    },
+    accessToken: null,
 }
 
 export const AuthContext = createContext()
@@ -17,7 +18,30 @@ export const AuthContext = createContext()
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initState)
 
-    useEffect(() => {}, [])
+    useEffect(() => {
+        const fetchData = async () => {
+            const firstLogin = localStorage.getItem("firstLogin")
+            if (firstLogin) {
+                const refreshToken = Cookies.get("refresh_token")
+                const res = await getAuth({ refreshToken })
+                if (res.status === 200) {
+                    const metadata = res.metadata
+                    dispatch({
+                        type: ACTIONS.AUTH,
+                        payload: {
+                            user: metadata.user,
+                            accessToken: metadata.tokens.accessToken,
+                        },
+                    })
+                } else {
+                    localStorage.removeItem("firstLogin")
+                    toast.error(res.message)
+                    console.log(res.message)
+                }
+            }
+        }
+        fetchData()
+    }, [])
 
     return (
         <AuthContext.Provider value={{ state, dispatch }}>

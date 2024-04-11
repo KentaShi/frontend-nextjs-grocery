@@ -20,7 +20,7 @@ export const getData = async (url, headers = {}) => {
     }
 }
 
-export const postData = async (url, data, headers = {}) => {
+export const postData = async (url, data = null, headers = {}) => {
     try {
         const response = await instance.post(url, data, {
             headers: { ...instance.defaults.headers, ...headers },

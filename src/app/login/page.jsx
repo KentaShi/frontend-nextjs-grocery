@@ -34,30 +34,27 @@ const LoginPage = () => {
         e.preventDefault()
         const res = await login(loginData)
 
-        const metadata = res.metadata
-        console.log("res login: ", metadata)
         if (res.status === 200) {
+            const metadata = res.metadata
             dispatch({
-                type: ACTIONS.LOGIN,
-                payload: { user: metadata.user, tokens: metadata.tokens },
-            })
-            Cookies.set("access_token", metadata.tokens.accessToken, {
-                expires: 7,
-                secure: true,
+                type: ACTIONS.AUTH,
+                payload: {
+                    user: metadata.user,
+                    accessToken: metadata.tokens.accessToken,
+                },
             })
             Cookies.set("refresh_token", metadata.tokens.refreshToken, {
                 expires: 7,
                 secure: true,
             })
+            localStorage.setItem("firstLogin", true)
+
             toast.success(res.message)
             router.push("/profile")
-        }
-        if (res.status === 401) {
+        } else {
             toast.error(res.message)
         }
-        if (res.status === 404) {
-            toast.error(res.message)
-        }
+
         setLoginData(initState)
     }
     return (

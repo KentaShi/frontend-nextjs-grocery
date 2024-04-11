@@ -1,7 +1,9 @@
+"use client"
+import WithAuth from "@/hocs/WithAuth"
 import React from "react"
 
 const ProfilePage = () => {
     return <div>ProfilePage</div>
 }
 
-export default ProfilePage
+export default WithAuth(ProfilePage)

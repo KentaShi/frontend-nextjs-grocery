@@ -1,5 +1,4 @@
-import { getData, postData } from "@/utils/api"
-import axios from "axios"
+import { postData } from "@/utils/api"
 
 export const register = async (data) => {
     return await postData("/api/access/register", data)
@@ -8,9 +7,16 @@ export const register = async (data) => {
 export const login = async (data) => {
     return await postData("/api/access/login", data)
 }
-export const refreshToken = async (data, tokens) => {
+
+export const getAuth = async ({ refreshToken }) => {
+    console.log(refreshToken)
+    return await postData("/api/access/getAuth", null, {
+        "x-refresh-token": JSON.stringify(refreshToken),
+    })
+}
+
+export const refreshToken = async ({ data = null, refreshToken }) => {
     return await postData("/api/access/refresh-token", data, {
-        authentication: tokens.accessToken,
-        "x-refresh-token": tokens.refreshToken,
+        "x-refresh-token": refreshToken,
     })
 }

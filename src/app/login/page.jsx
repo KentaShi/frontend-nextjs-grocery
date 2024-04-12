@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import {
     Card,
@@ -10,14 +10,15 @@ import {
     Typography,
 } from "@material-tailwind/react"
 import { login } from "@/service/access"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/auth/state"
 import { ACTIONS } from "@/contexts/auth/action"
 import toast from "react-hot-toast"
 import Cookies from "js-cookie"
 const LoginPage = () => {
     const router = useRouter()
-    const { dispatch } = useAuth()
+    const { state, dispatch } = useAuth()
+    const { user } = state
     const initState = {
         username: "",
         password: "",
@@ -48,6 +49,10 @@ const LoginPage = () => {
                 secure: true,
             })
             localStorage.setItem("firstLogin", true)
+            localStorage.setItem(
+                "authState",
+                JSON.stringify({ isLogged: true })
+            )
 
             toast.success(res.message)
             router.push("/profile")
@@ -57,6 +62,11 @@ const LoginPage = () => {
 
         setLoginData(initState)
     }
+    useEffect(() => {
+        if (user) {
+            return redirect("/")
+        }
+    }, [user])
     return (
         <Card color="transparent" shadow={false}>
             <Typography variant="h4" color="blue-gray">

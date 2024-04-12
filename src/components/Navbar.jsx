@@ -32,9 +32,9 @@ export default function StickyNavbar() {
                 color="blue-gray"
                 className="p-1 font-normal"
             >
-                <a href="#" className="flex items-center">
-                    Products
-                </a>
+                <Link href="/product" className="flex items-center">
+                    Product
+                </Link>
             </Typography>
             <Typography
                 as="li"

@@ -9,10 +9,7 @@ export const login = async (data) => {
 }
 
 export const getAuth = async ({ refreshToken }) => {
-    console.log(refreshToken)
-    return await postData("/api/access/getAuth", null, {
-        "x-refresh-token": JSON.stringify(refreshToken),
-    })
+    return await postData("/api/access/getAuth", { refreshToken })
 }
 
 export const refreshToken = async ({ data = null, refreshToken }) => {

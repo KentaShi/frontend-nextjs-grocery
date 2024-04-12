@@ -12,7 +12,7 @@ const WithAuth = (Component) => {
             if (!isAuthenticated) {
                 return redirect("/login")
             }
-        }, [])
+        }, [isAuthenticated])
 
         if (!isAuthenticated) {
             return null

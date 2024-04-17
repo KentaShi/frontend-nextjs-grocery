@@ -49,6 +49,10 @@ const LoginPage = () => {
                 secure: true,
             })
             localStorage.setItem("firstLogin", true)
+            localStorage.setItem(
+                "authState",
+                JSON.stringify({ isLogged: true })
+            )
 
             toast.success(res.message)
             router.push("/profile")

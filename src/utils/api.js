@@ -25,6 +25,7 @@ export const postData = async (url, data = null, headers = {}) => {
         const response = await instance.post(url, data, {
             headers: { ...instance.defaults.headers, ...headers },
         })
+
         return response.data
     } catch (error) {
         return error.response.data

@@ -6,14 +6,14 @@ import { redirect } from "next/navigation"
 
 const ProfilePage = () => {
     const { state } = useAuth()
-    const { isAuthenticated } = state
+    const { user, isAuthenticated } = state
 
     useEffect(() => {
         if (!isAuthenticated) {
             return redirect("/login")
         }
     }, [isAuthenticated])
-    return <div>ProfilePage</div>
+    return <div>Hello {user?.username}</div>
 }
 
 export default ProfilePage

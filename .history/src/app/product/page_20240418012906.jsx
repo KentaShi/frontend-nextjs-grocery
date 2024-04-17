@@ -14,7 +14,7 @@ const ProductPage = async () => {
     const message = "test props"
     return (
         <>
-            <Product message={message} />
+            <Product />
         </>
     )
 }

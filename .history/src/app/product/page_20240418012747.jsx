@@ -11,10 +11,9 @@ async function getProducts() {
 
 const ProductPage = async () => {
     const products = await getProducts()
-    const message = "test props"
     return (
         <>
-            <Product message={message} />
+            <Product />
         </>
     )
 }

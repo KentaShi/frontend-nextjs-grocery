@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import {
     Navbar,
@@ -12,17 +12,27 @@ import {
     Card,
 } from "@material-tailwind/react"
 import { useAuth } from "@/contexts/auth/state"
+import Cookies from "js-cookie"
+import { ACTIONS } from "@/contexts/auth/action"
+import { redirect } from "next/navigation"
 export default function StickyNavbar() {
-    const { state } = useAuth()
+    const { state, dispatch } = useAuth()
     const { isAuthenticated, user, accessToken } = state
 
-    const [openNav, setOpenNav] = React.useState(false)
-    React.useEffect(() => {
+    const [openNav, setOpenNav] = useState(false)
+    useEffect(() => {
         window.addEventListener(
             "resize",
             () => window.innerWidth >= 960 && setOpenNav(false)
         )
     }, [])
+
+    const handleLogout = () => {
+        Cookies.remove("refresh_token")
+        localStorage.removeItem("firstLogin")
+        dispatch({ type: ACTIONS.LOGOUT, payload: {} })
+        return redirect("/login")
+    }
 
     const navList = (
         <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -59,7 +69,19 @@ export default function StickyNavbar() {
                 </Typography>
                 <div className="flex items-center gap-4">
                     {isAuthenticated ? (
-                        <div className="mr-4 hidden lg:block">{navList}</div>
+                        <div className="mr-4 hidden lg:block">
+                            {navList}
+                            <div className="flex items-center gap-x-1">
+                                <Button
+                                    onClick={handleLogout}
+                                    variant="gradient"
+                                    size="sm"
+                                    className="hidden lg:inline-block"
+                                >
+                                    Log Out
+                                </Button>
+                            </div>
+                        </div>
                     ) : (
                         <div className="flex items-center gap-x-1">
                             <Button
@@ -112,12 +134,33 @@ export default function StickyNavbar() {
                 </div>
             </div>
             <Collapse open={openNav}>
-                {navList}
-                <div className="flex items-center gap-x-1">
-                    <Button fullWidth variant="gradient" size="sm" className="">
-                        <span>Log in</span>
-                    </Button>
-                </div>
+                {isAuthenticated ? (
+                    <>
+                        {navList}
+                        <div className="flex items-center gap-x-1">
+                            <Button
+                                onClick={handleLogout}
+                                fullWidth
+                                variant="gradient"
+                                size="sm"
+                                className=""
+                            >
+                                Log Out
+                            </Button>
+                        </div>
+                    </>
+                ) : (
+                    <div className="flex items-center gap-x-1">
+                        <Button
+                            fullWidth
+                            variant="gradient"
+                            size="sm"
+                            className=""
+                        >
+                            <Link href="/login">Log in</Link>
+                        </Button>
+                    </div>
+                )}
             </Collapse>
         </Navbar>
     )

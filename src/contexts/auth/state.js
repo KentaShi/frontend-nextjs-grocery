@@ -37,7 +37,6 @@ export const AuthProvider = ({ children }) => {
                 } else {
                     localStorage.removeItem("firstLogin")
                     toast.error(res.message)
-                    console.log(res.message)
                 }
             }
         }

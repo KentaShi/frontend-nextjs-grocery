@@ -1,4 +1,3 @@
-import Product from "@/components/Product"
 import { getData } from "@/utils/api"
 
 async function getProducts() {
@@ -11,12 +10,7 @@ async function getProducts() {
 
 const ProductPage = async () => {
     const products = await getProducts()
-    const message = "test props"
-    return (
-        <>
-            <Product message={message} />
-        </>
-    )
+    return <div>Product page</div>
 }
 
 export default ProductPage

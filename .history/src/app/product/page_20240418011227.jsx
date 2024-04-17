@@ -1,8 +1,8 @@
-import Product from "@/components/Product"
 import { getData } from "@/utils/api"
+import React from "react"
 
 async function getProducts() {
-    const res = await getData("/product/all")
+    const res = await getData("/product")
     console.log(res)
     const products = res.products
 
@@ -11,12 +11,7 @@ async function getProducts() {
 
 const ProductPage = async () => {
     const products = await getProducts()
-    const message = "test props"
-    return (
-        <>
-            <Product message={message} />
-        </>
-    )
+    return <div>ProductPage</div>
 }
 
 export default ProductPage

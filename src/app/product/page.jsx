@@ -1,20 +1,16 @@
 import Product from "@/components/Product"
-import { getData } from "@/utils/api"
+import { findAllProducts } from "@/service/product"
 
 async function getProducts() {
-    const res = await getData("/product/all")
-    console.log(res)
-    const products = res.products
-
-    return products
+    const res = await findAllProducts()
+    return res.metadata.products
 }
 
 const ProductPage = async () => {
     const products = await getProducts()
-    const message = "test props"
     return (
         <>
-            <Product message={message} />
+            <Product products={products} />
         </>
     )
 }

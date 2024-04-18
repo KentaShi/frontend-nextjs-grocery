@@ -17,7 +17,12 @@ import {
     Input,
     Dialog,
     Checkbox,
+    Select,
+    Option,
 } from "@material-tailwind/react"
+import ProductItem from "./ProductItem"
+import { addNewProduct } from "@/service/product"
+import toast from "react-hot-toast"
 const TABLE_HEAD = ["Tên sản phẩm", "Giá", "Phân loại", "Tùy chọn"]
 
 const TABLE_ROWS = [
@@ -28,11 +33,39 @@ const TABLE_ROWS = [
         category: "Wed 3:00pm",
     },
 ]
-const Product = ({ message }) => {
-    // console.log(message)
+const Product = ({ products }) => {
     const [openAddNew, setOpenAddNew] = useState(false)
+    const initProductData = {
+        product_name: "",
+        product_thumb: "",
+        product_price: "",
+        product_cate: "",
+    }
+    const [productData, setProductData] = useState(initProductData)
+
+    const { product_name, product_thumb, product_price, product_cate } =
+        productData
+
+    const handleChangeInput = (e) => {
+        const { name, value } = e.target
+        setProductData({ ...productData, [name]: value })
+    }
+    const handleChangeCategory = (e) => {
+        setProductData({ ...productData, product_cate: e })
+    }
     const handleOpenAddNew = () => {
+        setProductData(initProductData)
         setOpenAddNew((prev) => !prev)
+    }
+    const handleAddNewProduct = async () => {
+        // console.log(productData)
+        const res = await addNewProduct(productData)
+        if (res.status === 200) {
+            toast.success(res.message)
+        } else {
+            toast.error(res.message)
+        }
+        setProductData(initProductData)
     }
     return (
         <Card className="h-full w-full">
@@ -43,7 +76,7 @@ const Product = ({ message }) => {
                             Danh sách sản phẩm
                         </Typography>
                         <Typography color="gray" className="mt-1 font-normal">
-                            Số lượng
+                            Số lượng: {products?.length ? products.length : 0}
                         </Typography>
                     </div>
                     <div className="flex w-full shrink-0 gap-2 md:w-max">
@@ -85,31 +118,62 @@ const Product = ({ message }) => {
                                         >
                                             Tên Sản Phẩm
                                         </Typography>
-                                        <Input label="Tên sản phẩm" size="lg" />
+                                        <Input
+                                            name="product_name"
+                                            value={product_name}
+                                            onChange={handleChangeInput}
+                                            label="Tên sản phẩm"
+                                            size="lg"
+                                        />
                                         <Typography
                                             className="-mb-2"
                                             variant="h6"
                                         >
                                             Giá Tiền
                                         </Typography>
-                                        <Input label="Giá tiền" size="lg" />
+                                        <Input
+                                            name="product_price"
+                                            value={product_price}
+                                            onChange={handleChangeInput}
+                                            label="Giá tiền"
+                                            size="lg"
+                                        />
                                         <Typography
                                             className="-mb-2"
                                             variant="h6"
                                         >
                                             Phân Loại
                                         </Typography>
-                                        <Input label="Phân Loại" size="lg" />
+                                        <Select
+                                            name="product_cate"
+                                            onChange={handleChangeCategory}
+                                            value={product_cate}
+                                            label="Phân Loại"
+                                        >
+                                            <Option value="coffee">
+                                                Cà Phê
+                                            </Option>
+                                            <Option value="drink">
+                                                Nước Các Loại
+                                            </Option>
+                                        </Select>
                                         <Typography
                                             className="-mb-2"
                                             variant="h6"
                                         >
                                             Hình Ảnh
                                         </Typography>
-                                        <Input label="Hình Ảnh" size="lg" />
+                                        <Input
+                                            name="product_thumb"
+                                            value={product_thumb}
+                                            onChange={handleChangeInput}
+                                            label="Hình Ảnh"
+                                            size="lg"
+                                        />
                                     </CardBody>
                                     <CardFooter className="flex flex-row  pt-0">
                                         <Button
+                                            onClick={handleOpenAddNew}
                                             className="mr-2"
                                             color="red"
                                             variant="gradient"
@@ -118,6 +182,7 @@ const Product = ({ message }) => {
                                             Hủy
                                         </Button>
                                         <Button
+                                            onClick={handleAddNewProduct}
                                             color="blue"
                                             variant="gradient"
                                             fullWidth
@@ -152,70 +217,21 @@ const Product = ({ message }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {TABLE_ROWS.map(
-                            ({ img, name, amount, category }, index) => {
-                                const isLast = index === TABLE_ROWS.length - 1
+                        {products?.length > 0 &&
+                            products.map((product, index) => {
+                                const isLast = index === products.length - 1
                                 const classes = isLast
                                     ? "p-4"
                                     : "p-4 border-b border-blue-gray-50"
 
                                 return (
-                                    <tr key={name}>
-                                        <td className={classes}>
-                                            <div className="flex items-center gap-3">
-                                                <Avatar
-                                                    src={img}
-                                                    alt={name}
-                                                    size="md"
-                                                    className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
-                                                />
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-bold"
-                                                >
-                                                    {name}
-                                                </Typography>
-                                            </div>
-                                        </td>
-                                        <td className={classes}>
-                                            <Typography
-                                                variant="small"
-                                                color="blue-gray"
-                                                className="font-normal"
-                                            >
-                                                {amount}
-                                            </Typography>
-                                        </td>
-                                        <td className={classes}>
-                                            <Typography
-                                                variant="small"
-                                                color="blue-gray"
-                                                className="font-normal"
-                                            >
-                                                {category}
-                                            </Typography>
-                                        </td>
-
-                                        <td className={classes}>
-                                            <Tooltip content="Sửa sản phẩm">
-                                                <IconButton variant="text">
-                                                    <PencilIcon className="h-4 w-4" />
-                                                </IconButton>
-                                            </Tooltip>
-                                            <Tooltip content="Xóa sản phẩm">
-                                                <IconButton
-                                                    color="red"
-                                                    variant="text"
-                                                >
-                                                    <TrashIcon className="h-4 w-4" />
-                                                </IconButton>
-                                            </Tooltip>
-                                        </td>
-                                    </tr>
+                                    <ProductItem
+                                        key={product._id}
+                                        product={product}
+                                        classes={classes}
+                                    />
                                 )
-                            }
-                        )}
+                            })}
                     </tbody>
                 </table>
             </CardBody>

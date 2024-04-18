@@ -69,8 +69,10 @@ export default function StickyNavbar() {
                 </Typography>
                 <div className="flex items-center gap-4">
                     {isAuthenticated ? (
-                        <div className="mr-4 hidden lg:block">
-                            {navList}
+                        <>
+                            <div className="mr-4 hidden lg:block">
+                                {navList}
+                            </div>
                             <div className="flex items-center gap-x-1">
                                 <Button
                                     onClick={handleLogout}
@@ -81,7 +83,7 @@ export default function StickyNavbar() {
                                     Log Out
                                 </Button>
                             </div>
-                        </div>
+                        </>
                     ) : (
                         <div className="flex items-center gap-x-1">
                             <Button

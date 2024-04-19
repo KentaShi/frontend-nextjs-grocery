@@ -9,9 +9,9 @@ async function getProducts() {
 const ProductPage = async () => {
     const products = await getProducts()
     return (
-        <>
+        <div>
             <Product products={products} />
-        </>
+        </div>
     )
 }
 

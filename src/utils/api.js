@@ -42,5 +42,16 @@ export const deleteData = async (url, headers = {}) => {
         return error.response.data
     }
 }
+export const updateData = async (url, data, headers = {}) => {
+    try {
+        const response = await instance.put(url, data, {
+            headers: { ...instance.defaults.headers, ...headers },
+        })
+
+        return response.data
+    } catch (error) {
+        return error.response.data
+    }
+}
 
 export default instance

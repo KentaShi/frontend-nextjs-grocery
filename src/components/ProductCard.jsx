@@ -13,14 +13,19 @@ import {
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid"
 import { deleteProduct } from "@/service/product"
 import toast from "react-hot-toast"
+import ProductUpdatePage from "./ProductUpdate"
 
 const ProductCard = ({ product }) => {
     const { _id, product_name, product_thumb, product_price, product_cate } =
         product
 
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+    const [openUpdateDialog, setOpenUpdateDialog] = useState(false)
     const handleOpenDeleteDialog = () => {
         setOpenDeleteDialog((p) => !p)
+    }
+    const handleOpenUpdateDialog = () => {
+        setOpenUpdateDialog((p) => !p)
     }
     const handleDeleteProduct = async () => {
         const res = await deleteProduct(_id)
@@ -60,7 +65,10 @@ const ProductCard = ({ product }) => {
             <CardFooter className="p-0">
                 <div className="flex flex-row justify-around items-center">
                     <Tooltip content="Sửa sản phẩm">
-                        <IconButton variant="text">
+                        <IconButton
+                            onClick={handleOpenUpdateDialog}
+                            variant="text"
+                        >
                             <PencilIcon className="h-4 w-4" />
                         </IconButton>
                     </Tooltip>
@@ -73,12 +81,21 @@ const ProductCard = ({ product }) => {
                             <TrashIcon className="h-4 w-4" />
                         </IconButton>
                     </Tooltip>
+                    <ProductUpdatePage
+                        product={product}
+                        openDialog={openUpdateDialog}
+                        handleOpenDialog={handleOpenUpdateDialog}
+                    />
                     <Fragment>
                         <Dialog
                             size="xs"
                             open={openDeleteDialog}
                             handler={handleOpenDeleteDialog}
                             className="bg-transparent shadow-none"
+                            animate={{
+                                mount: { scale: 1, y: 0 },
+                                unmount: { scale: 0.9, y: -100 },
+                            }}
                         >
                             <Card className="mx-auto w-full max-w-[24rem]">
                                 <CardBody className="flex flex-col gap-4">

@@ -1,4 +1,4 @@
-import { postData, getData, deleteData } from "@/utils/api"
+import { postData, getData, deleteData, updateData } from "@/utils/api"
 
 export const findAllProducts = async () => {
     return await getData("/api/product/all")
@@ -8,4 +8,7 @@ export const addNewProduct = async (data) => {
 }
 export const deleteProduct = async (id) => {
     return await deleteData(`/api/product/${id}`)
+}
+export const updateProduct = async (id) => {
+    return await updateData(`/api/product/${id}`)
 }

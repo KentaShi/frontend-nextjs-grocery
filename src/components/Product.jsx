@@ -20,7 +20,7 @@ import {
     Select,
     Option,
 } from "@material-tailwind/react"
-import ProductItem from "./ProductItem"
+import ProductItem from "./ProductUpdate"
 import { addNewProduct } from "@/service/product"
 import toast from "react-hot-toast"
 import ProductCard from "./ProductCard"
@@ -105,6 +105,10 @@ const Product = ({ products }) => {
                                 open={openAddNew}
                                 handler={handleOpenAddNew}
                                 className="bg-transparent shadow-none"
+                                animate={{
+                                    mount: { scale: 1, y: 0 },
+                                    unmount: { scale: 0.9, y: -100 },
+                                }}
                             >
                                 <Card className="mx-auto w-full max-w-[24rem]">
                                     <CardBody className="flex flex-col gap-4">

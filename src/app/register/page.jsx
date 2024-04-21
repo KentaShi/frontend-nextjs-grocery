@@ -1,7 +1,8 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
+import { redirect } from "next/navigation"
 import {
     Card,
     Input,
@@ -9,7 +10,42 @@ import {
     Button,
     Typography,
 } from "@material-tailwind/react"
+import { useAuth } from "@/contexts/auth/state"
+import { register } from "@/service/access"
+import toast from "react-hot-toast"
 const RegisterPage = () => {
+    const { state } = useAuth()
+    const { user } = state
+    const initState = {
+        username: "",
+        password: "",
+        confirmPassword: "",
+    }
+    const [registerData, setRegisterData] = useState(initState)
+    const { username, password, confirmPassword } = registerData
+
+    const handleChangeInput = (e) => {
+        const { name, value } = e.target
+        setRegisterData({ ...registerData, [name]: value })
+    }
+
+    const handleSubmitRegister = async (e) => {
+        console.log(registerData)
+        const res = await register(registerData)
+        if (res.status === 200) {
+            toast.success(res.message)
+            redirect("/login")
+        } else {
+            toast.error(res.message)
+        }
+        setRegisterData(initState)
+    }
+
+    useEffect(() => {
+        if (user) {
+            redirect("/")
+        }
+    }, [user])
     return (
         <Card color="transparent" shadow={false}>
             <Typography variant="h4" color="blue-gray">
@@ -28,6 +64,9 @@ const RegisterPage = () => {
                         Username
                     </Typography>
                     <Input
+                        name="username"
+                        value={username}
+                        onChange={handleChangeInput}
                         size="lg"
                         placeholder="username"
                         className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -43,6 +82,9 @@ const RegisterPage = () => {
                         Password
                     </Typography>
                     <Input
+                        name="password"
+                        value={password}
+                        onChange={handleChangeInput}
                         type="password"
                         size="lg"
                         placeholder="********"
@@ -59,6 +101,9 @@ const RegisterPage = () => {
                         Confirm Password
                     </Typography>
                     <Input
+                        name="confirmPassword"
+                        value={confirmPassword}
+                        onChange={handleChangeInput}
                         type="password"
                         size="lg"
                         placeholder="********"
@@ -68,7 +113,11 @@ const RegisterPage = () => {
                         }}
                     />
                 </div>
-                <Button className="mt-6" fullWidth>
+                <Button
+                    onClick={handleSubmitRegister}
+                    className="mt-6"
+                    fullWidth
+                >
                     sign up
                 </Button>
                 <Typography

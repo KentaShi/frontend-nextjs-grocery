@@ -30,7 +30,7 @@ const ProductUpdatePage = ({ product, openDialog, handleOpenDialog }) => {
         setProductData({ ...productData, product_cate: e })
     }
     const handleUpdateProduct = async () => {
-        const res = await updateProduct(_id)
+        const res = await updateProduct(_id, productData)
         if (res.status === 200) {
             toast.success(res.message)
         } else {

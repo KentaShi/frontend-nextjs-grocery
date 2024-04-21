@@ -9,6 +9,6 @@ export const addNewProduct = async (data) => {
 export const deleteProduct = async (id) => {
     return await deleteData(`/api/product/${id}`)
 }
-export const updateProduct = async (id) => {
-    return await updateData(`/api/product/${id}`)
+export const updateProduct = async (id, data) => {
+    return await updateData(`/api/product/${id}`, data)
 }

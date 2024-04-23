@@ -20,10 +20,11 @@ import {
     Select,
     Option,
 } from "@material-tailwind/react"
-import ProductItem from "./ProductUpdate"
+
 import { addNewProduct } from "@/service/product"
 import toast from "react-hot-toast"
 import ProductCard from "./ProductCard"
+import ProductItem from "./ProductItem"
 const TABLE_HEAD = ["Tên sản phẩm", "Giá", "Phân loại", "Tùy chọn"]
 
 const TABLE_ROWS = [
@@ -153,7 +154,10 @@ const Product = ({ products }) => {
                                                 Cà Phê
                                             </Option>
                                             <Option value="drink">
-                                                Nước Các Loại
+                                                Nước Ngọt
+                                            </Option>
+                                            <Option value="vegetable">
+                                                Rau Củ
                                             </Option>
                                         </Select>
                                         <Typography
@@ -195,12 +199,51 @@ const Product = ({ products }) => {
                     </div>
                 </div>
             </CardHeader>
-            <CardBody className="overflow-scroll px-0 grid grid-cols-2">
+            <CardBody className="overflow-scroll px-0">
+                <table className="w-full min-w-max table-auto text-left">
+                    <thead>
+                        <tr>
+                            {TABLE_HEAD.map((head) => (
+                                <th
+                                    key={head}
+                                    className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                                >
+                                    <Typography
+                                        variant="small"
+                                        color="blue-gray"
+                                        className="font-normal leading-none opacity-70"
+                                    >
+                                        {head}
+                                    </Typography>
+                                </th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {products.map((product, index) => {
+                            const isLast = index === products.length - 1
+                            const classes = isLast
+                                ? "p-4"
+                                : "p-4 border-b border-blue-gray-50"
+
+                            return (
+                                <ProductItem
+                                    key={index}
+                                    product={product}
+                                    classes={classes}
+                                />
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </CardBody>
+
+            {/* <CardBody className="overflow-scroll px-0 grid grid-cols-2">
                 {products?.length > 0 &&
                     products.map((product, index) => {
                         return <ProductCard key={index} product={product} />
                     })}
-            </CardBody>
+            </CardBody> */}
             {/* <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
                 <Button variant="outlined" size="sm">
                     Previous

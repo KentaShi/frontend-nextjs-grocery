@@ -1,5 +1,5 @@
 "use client"
-import { useAuth } from "@/contexts/auth/state"
+import { useAuth } from "@/contexts/auth/providerAuth"
 import { useEffect } from "react"
 import { redirect } from "next/navigation"
 

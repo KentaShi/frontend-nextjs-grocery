@@ -17,7 +17,7 @@ import {
 import React, { Fragment, useState } from "react"
 import toast from "react-hot-toast"
 
-const ProductUpdatePage = ({ product, openDialog, handleOpenDialog }) => {
+const ProductUpdateFragment = ({ product, openDialog, handleOpenDialog }) => {
     const [productData, setProductData] = useState(product)
     const { _id, product_name, product_thumb, product_price, product_cate } =
         productData
@@ -124,4 +124,4 @@ const ProductUpdatePage = ({ product, openDialog, handleOpenDialog }) => {
     )
 }
 
-export default ProductUpdatePage
+export default ProductUpdateFragment

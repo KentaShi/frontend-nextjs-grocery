@@ -1,9 +1,9 @@
-import { ACTIONS } from "./action"
-import { initState } from "./state"
+import { AUTH_ACTIONS } from "./actionAuth"
+import { initState } from "./providerAuth"
 
 const reducer = (state, action) => {
     switch (action.type) {
-        case ACTIONS.AUTH: {
+        case AUTH_ACTIONS.AUTH: {
             return {
                 ...state,
                 isAuthenticated: true,
@@ -11,7 +11,7 @@ const reducer = (state, action) => {
                 accessToken: action.payload.accessToken,
             }
         }
-        case ACTIONS.LOGOUT: {
+        case AUTH_ACTIONS.LOGOUT: {
             return initState
         }
         default:

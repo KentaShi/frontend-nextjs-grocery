@@ -10,7 +10,7 @@ import {
     Button,
     Typography,
 } from "@material-tailwind/react"
-import { useAuth } from "@/contexts/auth/state"
+import { useAuth } from "@/contexts/auth/providerAuth"
 import { register } from "@/service/access"
 import toast from "react-hot-toast"
 const RegisterPage = () => {

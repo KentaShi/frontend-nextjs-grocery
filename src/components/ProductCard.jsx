@@ -13,7 +13,7 @@ import {
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid"
 import { deleteProduct } from "@/service/product"
 import toast from "react-hot-toast"
-import ProductUpdatePage from "./ProductUpdate"
+import ProductUpdatePage from "./fragments/ProductUpdateFragment"
 
 const ProductCard = ({ product }) => {
     const { _id, product_name, product_thumb, product_price, product_cate } =

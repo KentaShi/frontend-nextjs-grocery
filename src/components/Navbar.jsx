@@ -11,9 +11,9 @@ import {
     Collapse,
     Card,
 } from "@material-tailwind/react"
-import { useAuth } from "@/contexts/auth/state"
+import { useAuth } from "@/contexts/auth/providerAuth"
 import Cookies from "js-cookie"
-import { ACTIONS } from "@/contexts/auth/action"
+import { AUTH_ACTIONS } from "@/contexts/auth/actionAuth"
 import { redirect } from "next/navigation"
 export default function StickyNavbar() {
     const { state, dispatch } = useAuth()
@@ -30,7 +30,7 @@ export default function StickyNavbar() {
     const handleLogout = () => {
         Cookies.remove("refresh_token")
         localStorage.removeItem("firstLogin")
-        dispatch({ type: ACTIONS.LOGOUT, payload: {} })
+        dispatch({ type: AUTH_ACTIONS.LOGOUT, payload: {} })
         return redirect("/login")
     }
 

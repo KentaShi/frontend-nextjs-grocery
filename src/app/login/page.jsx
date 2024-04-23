@@ -11,8 +11,8 @@ import {
 } from "@material-tailwind/react"
 import { login } from "@/service/access"
 import { redirect, useRouter } from "next/navigation"
-import { useAuth } from "@/contexts/auth/state"
-import { ACTIONS } from "@/contexts/auth/action"
+import { useAuth } from "@/contexts/auth/providerAuth"
+import { AUTH_ACTIONS } from "@/contexts/auth/actionAuth"
 import toast from "react-hot-toast"
 import Cookies from "js-cookie"
 const LoginPage = () => {
@@ -38,7 +38,7 @@ const LoginPage = () => {
         if (res.status === 200) {
             const metadata = res.metadata
             dispatch({
-                type: ACTIONS.AUTH,
+                type: AUTH_ACTIONS.AUTH,
                 payload: {
                     user: metadata.user,
                     accessToken: metadata.tokens.accessToken,

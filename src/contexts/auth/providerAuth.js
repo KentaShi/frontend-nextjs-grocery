@@ -1,11 +1,11 @@
 "use client"
 
 import { getAuth } from "@/service/access"
-import reducer from "./reducer"
+import reducer from "./reducerAuth"
 import React, { createContext, useContext, useEffect, useReducer } from "react"
 import Cookies from "js-cookie"
 import toast from "react-hot-toast"
-import { ACTIONS } from "./action"
+import { AUTH_ACTIONS } from "./actionAuth"
 
 export const initState = {
     isAuthenticated: false,

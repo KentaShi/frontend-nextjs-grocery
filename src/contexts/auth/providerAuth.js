@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
                 if (res.status === 200) {
                     const metadata = res.metadata
                     dispatch({
-                        type: ACTIONS.AUTH,
+                        type: AUTH_ACTIONS.AUTH,
                         payload: {
                             user: metadata.user,
                             accessToken: metadata.tokens.accessToken,

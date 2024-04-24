@@ -1,30 +1,17 @@
 "use client"
-import React, { Fragment, useState } from "react"
+import React, { useState } from "react"
 
-import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/solid"
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline"
+import { PlusIcon } from "@heroicons/react/24/solid"
 import {
     Card,
     CardHeader,
     Typography,
     Button,
     CardBody,
-    Chip,
-    CardFooter,
-    Avatar,
-    IconButton,
-    Tooltip,
-    Input,
-    Dialog,
-    Checkbox,
-    Select,
-    Option,
 } from "@material-tailwind/react"
 
-import { addNewProduct } from "@/service/product"
-import toast from "react-hot-toast"
-import ProductCard from "./ProductCard"
 import ProductItem from "./ProductItem"
+import ProductAddFragment from "./fragments/ProductAddFragment"
 const TABLE_HEAD = ["Tên sản phẩm", "Giá", "Phân loại", "Tùy chọn"]
 
 const TABLE_ROWS = [
@@ -37,39 +24,11 @@ const TABLE_ROWS = [
 ]
 const Product = ({ products }) => {
     const [openAddNew, setOpenAddNew] = useState(false)
-    const initProductData = {
-        product_name: "",
-        product_thumb: "",
-        product_price: "",
-        product_cate: "",
-    }
-    const [productData, setProductData] = useState(initProductData)
 
-    const { product_name, product_thumb, product_price, product_cate } =
-        productData
-
-    const handleChangeInput = (e) => {
-        const { name, value } = e.target
-        setProductData({ ...productData, [name]: value })
-    }
-    const handleChangeCategory = (e) => {
-        setProductData({ ...productData, product_cate: e })
-    }
     const handleOpenAddNew = () => {
-        setProductData(initProductData)
         setOpenAddNew((prev) => !prev)
     }
-    const handleAddNewProduct = async () => {
-        // console.log(productData)
-        const res = await addNewProduct(productData)
-        if (res.status === 200) {
-            toast.success(res.message)
-        } else {
-            toast.error(res.message)
-        }
-        setOpenAddNew((prev) => !prev)
-        setProductData(initProductData)
-    }
+
     return (
         <Card className="h-full w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -92,110 +51,10 @@ const Product = ({ products }) => {
                             <PlusIcon strokeWidth={2} className="h-4 w-4" />{" "}
                             Thêm Sản Phẩm
                         </Button>
-                        <Fragment>
-                            <Dialog
-                                size="xs"
-                                open={openAddNew}
-                                handler={handleOpenAddNew}
-                                className="bg-transparent shadow-none"
-                                animate={{
-                                    mount: { scale: 1, y: 0 },
-                                    unmount: { scale: 0.9, y: -100 },
-                                }}
-                            >
-                                <Card className="mx-auto w-full max-w-[24rem]">
-                                    <CardBody className="flex flex-col gap-4">
-                                        <Typography
-                                            variant="h4"
-                                            color="blue-gray"
-                                        >
-                                            Thêm Sản Phẩm
-                                        </Typography>
-
-                                        <Typography
-                                            className="-mb-2"
-                                            variant="h6"
-                                        >
-                                            Tên Sản Phẩm
-                                        </Typography>
-                                        <Input
-                                            name="product_name"
-                                            value={product_name}
-                                            onChange={handleChangeInput}
-                                            label="Tên sản phẩm"
-                                            size="lg"
-                                        />
-                                        <Typography
-                                            className="-mb-2"
-                                            variant="h6"
-                                        >
-                                            Giá Tiền
-                                        </Typography>
-                                        <Input
-                                            name="product_price"
-                                            value={product_price}
-                                            onChange={handleChangeInput}
-                                            label="Giá tiền"
-                                            size="lg"
-                                        />
-                                        <Typography
-                                            className="-mb-2"
-                                            variant="h6"
-                                        >
-                                            Phân Loại
-                                        </Typography>
-                                        <Select
-                                            name="product_cate"
-                                            onChange={handleChangeCategory}
-                                            value={product_cate}
-                                            label="Phân Loại"
-                                        >
-                                            <Option value="coffee">
-                                                Cà Phê
-                                            </Option>
-                                            <Option value="drink">
-                                                Nước Ngọt
-                                            </Option>
-                                            <Option value="vegetable">
-                                                Rau Củ
-                                            </Option>
-                                        </Select>
-                                        <Typography
-                                            className="-mb-2"
-                                            variant="h6"
-                                        >
-                                            Hình Ảnh
-                                        </Typography>
-                                        <Input
-                                            name="product_thumb"
-                                            value={product_thumb}
-                                            onChange={handleChangeInput}
-                                            label="Hình Ảnh"
-                                            size="lg"
-                                        />
-                                    </CardBody>
-                                    <CardFooter className="flex flex-row  pt-0">
-                                        <Button
-                                            onClick={handleOpenAddNew}
-                                            className="mr-2"
-                                            color="red"
-                                            variant="gradient"
-                                            fullWidth
-                                        >
-                                            Hủy
-                                        </Button>
-                                        <Button
-                                            onClick={handleAddNewProduct}
-                                            color="blue"
-                                            variant="gradient"
-                                            fullWidth
-                                        >
-                                            Thêm
-                                        </Button>
-                                    </CardFooter>
-                                </Card>
-                            </Dialog>
-                        </Fragment>
+                        <ProductAddFragment
+                            openDialog={openAddNew}
+                            handleOpenDialog={handleOpenAddNew}
+                        />
                     </div>
                 </div>
             </CardHeader>

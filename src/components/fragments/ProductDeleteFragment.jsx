@@ -1,3 +1,5 @@
+import { PRODUCT_ACTIONS } from "@/contexts/product/actionProduct"
+import { useProductContext } from "@/contexts/product/providerProduct"
 import { deleteProduct } from "@/service/product"
 import {
     Button,
@@ -11,10 +13,15 @@ import React, { Fragment } from "react"
 import toast from "react-hot-toast"
 
 const ProductDeleteFragment = ({ product, openDialog, handleOpenDialog }) => {
+    const { dispatch } = useProductContext()
     const { _id, product_name } = product
     const handleDeleteProduct = async () => {
         const res = await deleteProduct(_id)
         if (res.status === 200) {
+            dispatch({
+                type: PRODUCT_ACTIONS.DELETE,
+                payload: { _id },
+            })
             toast.success(res.message)
         } else {
             toast.error(res.message)

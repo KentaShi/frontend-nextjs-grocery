@@ -3,6 +3,7 @@ import "./globals.css"
 import Navbar from "@/components/Navbar"
 import { AuthProvider } from "@/contexts/auth/providerAuth"
 import { Toaster } from "react-hot-toast"
+import { ProductProvider } from "@/contexts/product/providerProduct"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -16,17 +17,19 @@ export default function RootLayout({ children }) {
         <html lang="en">
             <body>
                 <AuthProvider>
-                    <div className="relative mb-8 h-full w-full bg-white">
-                        <div className="sticky top-0 z-[999] flex w-full items-center">
-                            <Navbar />
-                        </div>
-                        <div className="container mx-auto flex">
-                            <div className="flex justify-center w-full items-center py-6 rounded">
-                                {children}
+                    <ProductProvider>
+                        <div className="relative mb-8 h-full w-full bg-white">
+                            <div className="sticky top-0 z-[999] flex w-full items-center">
+                                <Navbar />
+                            </div>
+                            <div className="container mx-auto flex">
+                                <div className="flex justify-center w-full items-center py-6 rounded">
+                                    {children}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <Toaster />
+                        <Toaster />
+                    </ProductProvider>
                 </AuthProvider>
             </body>
         </html>

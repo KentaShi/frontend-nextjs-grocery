@@ -1,13 +1,10 @@
+"use client"
 import Product from "@/components/Product"
-import { findAllProducts } from "@/service/product"
+import { useProductContext } from "@/contexts/product/providerProduct"
 
-async function getProducts() {
-    const res = await findAllProducts()
-    return res.metadata.products
-}
-
-const ProductPage = async () => {
-    const products = await getProducts()
+const ProductPage = () => {
+    const { state } = useProductContext()
+    const { products } = state
     return (
         <div>
             <Product products={products} />

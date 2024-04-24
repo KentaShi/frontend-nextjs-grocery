@@ -1,28 +1,31 @@
 import { PRODUCT_ACTIONS } from "@/contexts/product/actionProduct"
 import { useProductContext } from "@/contexts/product/providerProduct"
-import { updateProduct } from "@/service/product"
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid"
+import { addNewProduct } from "@/service/product"
 import {
-    Avatar,
     Button,
     Card,
     CardBody,
     CardFooter,
     Dialog,
-    IconButton,
     Input,
     Option,
     Select,
-    Tooltip,
     Typography,
 } from "@material-tailwind/react"
-import React, { Fragment, useState } from "react"
+import React, { Fragment, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
-const ProductUpdateFragment = ({ product, openDialog, handleOpenDialog }) => {
+const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
     const { dispatch } = useProductContext()
-    const [productData, setProductData] = useState(product)
-    const { _id, product_name, product_thumb, product_price, product_cate } =
+    const initProductData = {
+        product_name: "",
+        product_thumb: "",
+        product_price: "",
+        product_cate: "",
+    }
+    const [productData, setProductData] = useState(initProductData)
+
+    const { product_name, product_thumb, product_price, product_cate } =
         productData
 
     const handleChangeInput = (e) => {
@@ -32,19 +35,24 @@ const ProductUpdateFragment = ({ product, openDialog, handleOpenDialog }) => {
     const handleChangeCategory = (e) => {
         setProductData({ ...productData, product_cate: e })
     }
-    const handleUpdateProduct = async () => {
-        const res = await updateProduct(_id, productData)
+    const handleAddNewProduct = async () => {
+        // console.log(productData)
+        const res = await addNewProduct(productData)
         if (res.status === 200) {
             dispatch({
-                type: PRODUCT_ACTIONS.UPDATE,
-                payload: productData,
+                type: PRODUCT_ACTIONS.ADD,
+                payload: res.metadata.product,
             })
             toast.success(res.message)
         } else {
             toast.error(res.message)
         }
         handleOpenDialog()
+        setProductData(initProductData)
     }
+    useEffect(() => {
+        setProductData(initProductData)
+    }, [openDialog])
     return (
         <Fragment>
             <Dialog
@@ -60,7 +68,7 @@ const ProductUpdateFragment = ({ product, openDialog, handleOpenDialog }) => {
                 <Card className="mx-auto w-full max-w-[24rem]">
                     <CardBody className="flex flex-col gap-4">
                         <Typography variant="h4" color="blue-gray">
-                            Sửa Sản Phẩm
+                            Thêm Sản Phẩm
                         </Typography>
 
                         <Typography className="-mb-2" variant="h6">
@@ -93,7 +101,8 @@ const ProductUpdateFragment = ({ product, openDialog, handleOpenDialog }) => {
                             label="Phân Loại"
                         >
                             <Option value="coffee">Cà Phê</Option>
-                            <Option value="drink">Nước Các Loại</Option>
+                            <Option value="drink">Nước Ngọt</Option>
+                            <Option value="vegetable">Rau Củ</Option>
                         </Select>
                         <Typography className="-mb-2" variant="h6">
                             Hình Ảnh
@@ -117,12 +126,12 @@ const ProductUpdateFragment = ({ product, openDialog, handleOpenDialog }) => {
                             Hủy
                         </Button>
                         <Button
-                            onClick={handleUpdateProduct}
+                            onClick={handleAddNewProduct}
                             color="blue"
                             variant="gradient"
                             fullWidth
                         >
-                            Lưu
+                            Thêm
                         </Button>
                     </CardFooter>
                 </Card>
@@ -131,4 +140,4 @@ const ProductUpdateFragment = ({ product, openDialog, handleOpenDialog }) => {
     )
 }
 
-export default ProductUpdateFragment
+export default ProductAddFragment

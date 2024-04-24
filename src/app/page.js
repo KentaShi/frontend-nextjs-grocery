@@ -1,6 +1,6 @@
 "use client"
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid"
-import { Button, Input } from "@material-tailwind/react"
+import { Button, Input, Menu, Option, Select } from "@material-tailwind/react"
 import Image from "next/image"
 
 export default function Home() {
@@ -24,6 +24,12 @@ export default function Home() {
                 >
                     Search
                 </Button>
+            </div>
+            <div>
+                <Select label="Phân Loại">
+                    <Option>Ca phe</Option>
+                    <Option>Nuoc ngot</Option>
+                </Select>
             </div>
         </main>
     )

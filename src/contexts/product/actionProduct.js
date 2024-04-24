@@ -1,4 +1,5 @@
 export const PRODUCT_ACTIONS = {
+    SET_PRODUCTS: "SET_PRODUCTS",
     ADD: "ADD",
     UPDATE: "UPDATE",
     DELETE: "DELETE",

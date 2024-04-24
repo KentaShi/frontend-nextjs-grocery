@@ -59,7 +59,7 @@ const ProductItem = ({ product, classes }) => {
             </td>
 
             <td className={classes}>
-                <Tooltip content="Edit User">
+                <Tooltip content="Update Product">
                     <IconButton
                         onClick={handleOpenUpdateDialog}
                         color="blue"
@@ -68,7 +68,7 @@ const ProductItem = ({ product, classes }) => {
                         <PencilIcon className="h-4 w-4" />
                     </IconButton>
                 </Tooltip>
-                <Tooltip content="Edit User">
+                <Tooltip content="Delete Product">
                     <IconButton
                         onClick={handleOpenDeleteDialog}
                         color="red"

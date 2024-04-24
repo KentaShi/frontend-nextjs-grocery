@@ -2,6 +2,11 @@ const { PRODUCT_ACTIONS } = require("./actionProduct")
 
 const reducerProduct = (state, action) => {
     switch (action.type) {
+        case PRODUCT_ACTIONS.SET_PRODUCTS:
+            return {
+                ...state,
+                products: action.payload,
+            }
         case PRODUCT_ACTIONS.ADD:
             return {
                 ...state,
@@ -12,7 +17,7 @@ const reducerProduct = (state, action) => {
                 ...state,
                 products: state.products.map((p) => {
                     if (p._id === action.payload._id) {
-                        return { ...p, ...action.payload.updateData }
+                        return { ...p, ...action.payload }
                     }
                     return p
                 }),

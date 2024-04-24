@@ -1,7 +1,8 @@
 "use client"
 
-import { createContext, useEffect, useReducer } from "react"
+import { createContext, useContext, useEffect, useReducer } from "react"
 import reducerProduct from "./reducerProduct"
+import { findAllProducts } from "@/service/product"
 
 export const initProductState = {
     products: [],
@@ -12,8 +13,10 @@ export const ProductContext = createContext()
 export const ProductProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducerProduct, initProductState)
     useEffect(() => {
-        // continue
-        const fetchData = async () => {}
+        const fetchData = async () => {
+            const res = await findAllProducts()
+            dispatch({ type: "SET_PRODUCTS", payload: res.metadata.products })
+        }
         fetchData()
     }, [])
     return (
@@ -21,4 +24,7 @@ export const ProductProvider = ({ children }) => {
             {children}
         </ProductContext.Provider>
     )
+}
+export const useProductContext = () => {
+    return useContext(ProductContext)
 }

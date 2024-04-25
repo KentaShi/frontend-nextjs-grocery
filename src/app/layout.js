@@ -15,10 +15,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
-            <body>
+            <body className="bg-blue-gray-50">
                 <AuthProvider>
                     <ProductProvider>
-                        <div className="relative mb-8 h-full w-full bg-white">
+                        <div className="relative mb-8 h-full w-full">
                             <div className="sticky top-0 z-[999] flex w-full items-center">
                                 <Navbar />
                             </div>

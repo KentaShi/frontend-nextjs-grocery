@@ -20,27 +20,24 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const firstLogin = localStorage.getItem("firstLogin")
-            if (firstLogin) {
-                const refreshToken = Cookies.get("refresh_token")
-                const res = await getAuth({ refreshToken })
-                console.log(res)
-                if (res.status === 200) {
-                    const metadata = res.metadata
-                    dispatch({
-                        type: AUTH_ACTIONS.AUTH,
-                        payload: {
-                            user: metadata.user,
-                            accessToken: metadata.tokens.accessToken,
-                        },
-                    })
-                    toast.success(res.message)
-                } else {
-                    localStorage.removeItem("firstLogin")
-                    toast.error(res.message)
-                }
+            const refreshToken = Cookies.get("refresh_token")
+            const res = await getAuth({ refreshToken })
+            console.log(res)
+            if (res.status === 200) {
+                const metadata = res.metadata
+                dispatch({
+                    type: AUTH_ACTIONS.AUTH,
+                    payload: {
+                        user: metadata.user,
+                        accessToken: metadata.tokens.accessToken,
+                    },
+                })
+                toast.success(res.message)
+            } else {
+                toast.error(res.message)
             }
         }
+
         fetchData()
     }, [])
 

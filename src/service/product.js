@@ -12,3 +12,6 @@ export const deleteProduct = async (id) => {
 export const updateProduct = async (id, data) => {
     return await updateData(`/api/product/${id}`, data)
 }
+export const searchProduct = async (query) => {
+    return await getData(`/api/product/search?q=${query}`)
+}

@@ -1,5 +1,9 @@
 "use client"
-import { searchProduct } from "@/service/product"
+import {
+    findAllProducts,
+    findProductsByCate,
+    searchProduct,
+} from "@/service/product"
 import { Button, Input, Option, Select } from "@material-tailwind/react"
 import React, { useState } from "react"
 import toast from "react-hot-toast"
@@ -18,42 +22,64 @@ const SearchProduct = () => {
         }
         setQuery("")
     }
+    const handleSelectCategory = async (e) => {
+        let res
+        if (e === "all") {
+            res = await findAllProducts()
+        } else {
+            res = await findProductsByCate(e)
+        }
+        if (res.status === 200) {
+            setProducts(res.metadata.products)
+        } else {
+            toast.error(res.message)
+        }
+    }
     return (
-        <div>
-            <div className="relative flex w-full gap-2 mb-2 md:w-max">
-                <Input
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    type="search"
-                    color="gray"
-                    label="Type here..."
-                    className="pr-20"
-                    containerProps={{
-                        className: "min-w-[288px]",
-                    }}
-                />
-                <Button
-                    onClick={handleSearch}
-                    size="sm"
-                    color="blue-gray"
-                    className="!absolute right-1 top-1 rounded"
-                >
-                    Search
-                </Button>
+        <>
+            <div className="flex flex-col lg:flex-row">
+                <div className="relative flex w-full gap-2 mb-2">
+                    <Input
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        type="search"
+                        color="gray"
+                        label="Type here..."
+                        className="pr-20"
+                        containerProps={{
+                            className: "min-w-[288px]",
+                        }}
+                    />
+                    <Button
+                        onClick={handleSearch}
+                        size="sm"
+                        color="blue-gray"
+                        className="!absolute right-1 top-1 rounded"
+                    >
+                        Search
+                    </Button>
+                </div>
+                <div className="flex w-full gap-2 mb-2 ">
+                    <Select
+                        onChange={handleSelectCategory}
+                        name="category"
+                        label="Phân Loại"
+                    >
+                        <Option value="all">Tất Cả</Option>
+                        <Option value="coffee">Cà Phê</Option>
+                        <Option value="drink">Nước Ngọt</Option>
+                        <Option value="vegetable">Rau Củ</Option>
+                    </Select>
+                </div>
             </div>
-            <div className="flex w-full gap-2 mb-2 md:w-max">
-                <Select label="Phân Loại">
-                    <Option>Ca phe</Option>
-                    <Option>Nuoc ngot</Option>
-                </Select>
-            </div>
-            <div className="overflow-scroll px-0 grid grid-cols-2 my-4">
+
+            <div className="overflow-scroll px-0 grid grid-cols-2 my-4 gap-1">
                 {products?.length > 0 &&
                     products.map((product, index) => {
                         return <ProductCard key={index} product={product} />
                     })}
             </div>
-        </div>
+        </>
     )
 }
 

@@ -19,7 +19,12 @@ import {
 import React, { Fragment, useState } from "react"
 import toast from "react-hot-toast"
 
-const ProductUpdateFragment = ({ product, openDialog, handleOpenDialog }) => {
+const ProductUpdateFragment = ({
+    product,
+    openDialog,
+    handleOpenDialog,
+    onlyUpdatePrice,
+}) => {
     const { dispatch } = useProductContext()
     const [productData, setProductData] = useState(product)
     const { _id, product_name, product_thumb, product_price, product_cate } =
@@ -59,52 +64,71 @@ const ProductUpdateFragment = ({ product, openDialog, handleOpenDialog }) => {
             >
                 <Card className="mx-auto w-full max-w-[24rem]">
                     <CardBody className="flex flex-col gap-4">
-                        <Typography variant="h4" color="blue-gray">
-                            Sửa Sản Phẩm
-                        </Typography>
-
-                        <Typography className="-mb-2" variant="h6">
-                            Tên Sản Phẩm
-                        </Typography>
-                        <Input
-                            name="product_name"
-                            value={product_name}
-                            onChange={handleChangeInput}
-                            label="Tên sản phẩm"
-                            size="lg"
-                        />
-                        <Typography className="-mb-2" variant="h6">
-                            Giá Tiền
-                        </Typography>
-                        <Input
-                            name="product_price"
-                            value={product_price}
-                            onChange={handleChangeInput}
-                            label="Giá tiền"
-                            size="lg"
-                        />
-                        <Typography className="-mb-2" variant="h6">
-                            Phân Loại
-                        </Typography>
-                        <Select
-                            name="product_cate"
-                            onChange={handleChangeCategory}
-                            value={product_cate}
-                            label="Phân Loại"
-                        >
-                            <Option value="coffee">Cà Phê</Option>
-                            <Option value="drink">Nước Các Loại</Option>
-                        </Select>
-                        <Typography className="-mb-2" variant="h6">
-                            Hình Ảnh
-                        </Typography>
-                        <Input
-                            name="product_thumb"
-                            value={product_thumb}
-                            onChange={handleChangeInput}
-                            label="Hình Ảnh"
-                            size="lg"
-                        />
+                        {onlyUpdatePrice ? (
+                            <>
+                                <Typography variant="h4" color="blue-gray">
+                                    Cập Nhật Giá
+                                </Typography>
+                                <Typography className="-mb-2" variant="h6">
+                                    Giá Mới
+                                </Typography>
+                                <Input
+                                    name="product_price"
+                                    value={product_price}
+                                    onChange={handleChangeInput}
+                                    label="Giá tiền"
+                                    size="lg"
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <Typography variant="h4" color="blue-gray">
+                                    Cập Nhật Sản Phẩm
+                                </Typography>
+                                <Typography className="-mb-2" variant="h6">
+                                    Tên Sản Phẩm
+                                </Typography>
+                                <Input
+                                    name="product_name"
+                                    value={product_name}
+                                    onChange={handleChangeInput}
+                                    label="Tên sản phẩm"
+                                    size="lg"
+                                />
+                                <Typography className="-mb-2" variant="h6">
+                                    Giá Tiền
+                                </Typography>
+                                <Input
+                                    name="product_price"
+                                    value={product_price}
+                                    onChange={handleChangeInput}
+                                    label="Giá tiền"
+                                    size="lg"
+                                />
+                                <Typography className="-mb-2" variant="h6">
+                                    Phân Loại
+                                </Typography>
+                                <Select
+                                    name="product_cate"
+                                    onChange={handleChangeCategory}
+                                    value={product_cate}
+                                    label="Phân Loại"
+                                >
+                                    <Option value="coffee">Cà Phê</Option>
+                                    <Option value="drink">Nước Các Loại</Option>
+                                </Select>
+                                <Typography className="-mb-2" variant="h6">
+                                    Hình Ảnh
+                                </Typography>
+                                <Input
+                                    name="product_thumb"
+                                    value={product_thumb}
+                                    onChange={handleChangeInput}
+                                    label="Hình Ảnh"
+                                    size="lg"
+                                />
+                            </>
+                        )}
                     </CardBody>
                     <CardFooter className="flex flex-row  pt-0">
                         <Button

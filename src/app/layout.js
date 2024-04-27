@@ -22,9 +22,11 @@ export default function RootLayout({ children }) {
                             <div className="sticky top-0 z-[999] flex w-full items-center">
                                 <Navbar />
                             </div>
-                            <div className="container mx-auto flex">
-                                <div className="flex justify-center w-full items-center py-6 rounded">
-                                    {children}
+                            <div className="px-6">
+                                <div className="container mx-auto flex">
+                                    <div className="mt-6 w-full  lg:px-6">
+                                        {children}
+                                    </div>
                                 </div>
                             </div>
                         </div>

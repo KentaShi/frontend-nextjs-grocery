@@ -48,7 +48,6 @@ const LoginPage = () => {
                 expires: 7,
                 secure: true,
             })
-            localStorage.setItem("firstLogin", true)
 
             toast.success(res.message)
             router.push("/profile")

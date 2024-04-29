@@ -3,23 +3,31 @@ import {
     findAllProducts,
     findProductsByCate,
     searchProduct,
+    searchProductFromClient,
 } from "@/service/product"
 import { Button, Input, Option, Select } from "@material-tailwind/react"
 import React, { useState } from "react"
 import toast from "react-hot-toast"
 import ProductCard from "./ProductCard"
+import { useProductContext } from "@/contexts/product/providerProduct"
 
 const SearchProduct = () => {
+    const { state } = useProductContext()
+    const { products: productsData } = state
     const [query, setQuery] = useState("")
     const [products, setProducts] = useState()
     const handleSearch = async () => {
-        const res = await searchProduct(query)
-        if (res.status === 200) {
-            setProducts(res.metadata.products)
-        } else {
-            toast.error(res.message)
-            setProducts(null)
-        }
+        // search in client
+        const res = searchProductFromClient(productsData, query)
+        setProducts(res)
+        // search in server
+        // const res = await searchProduct(query)
+        // if (res.status === 200) {
+        //     setProducts(res.metadata.products)
+        // } else {
+        //     toast.error(res.message)
+        //     setProducts(null)
+        // }
         setQuery("")
     }
     const handleSelectCategory = async (e) => {

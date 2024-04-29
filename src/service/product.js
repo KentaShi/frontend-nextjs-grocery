@@ -18,3 +18,9 @@ export const updateProduct = async (id, data) => {
 export const searchProduct = async (query) => {
     return await getData(`/api/product/search?q=${query}`)
 }
+
+export const searchProductFromClient = (products, query) => {
+    return products.filter((product) =>
+        product.product_name.toLowerCase().includes(query.toLowerCase())
+    )
+}

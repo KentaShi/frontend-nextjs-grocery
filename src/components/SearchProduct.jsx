@@ -6,43 +6,66 @@ import {
     searchProductFromClient,
 } from "@/service/product"
 import { Button, Input, Option, Select } from "@material-tailwind/react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import ProductCard from "./ProductCard"
 import { useProductContext } from "@/contexts/product/providerProduct"
+import { io } from "socket.io-client"
 
 const SearchProduct = () => {
+    const socket = io("http://localhost:3030")
     const { state } = useProductContext()
     const { products: productsData } = state
     const [query, setQuery] = useState("")
-    const [products, setProducts] = useState()
+    const [category, setCategory] = useState("")
+    const [products, setProducts] = useState([])
     const handleSearch = async () => {
         // search in client
-        const res = searchProductFromClient(productsData, query)
-        setProducts(res)
+        // const res = searchProductFromClient(productsData, query)
+        // setProducts(res)
         // search in server
-        // const res = await searchProduct(query)
-        // if (res.status === 200) {
-        //     setProducts(res.metadata.products)
-        // } else {
-        //     toast.error(res.message)
-        //     setProducts(null)
-        // }
-        setQuery("")
-    }
-    const handleSelectCategory = async (e) => {
-        let res
-        if (e === "all") {
-            res = await findAllProducts()
-        } else {
-            res = await findProductsByCate(e)
-        }
+        setProducts([])
+        const res = await searchProduct(query)
         if (res.status === 200) {
             setProducts(res.metadata.products)
         } else {
             toast.error(res.message)
+            setProducts([])
+        }
+        setQuery("")
+    }
+    const handleChangeCategory = (e) => {
+        setCategory(e)
+    }
+    const handleSelectCategory = async () => {
+        setProducts([])
+        if (category === "all") {
+            const res = await findAllProducts()
+            if (res.status === 200) {
+                setProducts(res.metadata.products)
+            } else {
+                toast.error(res.message)
+            }
+        } else {
+            const res = await findProductsByCate(category)
+            if (res.status === 200) {
+                setProducts(res.metadata.products)
+            } else {
+                toast.error(res.message)
+            }
         }
     }
+    useEffect(() => {
+        socket.on("updated", (updatedProduct) => {
+            if (products) {
+                setProducts(
+                    products.map((p) =>
+                        p._id === updatedProduct._id ? updatedProduct : p
+                    )
+                )
+            }
+        })
+    }, [products])
     return (
         <>
             <div className="flex flex-col lg:flex-row">
@@ -67,9 +90,9 @@ const SearchProduct = () => {
                         Search
                     </Button>
                 </div>
-                <div className="flex w-full gap-2 mb-2 ">
+                <div className="relative flex w-full gap-2 mb-2 ">
                     <Select
-                        onChange={handleSelectCategory}
+                        onChange={handleChangeCategory}
                         name="category"
                         label="Phân Loại"
                     >
@@ -78,6 +101,14 @@ const SearchProduct = () => {
                         <Option value="drink">Nước Ngọt</Option>
                         <Option value="vegetable">Rau Củ</Option>
                     </Select>
+                    <Button
+                        onClick={handleSelectCategory}
+                        size="sm"
+                        color="blue-gray"
+                        className="!absolute right-1 top-1 rounded"
+                    >
+                        Search
+                    </Button>
                 </div>
             </div>
 

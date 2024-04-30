@@ -18,6 +18,7 @@ import {
 } from "@material-tailwind/react"
 import React, { Fragment, useState } from "react"
 import toast from "react-hot-toast"
+import { io } from "socket.io-client"
 
 const ProductUpdateFragment = ({
     product,
@@ -25,6 +26,7 @@ const ProductUpdateFragment = ({
     handleOpenDialog,
     onlyUpdatePrice,
 }) => {
+    const socket = io("http://localhost:3030")
     const { dispatch } = useProductContext()
     const [productData, setProductData] = useState(product)
     const { _id, product_name, product_thumb, product_price, product_cate } =
@@ -44,6 +46,7 @@ const ProductUpdateFragment = ({
                 type: PRODUCT_ACTIONS.UPDATE,
                 payload: productData,
             })
+            socket.emit("updated", productData)
             toast.success(res.message)
         } else {
             toast.error(res.message)

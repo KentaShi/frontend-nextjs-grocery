@@ -1,3 +1,4 @@
+import { useAuth } from "@/contexts/auth/providerAuth"
 import { PRODUCT_ACTIONS } from "@/contexts/product/actionProduct"
 import { useProductContext } from "@/contexts/product/providerProduct"
 import { updateProduct } from "@/service/product"
@@ -19,6 +20,7 @@ import {
 import React, { Fragment, useState } from "react"
 import toast from "react-hot-toast"
 import { io } from "socket.io-client"
+import Cookies from "js-cookie"
 
 const ProductUpdateFragment = ({
     product,
@@ -27,6 +29,8 @@ const ProductUpdateFragment = ({
     onlyUpdatePrice,
 }) => {
     const socket = io("http://localhost:3030")
+    const { state } = useAuth()
+    const { accessToken } = state
     const { dispatch } = useProductContext()
     const [productData, setProductData] = useState(product)
     const { _id, product_name, product_thumb, product_price, product_cate } =
@@ -40,7 +44,11 @@ const ProductUpdateFragment = ({
         setProductData({ ...productData, product_cate: e })
     }
     const handleUpdateProduct = async () => {
-        const res = await updateProduct(_id, productData)
+        const refreshToken = Cookies.get("refresh_token")
+        const res = await updateProduct(_id, productData, {
+            accessToken,
+            refreshToken,
+        })
         if (res.status === 200) {
             dispatch({
                 type: PRODUCT_ACTIONS.UPDATE,
@@ -48,6 +56,8 @@ const ProductUpdateFragment = ({
             })
             socket.emit("updated", productData)
             toast.success(res.message)
+        } else if (res.status === 401) {
+            toast.error("Đăng nhập để cập nhật sản phẩm")
         } else {
             toast.error(res.message)
         }

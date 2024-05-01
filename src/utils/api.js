@@ -42,8 +42,12 @@ export const deleteData = async (url, headers = {}) => {
         return error.response.data
     }
 }
-export const updateData = async (url, data, headers = {}) => {
+export const updateData = async (url, data, tokens) => {
     try {
+        const headers = {
+            authorization: `Bearer ${tokens.accessToken}`,
+            "x-refresh-token": tokens.refreshToken,
+        }
         const response = await instance.put(url, data, {
             headers: { ...instance.defaults.headers, ...headers },
         })

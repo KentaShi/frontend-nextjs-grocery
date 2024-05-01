@@ -6,9 +6,9 @@ const ProductPage = () => {
     const { state } = useProductContext()
     const { products } = state
     return (
-        <div>
+        <>
             <Product products={products} />
-        </div>
+        </>
     )
 }
 

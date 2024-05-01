@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
                             </div>
                             <div className="px-6">
                                 <div className="container mx-auto flex">
-                                    <div className="mt-6 w-full  lg:px-6">
+                                    <div className="mt-6 w-full flex justify-center">
                                         {children}
                                     </div>
                                 </div>

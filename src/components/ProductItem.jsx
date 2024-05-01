@@ -25,7 +25,8 @@ const ProductItem = ({ product, classes }) => {
             <td className={classes}>
                 <div className="flex items-center gap-3">
                     <Avatar
-                        src=""
+                        src="https://cdn.tgdd.vn/Products/Images/2524/83449/bhx/ca-phe-sua-hoa-tan-wake-up-cafe-sai-gon-456g-19g-x-24-goi-201904101407433381.jpg"
+                        variant="rounded"
                         alt={product_name}
                         size="md"
                         className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"

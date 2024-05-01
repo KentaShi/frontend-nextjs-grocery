@@ -34,10 +34,14 @@ const Product = ({ products }) => {
             <CardHeader floated={false} shadow={false} className="rounded-none">
                 <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
                     <div>
-                        <Typography variant="h5" color="blue-gray">
+                        <Typography variant="h6" color="blue-gray">
                             Danh sách sản phẩm
                         </Typography>
-                        <Typography color="gray" className="mt-1 font-normal">
+                        <Typography
+                            color="gray"
+                            variant="paragraph"
+                            className="mt-1 font-normal"
+                        >
                             Số lượng: {products?.length ? products.length : 0}
                         </Typography>
                     </div>

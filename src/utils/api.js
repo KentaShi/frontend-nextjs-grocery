@@ -9,6 +9,21 @@ const instance = axios.create({
     },
 })
 
+instance.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true
+            const access_token = await refreshAccessToken() // Function to refresh token
+            axios.defaults.headers.common["Authorization"] =
+                "Bearer " + access_token
+            return instance(originalRequest)
+        }
+        return Promise.reject(error)
+    }
+)
+
 export const getData = async (url, headers = {}) => {
     try {
         const response = await instance.get(url, {

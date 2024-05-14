@@ -1,6 +1,7 @@
 import { PRODUCT_ACTIONS } from "@/contexts/product/actionProduct"
 import { useProductContext } from "@/contexts/product/providerProduct"
 import { addNewProduct } from "@/service/product"
+import { cloudinaryUpload } from "@/service/upload"
 import {
     Button,
     Card,
@@ -24,6 +25,7 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
         product_cate: "",
     }
     const [productData, setProductData] = useState(initProductData)
+    const [file, setFile] = useState(null)
 
     const { product_name, product_thumb, product_price, product_cate } =
         productData
@@ -35,18 +37,38 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
     const handleChangeCategory = (e) => {
         setProductData({ ...productData, product_cate: e })
     }
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0])
+    }
     const handleAddNewProduct = async () => {
         // console.log(productData)
-        const res = await addNewProduct(productData)
-        if (res.status === 200) {
-            dispatch({
-                type: PRODUCT_ACTIONS.ADD,
-                payload: res.metadata.product,
+        console.log(productData)
+        const uploadData = new FormData()
+        uploadData.append("file", file)
+
+        const resImg = await cloudinaryUpload(uploadData)
+        if (resImg.status === 200) {
+            setProductData({
+                ...productData,
+                product_thumb: resImg.response.thumb_url,
             })
-            toast.success(res.message)
+
+            console.log(productData)
+
+            const res = await addNewProduct(productData)
+            if (res.status === 200) {
+                dispatch({
+                    type: PRODUCT_ACTIONS.ADD,
+                    payload: res.metadata.product,
+                })
+                toast.success(res.message)
+            } else {
+                toast.error(res.message)
+            }
         } else {
-            toast.error(res.message)
+            toast.error(resImg.message)
         }
+
         handleOpenDialog()
         setProductData(initProductData)
     }
@@ -108,9 +130,9 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
                             Hình Ảnh
                         </Typography>
                         <Input
+                            type="file"
                             name="product_thumb"
-                            value={product_thumb}
-                            onChange={handleChangeInput}
+                            onChange={handleFileChange}
                             label="Hình Ảnh"
                             size="lg"
                         />

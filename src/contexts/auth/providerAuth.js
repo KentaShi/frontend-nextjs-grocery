@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
                 })
                 toast.success(res.message)
             } else {
-                toast.error(res.message)
+                toast.error(res.error.message)
             }
         }
 

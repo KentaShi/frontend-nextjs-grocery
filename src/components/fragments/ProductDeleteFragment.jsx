@@ -1,3 +1,4 @@
+import { useAuth } from "@/contexts/auth/providerAuth"
 import { PRODUCT_ACTIONS } from "@/contexts/product/actionProduct"
 import { useProductContext } from "@/contexts/product/providerProduct"
 import { deleteProduct } from "@/service/product"
@@ -9,14 +10,18 @@ import {
     Dialog,
     Typography,
 } from "@material-tailwind/react"
+import Cookies from "js-cookie"
 import React, { Fragment } from "react"
 import toast from "react-hot-toast"
 
 const ProductDeleteFragment = ({ product, openDialog, handleOpenDialog }) => {
     const { dispatch } = useProductContext()
+    const { state } = useAuth()
+    const { accessToken } = state
     const { _id, product_name } = product
     const handleDeleteProduct = async () => {
-        const res = await deleteProduct(_id)
+        const refreshToken = Cookies.get("refresh_token")
+        const res = await deleteProduct(_id, { accessToken, refreshToken })
         if (res.status === 200) {
             dispatch({
                 type: PRODUCT_ACTIONS.DELETE,

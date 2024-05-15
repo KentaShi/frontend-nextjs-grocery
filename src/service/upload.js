@@ -1,5 +1,5 @@
-import { postData } from "@/utils/api"
+import { upload } from "@/utils/api"
 
-export const cloudinaryUpload = async (file) => {
-    return await postData("/api/upload/thumb", file)
+export const cloudinaryUpload = async (formData) => {
+    return await upload("/api/upload/thumb", formData)
 }

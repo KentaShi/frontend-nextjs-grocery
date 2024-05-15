@@ -6,11 +6,11 @@ export const findAllProducts = async () => {
 export const findProductsByCate = async (cat) => {
     return await getData(`/api/product/category/${cat}`)
 }
-export const addNewProduct = async (data) => {
-    return await postData("/api/product/", data)
+export const addNewProduct = async (data, tokens) => {
+    return await postData("/api/product/", data, tokens)
 }
-export const deleteProduct = async (id) => {
-    return await deleteData(`/api/product/${id}`)
+export const deleteProduct = async (id, tokens) => {
+    return await deleteData(`/api/product/${id}`, tokens)
 }
 export const updateProduct = async (id, data, tokens) => {
     return await updateData(`/api/product/${id}`, data, tokens)

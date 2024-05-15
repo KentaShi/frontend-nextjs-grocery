@@ -1,3 +1,4 @@
+import { useAuth } from "@/contexts/auth/providerAuth"
 import { PRODUCT_ACTIONS } from "@/contexts/product/actionProduct"
 import { useProductContext } from "@/contexts/product/providerProduct"
 import { addNewProduct } from "@/service/product"
@@ -13,11 +14,14 @@ import {
     Select,
     Typography,
 } from "@material-tailwind/react"
+import Cookies from "js-cookie"
 import React, { Fragment, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
 const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
     const { dispatch } = useProductContext()
+    const { state } = useAuth()
+    const { accessToken } = state
     const initProductData = {
         product_name: "",
         product_thumb: "",
@@ -40,33 +44,31 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
     const handleFileChange = (e) => {
         setFile(e.target.files[0])
     }
-    const handleAddNewProduct = async () => {
-        // console.log(productData)
-        console.log(productData)
+    const handleUpload = async () => {
         const uploadData = new FormData()
         uploadData.append("file", file)
 
         const resImg = await cloudinaryUpload(uploadData)
-        if (resImg.status === 200) {
-            setProductData({
-                ...productData,
-                product_thumb: resImg.response.thumb_url,
+        setProductData({
+            ...productData,
+            product_thumb: resImg.metadata.thumb_url,
+        })
+    }
+    const handleAddNewProduct = async () => {
+        const refreshToken = Cookies.get("refresh_token")
+
+        const res = await addNewProduct(productData, {
+            accessToken,
+            refreshToken,
+        })
+        if (res.status === 200) {
+            dispatch({
+                type: PRODUCT_ACTIONS.ADD,
+                payload: res.metadata.product,
             })
-
-            console.log(productData)
-
-            const res = await addNewProduct(productData)
-            if (res.status === 200) {
-                dispatch({
-                    type: PRODUCT_ACTIONS.ADD,
-                    payload: res.metadata.product,
-                })
-                toast.success(res.message)
-            } else {
-                toast.error(res.message)
-            }
+            toast.success(res.message)
         } else {
-            toast.error(resImg.message)
+            toast.error(res.message)
         }
 
         handleOpenDialog()
@@ -129,13 +131,19 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
                         <Typography className="-mb-2" variant="h6">
                             Hình Ảnh
                         </Typography>
-                        <Input
-                            type="file"
-                            name="product_thumb"
-                            onChange={handleFileChange}
-                            label="Hình Ảnh"
-                            size="lg"
-                        />
+                        <div className="flex flex-row">
+                            <Input
+                                type="file"
+                                name="product_thumb"
+                                onChange={handleFileChange}
+                                label="Hình Ảnh"
+                                size="lg"
+                            />
+                            <Button onClick={handleUpload}>Ok</Button>
+                        </div>
+                        {productData.product_thumb !== "" && (
+                            <p>{productData.product_thumb}</p>
+                        )}
                     </CardBody>
                     <CardFooter className="flex flex-row  pt-0">
                         <Button
@@ -152,6 +160,7 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
                             color="blue"
                             variant="gradient"
                             fullWidth
+                            disabled={productData.product_thumb === ""}
                         >
                             Thêm
                         </Button>

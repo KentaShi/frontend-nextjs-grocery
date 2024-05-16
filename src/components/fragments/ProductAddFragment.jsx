@@ -51,7 +51,7 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
         const resImg = await cloudinaryUpload(uploadData)
         setProductData({
             ...productData,
-            product_thumb: resImg.metadata.thumb_url,
+            product_thumb: resImg.metadata.image_url,
         })
     }
     const handleAddNewProduct = async () => {
@@ -142,7 +142,11 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
                             <Button onClick={handleUpload}>Ok</Button>
                         </div>
                         {productData.product_thumb !== "" && (
-                            <p>{productData.product_thumb}</p>
+                            <img
+                                className="rounded-lg object-cover object-center"
+                                src={productData.product_thumb}
+                                alt={productData.product_name}
+                            />
                         )}
                     </CardBody>
                     <CardFooter className="flex flex-row  pt-0">

@@ -1,4 +1,5 @@
 import axios from "axios"
+import Cookies from "js-cookie"
 
 const BASE_URL = "http://localhost:3030"
 
@@ -16,20 +17,33 @@ const instanceFormData = axios.create({
     },
 })
 
-// instance.interceptors.response.use(
-//     (response) => response,
-//     async (error) => {
-//         const originalRequest = error.config
-//         if (error.response.status === 401 && !originalRequest._retry) {
-//             originalRequest._retry = true
-//             const access_token = await refreshAccessToken() // Function to refresh token
-//             axios.defaults.headers.common["Authorization"] =
-//                 "Bearer " + access_token
-//             return instance(originalRequest)
-//         }
-//         return Promise.reject(error)
-//     }
-// )
+instance.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true
+            const refreshToken = Cookies.get("refresh_token")
+            console.log(refreshToken)
+
+            const { accessToken } = await axios.post(
+                `http://localhost:3030/api/access/refresh-token`,
+                null,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-refresh-token": refreshToken,
+                    },
+                }
+            )
+
+            axios.defaults.headers.common["Authorization"] =
+                "Bearer " + accessToken
+            return instance(originalRequest)
+        }
+        return Promise.reject(error)
+    }
+)
 
 export const getData = async (url, headers = {}) => {
     try {

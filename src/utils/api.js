@@ -24,11 +24,10 @@ instance.interceptors.response.use(
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true
             const refreshToken = Cookies.get("refresh_token")
-            console.log(refreshToken)
 
-            const { accessToken } = await axios.post(
+            const res = await axios.post(
                 `http://localhost:3030/api/access/refresh-token`,
-                null,
+                {},
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -36,9 +35,20 @@ instance.interceptors.response.use(
                     },
                 }
             )
+            Cookies.remove("refresh_token")
+            Cookies.set("refresh_token", res.data.metadata.refreshToken, {
+                expires: 7,
+                secure: true,
+            })
 
-            axios.defaults.headers.common["Authorization"] =
-                "Bearer " + accessToken
+            // axios.defaults.headers.common["Authorization"] =
+            //     "Bearer " + res.data.metadata.accessToken
+            // axios.defaults.headers.common["x-refresh-token"] =
+            //     Cookies.get("refresh_token")
+            originalRequest.headers["Authorization"] =
+                "Bearer " + res.data.metadata.accessToken
+            originalRequest.headers["X-Refresh-Token"] =
+                res.data.metadata.refreshToken
             return instance(originalRequest)
         }
         return Promise.reject(error)

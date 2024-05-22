@@ -19,7 +19,12 @@ export const ProductProvider = ({ children }) => {
     useEffect(() => {
         const fetchData = async () => {
             const res = await findAllProducts()
-            dispatch({ type: "SET_PRODUCTS", payload: res.metadata.products })
+            if (res.staus === 200) {
+                dispatch({
+                    type: "SET_PRODUCTS",
+                    payload: res.metadata.products,
+                })
+            }
         }
         if (isAuthenticated) {
             fetchData()

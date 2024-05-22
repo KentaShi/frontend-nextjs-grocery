@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 import Link from "next/link"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 import {
     Card,
     Input,
@@ -14,6 +14,7 @@ import { useAuth } from "@/contexts/auth/providerAuth"
 import { register } from "@/service/access"
 import toast from "react-hot-toast"
 const RegisterPage = () => {
+    const router = useRouter()
     const { state } = useAuth()
     const { user } = state
     const initState = {
@@ -34,7 +35,7 @@ const RegisterPage = () => {
         const res = await register(registerData)
         if (res.status === 200) {
             toast.success(res.message)
-            redirect("/login")
+            router.push("/login")
         } else {
             toast.error(res.message)
         }
@@ -43,7 +44,7 @@ const RegisterPage = () => {
 
     useEffect(() => {
         if (user) {
-            redirect("/")
+            router.push("/")
         }
     }, [user])
     return (

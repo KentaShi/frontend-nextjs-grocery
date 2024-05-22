@@ -78,9 +78,11 @@ export const postData = async (url, data = null, tokens = null) => {
 
         return response.data
     } catch (error) {
-        console.log(error)
+        if (error.response.data) {
+            return error.response.data
+        }
         return {
-            error: { message: "Something went wrong, please try again later" },
+            message: "Something went wrong, please try again later",
         }
     }
 }

@@ -1,6 +1,5 @@
 "use client"
 import { useAuth } from "@/contexts/auth/providerAuth"
-import WithAuth from "@/hocs/WithAuth"
 import React, { useEffect } from "react"
 import { redirect } from "next/navigation"
 

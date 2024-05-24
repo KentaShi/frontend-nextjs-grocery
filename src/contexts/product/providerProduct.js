@@ -3,33 +3,33 @@
 import { createContext, useContext, useEffect, useReducer } from "react"
 import reducerProduct from "./reducerProduct"
 import { findAllProducts } from "@/service/product"
-import { useAuth } from "../auth/providerAuth"
+
+import { PRODUCT_ACTIONS } from "./actionProduct"
 
 export const initProductState = {
     products: [],
 }
 
-export const ProductContext = createContext()
+const ProductContext = createContext()
 
 export const ProductProvider = ({ children }) => {
-    const { state: authState } = useAuth()
-    const { isAuthenticated } = authState
-
     const [state, dispatch] = useReducer(reducerProduct, initProductState)
     useEffect(() => {
         const fetchData = async () => {
             const res = await findAllProducts()
+
             if (res.staus === 200) {
                 dispatch({
-                    type: "SET_PRODUCTS",
+                    type: PRODUCT_ACTIONS.SET_PRODUCTS,
                     payload: res.metadata.products,
                 })
             }
         }
-        if (isAuthenticated) {
-            fetchData()
-        }
-    }, [authState])
+        fetchData()
+        // if (isAuthenticated) {
+        //     fetchData()
+        // }
+    }, [])
     return (
         <ProductContext.Provider value={{ state, dispatch }}>
             {children}

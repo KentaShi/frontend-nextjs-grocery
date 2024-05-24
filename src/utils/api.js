@@ -41,10 +41,6 @@ instance.interceptors.response.use(
                 secure: true,
             })
 
-            // axios.defaults.headers.common["Authorization"] =
-            //     "Bearer " + res.data.metadata.accessToken
-            // axios.defaults.headers.common["x-refresh-token"] =
-            //     Cookies.get("refresh_token")
             originalRequest.headers["Authorization"] =
                 "Bearer " + res.data.metadata.accessToken
             originalRequest.headers["X-Refresh-Token"] =
@@ -60,6 +56,7 @@ export const getData = async (url, headers = {}) => {
         const response = await instance.get(url, {
             headers: { ...instance.defaults.headers, ...headers },
         })
+        console.log(response.data)
         return response.data
     } catch (error) {
         return error.response.data

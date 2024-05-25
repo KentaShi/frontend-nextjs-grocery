@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }) => {
         const fetchData = async () => {
             const refreshToken = Cookies.get("refresh_token")
             const res = await getAuth({ refreshToken })
-            console.log(res)
             if (res.status === 200) {
                 const metadata = res.metadata
                 dispatch({

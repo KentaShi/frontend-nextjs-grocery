@@ -15,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
-            <body className="bg-blue-gray-50">
+            <body className="bg-dark-1">
                 <AuthProvider>
                     <ProductProvider>
                         <div className="relative mb-8 h-full w-full">

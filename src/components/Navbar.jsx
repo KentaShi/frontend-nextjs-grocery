@@ -39,7 +39,7 @@ export default function StickyNavbar() {
             <Typography
                 as="li"
                 variant="paragraph"
-                color="blue-gray"
+                color="white"
                 className="p-1 font-normal"
             >
                 <Link href="/product" className="flex items-center">
@@ -49,7 +49,7 @@ export default function StickyNavbar() {
             <Typography
                 as="li"
                 variant="paragraph"
-                color="blue-gray"
+                color="white"
                 className="p-1 font-normal"
             >
                 <Link href="/profile" className="flex items-center">
@@ -60,11 +60,13 @@ export default function StickyNavbar() {
     )
 
     return (
-        <Navbar className="max-w-screen-xl w-full mx-auto rounded-none py-1.5 lg:px-8 lg:py-4">
-            <div className="flex mx-auto items-center justify-between text-blue-gray-900">
+        <nav className="w-full mx-auto rounded-none py-1.5 lg:px-8 lg:py-4 px-6">
+            <div className="container flex mx-auto items-center justify-between text-blue-gray-900">
                 <Typography className="mr-4 cursor-pointer py-1.5 font-medium">
                     <Link href={"/"}>
-                        <span className="text-2xl font-bold">Home</span>
+                        <span className="text-2xl font-bold text-white">
+                            Home
+                        </span>
                     </Link>
                 </Typography>
                 <div className="flex items-center gap-4">
@@ -164,6 +166,6 @@ export default function StickyNavbar() {
                     </div>
                 )}
             </Collapse>
-        </Navbar>
+        </nav>
     )
 }

@@ -29,6 +29,8 @@ const reducerProduct = (state, action) => {
                     (p) => p._id !== action.payload._id
                 ),
             }
+        default:
+            return state
     }
 }
 export default reducerProduct

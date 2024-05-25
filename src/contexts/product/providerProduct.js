@@ -18,7 +18,7 @@ export const ProductProvider = ({ children }) => {
         const fetchData = async () => {
             const res = await findAllProducts()
 
-            if (res.staus === 200) {
+            if (res.status === 200) {
                 dispatch({
                     type: PRODUCT_ACTIONS.SET_PRODUCTS,
                     payload: res.metadata.products,

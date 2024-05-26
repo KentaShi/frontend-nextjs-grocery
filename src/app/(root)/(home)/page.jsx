@@ -15,7 +15,9 @@ export default function Home() {
     }, [state])
     return (
         <div className="flex flex-col justify-center items-center">
-            <div className="text-2xl font-bold mb-4">Welcome to Tap Hoa</div>
+            <div className="text-2xl font-bold mb-4 text-white">
+                Welcome to Tap Hoa
+            </div>
             <div>
                 <SearchProduct />
             </div>

@@ -1,4 +1,5 @@
 "use client"
+
 import React, { useState } from "react"
 
 import { PlusIcon } from "@heroicons/react/24/solid"
@@ -10,19 +11,9 @@ import {
     CardBody,
 } from "@material-tailwind/react"
 
-import ProductItem from "./ProductItem"
-import ProductAddFragment from "./fragments/ProductAddFragment"
-const TABLE_HEAD = ["Tên sản phẩm", "Giá", "Phân loại", "Tùy chọn"]
+const TABLE_HEAD = ["Tên", "Sô lượng sản phẩm", "Tùy chọn"]
 
-const TABLE_ROWS = [
-    {
-        img: "https://docs.material-tailwind.com/img/logos/logo-spotify.svg",
-        name: "Spotify",
-        amount: "$2,500",
-        category: "Wed 3:00pm",
-    },
-]
-const Product = ({ products }) => {
+const Category = ({ categories }) => {
     const [openAddNew, setOpenAddNew] = useState(false)
 
     const handleOpenAddNew = () => {
@@ -39,14 +30,14 @@ const Product = ({ products }) => {
                 <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
                     <div>
                         <Typography variant="h6" color="white">
-                            Danh sách sản phẩm
+                            Danh sách phân loại
                         </Typography>
                         <Typography
                             color="white"
                             variant="paragraph"
                             className="mt-1 font-normal"
                         >
-                            Số lượng: {products?.length ? products.length : 0}
+                            Số lượng: {categories?.length || 0}
                         </Typography>
                     </div>
                     <div className="flex w-full shrink-0 gap-2 md:w-max">
@@ -57,12 +48,12 @@ const Product = ({ products }) => {
                             color="deep-orange"
                         >
                             <PlusIcon strokeWidth={2} className="h-4 w-4" />{" "}
-                            Thêm Sản Phẩm
+                            Thêm phân loại
                         </Button>
-                        <ProductAddFragment
+                        {/* <ProductAddFragment
                             openDialog={openAddNew}
                             handleOpenDialog={handleOpenAddNew}
-                        />
+                        /> */}
                     </div>
                 </div>
             </CardHeader>
@@ -87,7 +78,7 @@ const Product = ({ products }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map((product, index) => {
+                        {/* {products.map((product, index) => {
                             const isLast = index === products.length - 1
                             const classes = isLast
                                 ? "p-4"
@@ -100,50 +91,12 @@ const Product = ({ products }) => {
                                     classes={classes}
                                 />
                             )
-                        })}
+                        })} */}
                     </tbody>
                 </table>
             </CardBody>
-
-            {/* <CardBody className="overflow-scroll px-0 grid grid-cols-2">
-                {products?.length > 0 &&
-                    products.map((product, index) => {
-                        return <ProductCard key={index} product={product} />
-                    })}
-            </CardBody> */}
-            {/* <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                <Button variant="outlined" size="sm">
-                    Previous
-                </Button>
-                <div className="flex items-center gap-2">
-                    <IconButton variant="outlined" size="sm">
-                        1
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                        2
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                        3
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                        ...
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                        8
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                        9
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                        10
-                    </IconButton>
-                </div>
-                <Button variant="outlined" size="sm">
-                    Next
-                </Button>
-            </CardFooter> */}
         </Card>
     )
 }
 
-export default Product
+export default Category

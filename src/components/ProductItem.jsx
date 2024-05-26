@@ -29,11 +29,11 @@ const ProductItem = ({ product, classes }) => {
                         variant="rounded"
                         alt={product_name}
                         size="md"
-                        className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
+                        className="border border-blue-gray-50  object-contain p-1"
                     />
                     <Typography
                         variant="small"
-                        color="blue-gray"
+                        color="white"
                         className="font-bold"
                     >
                         {product_name}
@@ -41,20 +41,12 @@ const ProductItem = ({ product, classes }) => {
                 </div>
             </td>
             <td className={classes}>
-                <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                >
+                <Typography variant="small" color="white" className="font-bold">
                     {product_price}
                 </Typography>
             </td>
             <td className={classes}>
-                <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                >
+                <Typography variant="small" color="white" className="font-bold">
                     {product_cate}
                 </Typography>
             </td>

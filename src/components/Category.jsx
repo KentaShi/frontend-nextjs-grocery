@@ -10,6 +10,7 @@ import {
     Button,
     CardBody,
 } from "@material-tailwind/react"
+import CategoryItem from "./CategoryItem"
 
 const TABLE_HEAD = ["Tên", "Sô lượng sản phẩm", "Tùy chọn"]
 
@@ -78,20 +79,20 @@ const Category = ({ categories }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* {products.map((product, index) => {
-                            const isLast = index === products.length - 1
+                        {categories.map((cate, index) => {
+                            const isLast = index === categories.length - 1
                             const classes = isLast
                                 ? "p-4"
                                 : "p-4 border-b border-blue-gray-50"
 
                             return (
-                                <ProductItem
+                                <CategoryItem
                                     key={index}
-                                    product={product}
+                                    category={cate}
                                     classes={classes}
                                 />
                             )
-                        })} */}
+                        })}
                     </tbody>
                 </table>
             </CardBody>

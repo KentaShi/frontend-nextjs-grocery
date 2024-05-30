@@ -1,4 +1,5 @@
 import { useAuth } from "@/contexts/auth/providerAuth"
+import { useCateContext } from "@/contexts/category/providerCate"
 import { PRODUCT_ACTIONS } from "@/contexts/product/actionProduct"
 import { useProductContext } from "@/contexts/product/providerProduct"
 import { addNewProduct } from "@/service/product"
@@ -22,6 +23,10 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
     const { dispatch } = useProductContext()
     const { state } = useAuth()
     const { accessToken } = state
+
+    const { state: cateState } = useCateContext()
+    const { categories } = cateState
+
     const initProductData = {
         product_name: "",
         product_thumb: "",
@@ -124,6 +129,12 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
                             value={product_cate}
                             label="Phân Loại"
                         >
+                            {categories &&
+                                categories.map((cate) => (
+                                    <Option value={cate.cate_slug}>
+                                        {cate.cate_name}
+                                    </Option>
+                                ))}
                             <Option value="coffee">Cà Phê</Option>
                             <Option value="drink">Nước Ngọt</Option>
                             <Option value="vegetable">Rau Củ</Option>

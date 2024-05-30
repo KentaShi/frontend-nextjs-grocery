@@ -4,6 +4,7 @@ import "./globals.css"
 import { AuthProvider } from "@/contexts/auth/providerAuth"
 import { Toaster } from "react-hot-toast"
 import { ProductProvider } from "@/contexts/product/providerProduct"
+import { CategoryProvider } from "@/contexts/category/providerCate"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -16,12 +17,14 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <AuthProvider>
-                <ProductProvider>
-                    <body className="bg-dark-1">
-                        {children}
-                        <Toaster />
-                    </body>
-                </ProductProvider>
+                <CategoryProvider>
+                    <ProductProvider>
+                        <body className="bg-dark-1">
+                            {children}
+                            <Toaster />
+                        </body>
+                    </ProductProvider>
+                </CategoryProvider>
             </AuthProvider>
         </html>
     )

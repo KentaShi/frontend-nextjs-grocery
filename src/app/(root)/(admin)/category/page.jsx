@@ -1,12 +1,14 @@
+"use client"
 import Category from "@/components/Category"
-import { findAllCategories } from "@/service/category"
+import { useCateContext } from "@/contexts/category/providerCate"
 import React from "react"
 
-const CategoryPage = async () => {
-    const res = await findAllCategories()
+const CategoryPage = () => {
+    const { state } = useCateContext()
+    const { categories } = state
     return (
         <>
-            <Category categories={res?.metadata?.categories} />
+            <Category categories={categories} />
         </>
     )
 }

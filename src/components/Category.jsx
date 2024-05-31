@@ -11,6 +11,7 @@ import {
     CardBody,
 } from "@material-tailwind/react"
 import CategoryItem from "./CategoryItem"
+import CategoryAddFragment from "./fragments/CategoryAddFragment"
 
 const TABLE_HEAD = ["Tên", "Sô lượng sản phẩm", "Tùy chọn"]
 
@@ -51,6 +52,10 @@ const Category = ({ categories }) => {
                             <PlusIcon strokeWidth={2} className="h-4 w-4" />{" "}
                             Thêm phân loại
                         </Button>
+                        <CategoryAddFragment
+                            openDialog={openAddNew}
+                            handleOpenDialog={handleOpenAddNew}
+                        />
                         {/* <ProductAddFragment
                             openDialog={openAddNew}
                             handleOpenDialog={handleOpenAddNew}

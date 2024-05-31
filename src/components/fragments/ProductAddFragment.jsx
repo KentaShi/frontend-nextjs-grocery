@@ -45,6 +45,7 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
     }
     const handleChangeCategory = (e) => {
         setProductData({ ...productData, product_cate: e })
+        console.log(productData)
     }
     const handleFileChange = (e) => {
         setFile(e.target.files[0])
@@ -129,15 +130,14 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
                             value={product_cate}
                             label="Phân Loại"
                         >
-                            {categories &&
-                                categories.map((cate) => (
-                                    <Option value={cate.cate_slug}>
-                                        {cate.cate_name}
-                                    </Option>
-                                ))}
-                            <Option value="coffee">Cà Phê</Option>
-                            <Option value="drink">Nước Ngọt</Option>
-                            <Option value="vegetable">Rau Củ</Option>
+                            {categories.map((cate, index) => (
+                                <Option key={index} value={cate.cate_slug}>
+                                    {cate.cate_name}
+                                </Option>
+                            ))}
+
+                            {/* <Option value="drink">Nước Ngọt</Option>
+                            <Option value="vegetable">Rau Củ</Option> */}
                         </Select>
                         <Typography className="-mb-2" variant="h6">
                             Hình Ảnh

@@ -7,7 +7,11 @@ const reducerCate = (state, action) => {
                 ...state,
                 categories: action.payload,
             }
-
+        case CATE_ACTIONS.ADD:
+            return {
+                ...state,
+                categories: [...state.categories, action.payload],
+            }
         default:
             return state
     }

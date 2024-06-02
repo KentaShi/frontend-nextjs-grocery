@@ -6,3 +6,6 @@ export const findAllCategories = async () => {
 export const addCategory = async ({ data, tokens }) => {
     return await postData("/api/category/", data, tokens)
 }
+export const deleteCategory = async ({ data, tokens }) => {
+    return await deleteData("/api/category/", data, tokens)
+}

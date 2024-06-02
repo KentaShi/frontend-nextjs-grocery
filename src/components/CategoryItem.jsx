@@ -1,9 +1,15 @@
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid"
 import { IconButton, Tooltip, Typography } from "@material-tailwind/react"
-import React from "react"
+import React, { useState } from "react"
+import CategoryDeleteFragment from "./fragments/CategoryDeleteFragment"
 
 const CategoryItem = ({ category, classes }) => {
     const { cate_name } = category
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+
+    const handleOpenDeleteDialog = () => {
+        setOpenDeleteDialog((p) => !p)
+    }
     return (
         <tr>
             <td className={classes}>
@@ -18,16 +24,25 @@ const CategoryItem = ({ category, classes }) => {
             </td>
 
             <td className={classes}>
-                <Tooltip content="Update Product">
+                <Tooltip content="Update">
                     <IconButton color="blue" variant="text">
                         <PencilIcon className="h-4 w-4" />
                     </IconButton>
                 </Tooltip>
-                <Tooltip content="Delete Product">
-                    <IconButton color="red" variant="text">
+                <Tooltip content="Delete">
+                    <IconButton
+                        onClick={handleOpenDeleteDialog}
+                        color="red"
+                        variant="text"
+                    >
                         <TrashIcon className="h-4 w-4" />
                     </IconButton>
                 </Tooltip>
+                <CategoryDeleteFragment
+                    category={category}
+                    openDialog={openDeleteDialog}
+                    handleOpenDialog={handleOpenDeleteDialog}
+                />
             </td>
         </tr>
     )

@@ -21,6 +21,9 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const fetchData = async () => {
             const refreshToken = Cookies.get("refresh_token")
+            if (!refreshToken) {
+                return toast.error("Vui lòng đăng nhập....")
+            }
             const res = await getAuth({ refreshToken })
             if (res.status === 200) {
                 const metadata = res.metadata

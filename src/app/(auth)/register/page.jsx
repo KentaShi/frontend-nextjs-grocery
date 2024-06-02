@@ -48,66 +48,55 @@ const RegisterPage = () => {
         }
     }, [user])
     return (
-        <Card color="transparent" shadow={false}>
-            <Typography variant="h4" color="blue-gray">
+        <Card className="bg-dark-3 p-5" shadow={false}>
+            <Typography
+                className="flex justify-center items-center"
+                variant="h4"
+                color="white"
+            >
                 Sign Up
-            </Typography>
-            <Typography color="gray" className="mt-1 font-normal">
-                Nice to meet you! Enter your details to register.
             </Typography>
             <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
                 <div className="mb-1 flex flex-col gap-6">
-                    <Typography
-                        variant="h6"
-                        color="blue-gray"
-                        className="-mb-3"
-                    >
+                    <Typography variant="h6" color="white" className="-mb-3">
                         Username
                     </Typography>
                     <Input
+                        color="white"
                         name="username"
                         value={username}
                         onChange={handleChangeInput}
                         size="lg"
-                        placeholder="username"
                         className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                         labelProps={{
                             className: "before:content-none after:content-none",
                         }}
                     />
-                    <Typography
-                        variant="h6"
-                        color="blue-gray"
-                        className="-mb-3"
-                    >
+                    <Typography variant="h6" color="white" className="-mb-3">
                         Password
                     </Typography>
                     <Input
+                        color="white"
                         name="password"
                         value={password}
                         onChange={handleChangeInput}
                         type="password"
                         size="lg"
-                        placeholder="********"
                         className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                         labelProps={{
                             className: "before:content-none after:content-none",
                         }}
                     />
-                    <Typography
-                        variant="h6"
-                        color="blue-gray"
-                        className="-mb-3"
-                    >
+                    <Typography variant="h6" color="white" className="-mb-3">
                         Confirm Password
                     </Typography>
                     <Input
+                        color="white"
                         name="confirmPassword"
                         value={confirmPassword}
                         onChange={handleChangeInput}
                         type="password"
                         size="lg"
-                        placeholder="********"
                         className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                         labelProps={{
                             className: "before:content-none after:content-none",
@@ -122,11 +111,11 @@ const RegisterPage = () => {
                     sign up
                 </Button>
                 <Typography
-                    color="gray"
+                    color="white"
                     className="mt-4 text-center font-normal"
                 >
                     Already have an account?{" "}
-                    <Link href="/login" className="font-medium text-gray-900">
+                    <Link href="/login" className="font-medium text-blue-1">
                         Sign In
                     </Link>
                 </Typography>

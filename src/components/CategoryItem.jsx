@@ -1,15 +1,28 @@
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid"
 import { IconButton, Tooltip, Typography } from "@material-tailwind/react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import CategoryDeleteFragment from "./fragments/CategoryDeleteFragment"
+import { getCountOfProducts } from "@/service/category"
 
 const CategoryItem = ({ category, classes }) => {
-    const { cate_name } = category
+    const { cate_name, cate_slug } = category
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+    const [countOfProducts, setCountOfProducts] = useState(0)
 
     const handleOpenDeleteDialog = () => {
         setOpenDeleteDialog((p) => !p)
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await getCountOfProducts({ cate_slug })
+
+            if (res.status === 200) {
+                setCountOfProducts(res.metadata.count)
+            }
+        }
+        fetchData()
+    }, [category])
     return (
         <tr>
             <td className={classes}>
@@ -19,7 +32,7 @@ const CategoryItem = ({ category, classes }) => {
             </td>
             <td className={classes}>
                 <Typography variant="small" color="white" className="font-bold">
-                    1000
+                    {countOfProducts}
                 </Typography>
             </td>
 

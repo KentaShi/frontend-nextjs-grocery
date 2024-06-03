@@ -12,6 +12,13 @@ const reducerCate = (state, action) => {
                 ...state,
                 categories: [...state.categories, action.payload],
             }
+        case CATE_ACTIONS.DELETE:
+            return {
+                ...state,
+                categories: state.categories.filter(
+                    (c) => c._id !== action.payload._id
+                ),
+            }
         default:
             return state
     }

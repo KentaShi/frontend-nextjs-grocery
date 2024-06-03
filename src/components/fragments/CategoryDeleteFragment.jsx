@@ -1,3 +1,7 @@
+import { useAuth } from "@/contexts/auth/providerAuth"
+import { CATE_ACTIONS } from "@/contexts/category/actionCate"
+import { useCateContext } from "@/contexts/category/providerCate"
+import { deleteCategory } from "@/service/category"
 import {
     Button,
     Card,
@@ -6,10 +10,35 @@ import {
     Dialog,
     Typography,
 } from "@material-tailwind/react"
+import Cookies from "js-cookie"
 import React, { Fragment } from "react"
+import toast from "react-hot-toast"
 
 const CategoryDeleteFragment = ({ category, openDialog, handleOpenDialog }) => {
-    const handleDeleteCategory = async () => {}
+    const { dispatch } = useCateContext()
+    const { state } = useAuth()
+    const { accessToken } = state
+
+    const { _id, cate_name } = category
+    const handleDeleteCategory = async () => {
+        const refreshToken = Cookies.get("refresh_token")
+        const res = await deleteCategory({
+            cate_id: _id,
+            tokens: { accessToken, refreshToken },
+        })
+        if (res.status === 200) {
+            dispatch({
+                type: CATE_ACTIONS.DELETE,
+                payload: { _id },
+            })
+            toast.success(res.message)
+        } else if (res.status === 400) {
+            toast.error(res.message)
+        } else {
+            toast.error("Có lỗi xảy ra vui lòng thử lại!")
+        }
+        handleOpenDialog()
+    }
     return (
         <Fragment>
             <Dialog
@@ -27,7 +56,7 @@ const CategoryDeleteFragment = ({ category, openDialog, handleOpenDialog }) => {
                         <Typography variant="paragraph" color="blue-gray">
                             Xóa phân loại{" "}
                             <span className="font-bold text-lg">
-                                {category.cate_name}
+                                {cate_name}
                             </span>
                             ?
                         </Typography>

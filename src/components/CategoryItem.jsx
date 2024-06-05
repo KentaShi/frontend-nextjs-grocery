@@ -16,7 +16,6 @@ const CategoryItem = ({ category, classes }) => {
     useEffect(() => {
         const fetchData = async () => {
             const res = await getCountOfProducts({ cate_slug })
-
             if (res.status === 200) {
                 setCountOfProducts(res.metadata.count)
             }

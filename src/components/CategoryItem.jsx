@@ -36,11 +36,6 @@ const CategoryItem = ({ category, classes }) => {
             </td>
 
             <td className={classes}>
-                <Tooltip content="Update">
-                    <IconButton color="blue" variant="text">
-                        <PencilIcon className="h-4 w-4" />
-                    </IconButton>
-                </Tooltip>
                 <Tooltip content="Delete">
                     <IconButton
                         onClick={handleOpenDeleteDialog}

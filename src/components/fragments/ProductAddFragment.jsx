@@ -73,8 +73,10 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
                 payload: res.metadata.product,
             })
             toast.success(res.message)
-        } else {
+        } else if (res.status === 400) {
             toast.error(res.message)
+        } else {
+            toast.error("Có lỗi xảy ra, vui lòng thử lại")
         }
 
         handleOpenDialog()

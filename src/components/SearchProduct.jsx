@@ -32,7 +32,7 @@ const SearchProduct = () => {
         if (res.status === 200) {
             setProducts(res.metadata.products)
         } else {
-            toast.error(res.message)
+            toast.error("Không có sản phẩm")
             setProducts([])
         }
         setQuery("")
@@ -54,7 +54,7 @@ const SearchProduct = () => {
             if (res.status === 200) {
                 setProducts(res.metadata.products)
             } else {
-                toast.error(res.message)
+                toast.error("Không có sản phẩm")
             }
         }
     }

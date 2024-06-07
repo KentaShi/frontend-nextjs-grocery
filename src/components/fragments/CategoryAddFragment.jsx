@@ -25,9 +25,10 @@ const CategoryAddFragment = ({ openDialog, handleOpenDialog }) => {
         if (res.status === 200) {
             dispatch({ type: CATE_ACTIONS.ADD, payload: res.metadata.category })
             toast.success(res.message)
-        } else {
+        } else if (res.status === 400) {
             toast.error(res.message)
-            //toast.error("Please try again.")
+        } else {
+            toast.error("Có lỗi xảy ra, vui lòng thử lại")
         }
         handleOpenDialog()
         setCateName("")

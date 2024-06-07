@@ -56,10 +56,6 @@ const Category = ({ categories }) => {
                             openDialog={openAddNew}
                             handleOpenDialog={handleOpenAddNew}
                         />
-                        {/* <ProductAddFragment
-                            openDialog={openAddNew}
-                            handleOpenDialog={handleOpenAddNew}
-                        /> */}
                     </div>
                 </div>
             </CardHeader>

@@ -12,8 +12,14 @@ import { PencilIcon } from "@heroicons/react/24/solid"
 import ProductUpdateFragment from "./fragments/ProductUpdateFragment"
 
 const ProductCard = ({ product }) => {
-    const { _id, product_name, product_thumb, product_price, product_cate } =
-        product
+    const {
+        _id,
+        product_name,
+        product_thumb,
+        product_price,
+        product_unit,
+        product_cate,
+    } = product
     const [openUpdatePriceDialog, setOpenUpdatePriceDialog] = useState(false)
     const handleOpenUpdatePriceDialog = () => {
         setOpenUpdatePriceDialog((p) => !p)
@@ -35,16 +41,13 @@ const ProductCard = ({ product }) => {
                 <div className="flex flex-col items-center justify-between">
                     <Typography
                         color="blue-gray"
-                        className="font-normal text-sm"
+                        className="text-base font-bold"
                     >
                         {product_name}
                     </Typography>
                     <div className="flex flex-row items-center">
-                        <Typography
-                            color="red"
-                            className="font-medium text-base"
-                        >
-                            {product_price}đ
+                        <Typography color="red" className="font-bold text-lg">
+                            {product_price.toLocaleString()}đ/{product_unit}
                         </Typography>
                         <Tooltip content="Edit Price">
                             <IconButton

@@ -11,10 +11,13 @@ import toast from "react-hot-toast"
 import ProductCard from "./ProductCard"
 import { useProductContext } from "@/contexts/product/providerProduct"
 import { io } from "socket.io-client"
+import { useCateContext } from "@/contexts/category/providerCate"
 
 const SearchProduct = () => {
     const socket = io("http://localhost:3030")
     const { state } = useProductContext()
+    const { state: cateState } = useCateContext()
+    const { categories } = cateState
     const { products: productsData } = state
     const [query, setQuery] = useState("")
     const [category, setCategory] = useState("")
@@ -29,7 +32,7 @@ const SearchProduct = () => {
         if (res.status === 200) {
             setProducts(res.metadata.products)
         } else {
-            toast.error(res.message)
+            toast.error("Không có sản phẩm")
             setProducts([])
         }
         setQuery("")
@@ -51,7 +54,7 @@ const SearchProduct = () => {
             if (res.status === 200) {
                 setProducts(res.metadata.products)
             } else {
-                toast.error(res.message)
+                toast.error("Không có sản phẩm")
             }
         }
     }
@@ -96,10 +99,11 @@ const SearchProduct = () => {
                         name="category"
                         label="Phân Loại"
                     >
-                        <Option value="all">Tất Cả</Option>
-                        <Option value="coffee">Cà Phê</Option>
-                        <Option value="drink">Nước Ngọt</Option>
-                        <Option value="vegetable">Rau Củ</Option>
+                        {categories.map((cate, index) => (
+                            <Option key={index} value={cate.cate_slug}>
+                                {cate.cate_name}
+                            </Option>
+                        ))}
                     </Select>
                     <Button
                         onClick={handleSelectCategory}

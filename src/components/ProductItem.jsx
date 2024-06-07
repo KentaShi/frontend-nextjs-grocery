@@ -10,8 +10,14 @@ import ProductUpdateFragment from "./fragments/ProductUpdateFragment"
 import ProductDeleteFragment from "./fragments/ProductDeleteFragment"
 
 const ProductItem = ({ product, classes }) => {
-    const { _id, product_name, product_thumb, product_price, product_cate } =
-        product
+    const {
+        _id,
+        product_name,
+        product_thumb,
+        product_price,
+        product_unit,
+        product_cate,
+    } = product
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [openUpdateDialog, setOpenUpdateDialog] = useState(false)
     const handleOpenDeleteDialog = () => {
@@ -42,7 +48,7 @@ const ProductItem = ({ product, classes }) => {
             </td>
             <td className={classes}>
                 <Typography variant="small" color="white" className="font-bold">
-                    {product_price}
+                    {product_price.toLocaleString()}đ/{product_unit}
                 </Typography>
             </td>
             <td className={classes}>

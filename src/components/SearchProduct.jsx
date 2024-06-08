@@ -12,9 +12,15 @@ import ProductCard from "./ProductCard"
 import { useProductContext } from "@/contexts/product/providerProduct"
 import { io } from "socket.io-client"
 import { useCateContext } from "@/contexts/category/providerCate"
+import { useAuth } from "@/contexts/auth/providerAuth"
+import Cookies from "js-cookie"
 
 const SearchProduct = () => {
     const socket = io("http://localhost:3030")
+
+    const { state: autheState } = useAuth()
+    const { accessToken } = autheState
+
     const { state } = useProductContext()
     const { state: cateState } = useCateContext()
     const { categories } = cateState
@@ -22,17 +28,23 @@ const SearchProduct = () => {
     const [query, setQuery] = useState("")
     const [category, setCategory] = useState("")
     const [products, setProducts] = useState([])
+
+    const refreshToken = Cookies.get("refresh_token")
+    const tokens = { accessToken, refreshToken }
     const handleSearch = async () => {
         // search in client
         // const res = searchProductFromClient(productsData, query)
         // setProducts(res)
         // search in server
         setProducts([])
-        const res = await searchProduct(query)
+        const res = await searchProduct({ query, tokens })
         if (res.status === 200) {
             setProducts(res.metadata.products)
-        } else {
+        } else if (res.status === 404) {
             toast.error("Không có sản phẩm")
+            setProducts([])
+        } else {
+            toast.error("Có lỗi xảy ra, vui lòng thử lại sau")
             setProducts([])
         }
         setQuery("")
@@ -42,15 +54,16 @@ const SearchProduct = () => {
     }
     const handleSelectCategory = async () => {
         setProducts([])
+
         if (category === "all") {
-            const res = await findAllProducts()
+            const res = await findAllProducts({ tokens })
             if (res.status === 200) {
                 setProducts(res.metadata.products)
             } else {
                 toast.error(res.message)
             }
         } else {
-            const res = await findProductsByCate(category)
+            const res = await findProductsByCate({ cat: category, tokens })
             if (res.status === 200) {
                 setProducts(res.metadata.products)
             } else {

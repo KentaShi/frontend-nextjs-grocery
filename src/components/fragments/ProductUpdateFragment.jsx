@@ -45,10 +45,8 @@ const ProductUpdateFragment = ({
     }
     const handleUpdateProduct = async () => {
         const refreshToken = Cookies.get("refresh_token")
-        const res = await updateProduct(_id, productData, {
-            accessToken,
-            refreshToken,
-        })
+        const tokens = { accessToken, refreshToken }
+        const res = await updateProduct({ id: _id, data: productData, tokens })
         if (res.status === 200) {
             dispatch({
                 type: PRODUCT_ACTIONS.UPDATE,

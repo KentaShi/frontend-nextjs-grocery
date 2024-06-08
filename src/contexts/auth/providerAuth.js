@@ -34,7 +34,6 @@ export const AuthProvider = ({ children }) => {
                         accessToken: metadata.tokens.accessToken,
                     },
                 })
-                toast.success(res.message)
             } else {
                 toast.error(res.message)
             }

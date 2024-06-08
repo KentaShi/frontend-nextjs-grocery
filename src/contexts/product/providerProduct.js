@@ -5,6 +5,8 @@ import reducerProduct from "./reducerProduct"
 import { findAllProducts } from "@/service/product"
 
 import { PRODUCT_ACTIONS } from "./actionProduct"
+import Cookies from "js-cookie"
+import { useAuth } from "../auth/providerAuth"
 
 export const initProductState = {
     products: [],
@@ -14,9 +16,15 @@ const ProductContext = createContext()
 
 export const ProductProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducerProduct, initProductState)
+
+    const { state: authState } = useAuth()
+    const { accessToken } = authState
     useEffect(() => {
         const fetchData = async () => {
-            const res = await findAllProducts()
+            const refreshToken = Cookies.get("refresh_token")
+            const res = await findAllProducts({
+                tokens: { accessToken, refreshToken },
+            })
 
             if (res.status === 200) {
                 dispatch({

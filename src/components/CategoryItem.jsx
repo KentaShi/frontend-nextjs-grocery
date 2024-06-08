@@ -3,8 +3,13 @@ import { IconButton, Tooltip, Typography } from "@material-tailwind/react"
 import React, { useEffect, useState } from "react"
 import CategoryDeleteFragment from "./fragments/CategoryDeleteFragment"
 import { getCountOfProducts } from "@/service/category"
+import Cookies from "js-cookie"
+import { useAuth } from "@/contexts/auth/providerAuth"
 
 const CategoryItem = ({ category, classes }) => {
+    const { state } = useAuth()
+    const { accessToken } = state
+
     const { cate_name, cate_slug } = category
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [countOfProducts, setCountOfProducts] = useState(0)
@@ -15,7 +20,11 @@ const CategoryItem = ({ category, classes }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await getCountOfProducts({ cate_slug })
+            const refreshToken = Cookies.get("refresh_token")
+            const res = await getCountOfProducts({
+                cate_slug,
+                tokens: { accessToken, refreshToken },
+            })
             if (res.status === 200) {
                 setCountOfProducts(res.metadata.count)
             }

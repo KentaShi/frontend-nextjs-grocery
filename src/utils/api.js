@@ -1,8 +1,7 @@
 import axios from "axios"
 import Cookies from "js-cookie"
 
-const BASE_URL = "http://localhost:3030"
-
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 const instance = axios.create({
     baseURL: BASE_URL,
     headers: {
@@ -26,7 +25,7 @@ instance.interceptors.response.use(
             const refreshToken = Cookies.get("refresh_token")
 
             const res = await axios.post(
-                `http://localhost:3030/api/access/refresh-token`,
+                `${BASE_URL}/api/access/refresh-token`,
                 {},
                 {
                     headers: {
@@ -51,15 +50,24 @@ instance.interceptors.response.use(
     }
 )
 
-export const getData = async (url, headers = {}) => {
+export const getData = async ({ url, tokens }) => {
     try {
+        const headers = {
+            authorization: `Bearer ${tokens.accessToken}`,
+            "x-refresh-token": tokens.refreshToken,
+        }
         const response = await instance.get(url, {
             headers: { ...instance.defaults.headers, ...headers },
         })
 
         return response.data
     } catch (error) {
-        return error.response.data
+        if (error?.response?.data) {
+            return error.response.data
+        }
+        return {
+            message: "Something went wrong, please try again later",
+        }
     }
 }
 
@@ -98,7 +106,7 @@ export const deleteData = async (url, tokens) => {
         return error.response.data
     }
 }
-export const updateData = async (url, data, tokens) => {
+export const updateData = async ({ url, data, tokens }) => {
     try {
         const headers = {
             authorization: `Bearer ${tokens.accessToken}`,

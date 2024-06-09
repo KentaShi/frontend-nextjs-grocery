@@ -26,7 +26,7 @@ export const CategoryProvider = ({ children }) => {
             const res = await findAllCategories({
                 tokens,
             })
-            if (res.status === 200) {
+            if (res.statusCode === 200) {
                 dispatch({
                     type: CATE_ACTIONS.SET_CATEGORIES,
                     payload: res.metadata.categories,
@@ -34,7 +34,7 @@ export const CategoryProvider = ({ children }) => {
             }
         }
         fetchData()
-    }, [])
+    }, [authState])
 
     return (
         <CategoryContext.Provider value={{ state, dispatch }}>

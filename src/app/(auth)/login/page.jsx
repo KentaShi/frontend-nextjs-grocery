@@ -34,8 +34,9 @@ const LoginPage = () => {
     const handleSubmitLogin = async (e) => {
         e.preventDefault()
         const res = await login(loginData)
+        console.log(res)
 
-        if (res.status === 200) {
+        if (res.statusCode === 200) {
             const metadata = res.metadata
             dispatch({
                 type: AUTH_ACTIONS.AUTH,
@@ -48,11 +49,12 @@ const LoginPage = () => {
                 expires: 7,
                 secure: true,
             })
-
-            toast.success(res.message)
-            router.push("/profile")
+            router.push("/")
+            toast.success("Welcome to Tạp Hóa Chị Tuyết")
+        } else if (res.statusCode === 400) {
+            toast.error("Username hoặc mật khẩu không đúng")
         } else {
-            toast.error(res.message)
+            toast.error("Có lỗi xảy ra, vui lòng thử lại sau")
         }
 
         setLoginData(initState)

@@ -15,3 +15,10 @@ export const sidebarLinks = [
         imgUrl: "/icons/category.svg",
     },
 ]
+
+export const errorMessages = {
+    SERVER_ERROR: {
+        en: "Something went wrong, please try again",
+        vi: "Có lỗi xảy ra, vui lòng thử lại sau",
+    },
+}

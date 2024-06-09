@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
                 return toast.error("Vui lòng đăng nhập....")
             }
             const res = await getAuth({ refreshToken })
-            if (res.status === 200) {
+            if (res.statusCode === 200) {
                 const metadata = res.metadata
                 dispatch({
                     type: AUTH_ACTIONS.AUTH,
@@ -34,8 +34,10 @@ export const AuthProvider = ({ children }) => {
                         accessToken: metadata.tokens.accessToken,
                     },
                 })
+            } else if (res.statusCode === 400) {
+                toast.error("Username hoặc mật khẩu không đúng")
             } else {
-                toast.error(res.message)
+                toast.error("Có lỗi xảy ra, vui lòng thử lại sau")
             }
         }
 

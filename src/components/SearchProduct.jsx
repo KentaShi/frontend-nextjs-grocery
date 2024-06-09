@@ -14,6 +14,7 @@ import { io } from "socket.io-client"
 import { useCateContext } from "@/contexts/category/providerCate"
 import { useAuth } from "@/contexts/auth/providerAuth"
 import Cookies from "js-cookie"
+import { errorMessages } from "@/constants"
 
 const SearchProduct = () => {
     const socket = io("http://localhost:3030")
@@ -38,9 +39,9 @@ const SearchProduct = () => {
         // search in server
         setProducts([])
         const res = await searchProduct({ query, tokens })
-        if (res.status === 200) {
+        if (res.statusCode === 200) {
             setProducts(res.metadata.products)
-        } else if (res.status === 404) {
+        } else if (res.statusCode === 404) {
             toast.error("Không có sản phẩm")
             setProducts([])
         } else {
@@ -64,10 +65,12 @@ const SearchProduct = () => {
             }
         } else {
             const res = await findProductsByCate({ cat: category, tokens })
-            if (res.status === 200) {
+            if (res.statusCode === 200) {
                 setProducts(res.metadata.products)
-            } else {
+            } else if (res.statusCode === 404) {
                 toast.error("Không có sản phẩm")
+            } else {
+                toast.error(errorMessages.SERVER_ERROR.vi)
             }
         }
     }

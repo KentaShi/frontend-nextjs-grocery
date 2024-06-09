@@ -26,7 +26,7 @@ export const ProductProvider = ({ children }) => {
                 tokens: { accessToken, refreshToken },
             })
 
-            if (res.status === 200) {
+            if (res.statusCode === 200) {
                 dispatch({
                     type: PRODUCT_ACTIONS.SET_PRODUCTS,
                     payload: res.metadata.products,
@@ -37,7 +37,7 @@ export const ProductProvider = ({ children }) => {
         // if (isAuthenticated) {
         //     fetchData()
         // }
-    }, [])
+    }, [authState])
     return (
         <ProductContext.Provider value={{ state, dispatch }}>
             {children}

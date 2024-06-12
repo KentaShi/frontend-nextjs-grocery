@@ -78,13 +78,13 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
             accessToken,
             refreshToken,
         })
-        if (res.status === 200) {
+        if (res.statusCode === 200) {
             dispatch({
                 type: PRODUCT_ACTIONS.ADD,
                 payload: res.metadata.product,
             })
             toast.success(res.message)
-        } else if (res.status === 400) {
+        } else if (res.statusCode === 400) {
             toast.error(res.message)
         } else {
             toast.error("Có lỗi xảy ra, vui lòng thử lại")

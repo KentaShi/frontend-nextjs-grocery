@@ -25,7 +25,7 @@ const CategoryItem = ({ category, classes }) => {
                 cate_slug,
                 tokens: { accessToken, refreshToken },
             })
-            if (res.status === 200) {
+            if (res.statusCode === 200) {
                 setCountOfProducts(res.metadata.count)
             }
         }

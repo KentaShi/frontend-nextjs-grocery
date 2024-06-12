@@ -14,6 +14,7 @@ import { addCategory } from "@/service/category"
 import toast from "react-hot-toast"
 import { useCateContext } from "@/contexts/category/providerCate"
 import { CATE_ACTIONS } from "@/contexts/category/actionCate"
+import { errorMessages } from "@/constants"
 
 const CategoryAddFragment = ({ openDialog, handleOpenDialog }) => {
     const { state, dispatch } = useCateContext()
@@ -22,13 +23,13 @@ const CategoryAddFragment = ({ openDialog, handleOpenDialog }) => {
 
     const handleAddNewCategory = async () => {
         const res = await addCategory({ data: { cate_name: cateName } })
-        if (res.status === 200) {
+        if (res.statusCode === 200) {
             dispatch({ type: CATE_ACTIONS.ADD, payload: res.metadata.category })
             toast.success(res.message)
-        } else if (res.status === 400) {
-            toast.error(res.message)
+        } else if (res.statusCode === 409) {
+            toast.error("Đã có phân loại này")
         } else {
-            toast.error("Có lỗi xảy ra, vui lòng thử lại")
+            toast.error(errorMessages.SERVER_ERROR.vi)
         }
         handleOpenDialog()
         setCateName("")

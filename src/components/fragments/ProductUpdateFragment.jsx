@@ -21,6 +21,7 @@ import React, { Fragment, useState } from "react"
 import toast from "react-hot-toast"
 import { io } from "socket.io-client"
 import Cookies from "js-cookie"
+import { errorMessages } from "@/constants"
 
 const ProductUpdateFragment = ({
     product,
@@ -47,17 +48,15 @@ const ProductUpdateFragment = ({
         const refreshToken = Cookies.get("refresh_token")
         const tokens = { accessToken, refreshToken }
         const res = await updateProduct({ id: _id, data: productData, tokens })
-        if (res.status === 200) {
+        if (res.statusCode === 200) {
             dispatch({
                 type: PRODUCT_ACTIONS.UPDATE,
                 payload: productData,
             })
             socket.emit("updated", productData)
             toast.success(res.message)
-        } else if (res.status === 401) {
-            toast.error("Đăng nhập để cập nhật sản phẩm")
         } else {
-            toast.error(res.message)
+            toast.error(errorMessages.SERVER_ERROR.vi)
         }
         handleOpenDialog()
     }

@@ -1,3 +1,4 @@
+import { errorMessages } from "@/constants"
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { CATE_ACTIONS } from "@/contexts/category/actionCate"
 import { useCateContext } from "@/contexts/category/providerCate"
@@ -26,16 +27,16 @@ const CategoryDeleteFragment = ({ category, openDialog, handleOpenDialog }) => {
             cate_id: _id,
             tokens: { accessToken, refreshToken },
         })
-        if (res.status === 200) {
+        if (res.statusCode === 200) {
             dispatch({
                 type: CATE_ACTIONS.DELETE,
                 payload: { _id },
             })
             toast.success(res.message)
-        } else if (res.status === 400) {
-            toast.error(res.message)
+        } else if (res.statusCode === 400) {
+            toast.error("Có sản phầm thuộc phân loại này, không thể xóa!")
         } else {
-            toast.error("Có lỗi xảy ra vui lòng thử lại!")
+            toast.error(errorMessages.SERVER_ERROR.vi)
         }
         handleOpenDialog()
     }

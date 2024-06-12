@@ -1,3 +1,4 @@
+import { errorMessages } from "@/constants"
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { PRODUCT_ACTIONS } from "@/contexts/product/actionProduct"
 import { useProductContext } from "@/contexts/product/providerProduct"
@@ -22,14 +23,14 @@ const ProductDeleteFragment = ({ product, openDialog, handleOpenDialog }) => {
     const handleDeleteProduct = async () => {
         const refreshToken = Cookies.get("refresh_token")
         const res = await deleteProduct(_id, { accessToken, refreshToken })
-        if (res.status === 200) {
+        if (res.statusCode === 200) {
             dispatch({
                 type: PRODUCT_ACTIONS.DELETE,
                 payload: { _id },
             })
             toast.success(res.message)
         } else {
-            toast.error(res.message)
+            toast.error(errorMessages.SERVER_ERROR.vi)
         }
         handleOpenDialog()
     }

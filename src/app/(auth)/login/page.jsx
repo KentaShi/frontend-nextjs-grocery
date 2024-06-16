@@ -34,7 +34,6 @@ const LoginPage = () => {
     const handleSubmitLogin = async (e) => {
         e.preventDefault()
         const res = await login(loginData)
-        console.log(res)
 
         if (res.statusCode === 200) {
             const metadata = res.metadata
@@ -46,7 +45,7 @@ const LoginPage = () => {
                 },
             })
             Cookies.set("refresh_token", metadata.tokens.refreshToken, {
-                expires: 7,
+                expires: 30,
                 secure: true,
             })
             router.push("/")

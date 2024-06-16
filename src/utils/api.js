@@ -83,7 +83,7 @@ export const postData = async (url, data = null, tokens = null) => {
 
         return response.data
     } catch (error) {
-        if (error.response.data) {
+        if (error?.response?.data) {
             return error.response.data
         }
         return {
@@ -132,15 +132,11 @@ export const upload = async (url, formData, tokens = null) => {
         //     headers: { ...instance.defaults.headers, ...headers },
         // })
 
-        const response = await axios.post(
-            `http://localhost:3030${url}`,
-            formData,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            }
-        )
+        const response = await axios.post(`${BASE_URL}${url}`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        })
 
         return response.data
     } catch (error) {

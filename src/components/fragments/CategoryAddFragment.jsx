@@ -15,14 +15,23 @@ import toast from "react-hot-toast"
 import { useCateContext } from "@/contexts/category/providerCate"
 import { CATE_ACTIONS } from "@/contexts/category/actionCate"
 import { errorMessages } from "@/constants"
+import Cookies from "js-cookie"
+import { useAuth } from "@/contexts/auth/providerAuth"
 
 const CategoryAddFragment = ({ openDialog, handleOpenDialog }) => {
-    const { state, dispatch } = useCateContext()
+    const { dispatch } = useCateContext()
+
+    const { state } = useAuth()
+    const { accessToken } = state
 
     const [cateName, setCateName] = useState("")
 
+    const refreshToken = Cookies.get("refresh_token")
+
+    const tokens = { accessToken, refreshToken }
+
     const handleAddNewCategory = async () => {
-        const res = await addCategory({ data: { cate_name: cateName } })
+        const res = await addCategory({ data: { cate_name: cateName }, tokens })
         if (res.statusCode === 200) {
             dispatch({ type: CATE_ACTIONS.ADD, payload: res.metadata.category })
             toast.success(res.message)

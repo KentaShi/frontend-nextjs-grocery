@@ -17,6 +17,7 @@ export const CategoryProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducerCate, initCategoryState)
 
     const { state: authState } = useAuth()
+    const { isAuthenticated } = authState
     const { accessToken } = authState
     const refreshToken = Cookies.get("refresh_token")
     const tokens = { accessToken, refreshToken }
@@ -33,8 +34,10 @@ export const CategoryProvider = ({ children }) => {
                 })
             }
         }
-        fetchData()
-    }, [authState])
+        if (isAuthenticated) {
+            fetchData()
+        }
+    }, [isAuthenticated])
 
     return (
         <CategoryContext.Provider value={{ state, dispatch }}>

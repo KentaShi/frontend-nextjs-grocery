@@ -6,6 +6,7 @@ import React, { createContext, useContext, useEffect, useReducer } from "react"
 import Cookies from "js-cookie"
 import toast from "react-hot-toast"
 import { AUTH_ACTIONS } from "./actionAuth"
+import { useRouter } from "next/navigation"
 
 export const initState = {
     isAuthenticated: false,
@@ -18,11 +19,13 @@ export const AuthContext = createContext()
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initState)
 
+    const router = useRouter()
+
     useEffect(() => {
         const fetchData = async () => {
             const refreshToken = Cookies.get("refresh_token")
             if (!refreshToken) {
-                return toast.error("Vui lòng đăng nhập....")
+                return toast.error("Vui lòng đăng nhập...")
             }
             const res = await getAuth({ refreshToken })
             if (res.statusCode === 200) {
@@ -34,8 +37,9 @@ export const AuthProvider = ({ children }) => {
                         accessToken: metadata.tokens.accessToken,
                     },
                 })
-            } else if (res.statusCode === 400) {
-                toast.error("Username hoặc mật khẩu không đúng")
+            } else if (res.statusCode === 403) {
+                toast.error("Bạn đã đăng nhập nơi khác, vui lòng đăng nhập lại")
+                router.push("/login")
             } else {
                 toast.error("Có lỗi xảy ra, vui lòng thử lại sau")
             }

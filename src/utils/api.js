@@ -46,6 +46,7 @@ instance.interceptors.response.use(
                 res.data.metadata.refreshToken
             return instance(originalRequest)
         }
+
         return Promise.reject(error)
     }
 )

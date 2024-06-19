@@ -18,6 +18,7 @@ export const ProductProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducerProduct, initProductState)
 
     const { state: authState } = useAuth()
+    const { isAuthenticated } = authState
     const { accessToken } = authState
     useEffect(() => {
         const fetchData = async () => {
@@ -33,11 +34,11 @@ export const ProductProvider = ({ children }) => {
                 })
             }
         }
-        fetchData()
-        // if (isAuthenticated) {
-        //     fetchData()
-        // }
-    }, [authState])
+
+        if (isAuthenticated) {
+            fetchData()
+        }
+    }, [isAuthenticated])
     return (
         <ProductContext.Provider value={{ state, dispatch }}>
             {children}

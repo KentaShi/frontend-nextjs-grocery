@@ -5,10 +5,15 @@ import CategoryDeleteFragment from "./fragments/CategoryDeleteFragment"
 import { getCountOfProducts } from "@/service/category"
 import Cookies from "js-cookie"
 import { useAuth } from "@/contexts/auth/providerAuth"
+import toast from "react-hot-toast"
+import { errorMessages } from "@/constants"
+import { useRouter } from "next/navigation"
 
 const CategoryItem = ({ category, classes }) => {
     const { state } = useAuth()
     const { accessToken } = state
+
+    const router = useRouter()
 
     const { cate_name, cate_slug } = category
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
@@ -27,6 +32,9 @@ const CategoryItem = ({ category, classes }) => {
             })
             if (res.statusCode === 200) {
                 setCountOfProducts(res.metadata.count)
+            } else if (res.statusCode === 403) {
+                router.push("/login")
+                toast.error(errorMessages.FORBIDDEN.vi)
             }
         }
         fetchData()

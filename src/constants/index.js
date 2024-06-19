@@ -21,4 +21,8 @@ export const errorMessages = {
         en: "Something went wrong, please try again",
         vi: "Có lỗi xảy ra, vui lòng thử lại sau",
     },
+    FORBIDDEN: {
+        en: "You are not allowed to access. Please login again",
+        vi: "Bạn đã đăng nhập nơi khác, vui lòng đăng nhập lại",
+    },
 }

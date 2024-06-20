@@ -7,6 +7,7 @@ import Cookies from "js-cookie"
 import toast from "react-hot-toast"
 import { AUTH_ACTIONS } from "./actionAuth"
 import { useRouter } from "next/navigation"
+import { errorMessages } from "@/constants"
 
 export const initState = {
     isAuthenticated: false,
@@ -38,10 +39,10 @@ export const AuthProvider = ({ children }) => {
                     },
                 })
             } else if (res.statusCode === 403) {
-                toast.error("Bạn đã đăng nhập nơi khác, vui lòng đăng nhập lại")
+                toast.error(errorMessages.FORBIDDEN.vi)
                 router.push("/login")
             } else {
-                toast.error("Có lỗi xảy ra, vui lòng thử lại sau")
+                toast.error(errorMessages.SERVER_ERROR.vi)
             }
         }
 

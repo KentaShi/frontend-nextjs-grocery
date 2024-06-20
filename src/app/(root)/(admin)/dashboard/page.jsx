@@ -1,13 +1,24 @@
 "use client"
+import { useAuth } from "@/contexts/auth/providerAuth"
 import { useCateContext } from "@/contexts/category/providerCate"
 import { useProductContext } from "@/contexts/product/providerProduct"
-import React from "react"
+import { useRouter } from "next/navigation"
+import React, { useEffect } from "react"
 
 const Dashboard = () => {
     const { state: productState } = useProductContext()
     const { products } = productState
     const { state: categoryState } = useCateContext()
     const { categories } = categoryState
+
+    const { state: authState } = useAuth()
+    const { user } = authState
+
+    const router = useRouter()
+
+    useEffect(() => {
+        if (user?.roles !== "admin") router.push("/")
+    }, [user])
 
     return (
         <div className="flex flex-col items-start justify-center gap-3">

@@ -9,13 +9,6 @@ const instance = axios.create({
     },
 })
 
-const instanceFormData = axios.create({
-    baseURL: BASE_URL,
-    headers: {
-        "Content-Type": "multipart/form-data",
-    },
-})
-
 instance.interceptors.response.use(
     (response) => response,
     async (error) => {

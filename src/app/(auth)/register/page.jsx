@@ -33,7 +33,7 @@ const RegisterPage = () => {
     const handleSubmitRegister = async (e) => {
         console.log(registerData)
         const res = await register(registerData)
-        if (res.status === 200) {
+        if (res.statusCode === 200) {
             toast.success(res.message)
             router.push("/login")
         } else {

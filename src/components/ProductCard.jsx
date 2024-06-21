@@ -10,6 +10,7 @@ import {
 } from "@material-tailwind/react"
 import { PencilIcon } from "@heroicons/react/24/solid"
 import ProductUpdateFragment from "./fragments/ProductUpdateFragment"
+import { useAuth } from "@/contexts/auth/providerAuth"
 
 const ProductCard = ({ product }) => {
     const {
@@ -20,6 +21,13 @@ const ProductCard = ({ product }) => {
         product_unit,
         product_cate,
     } = product
+    const { state } = useAuth()
+    const {
+        user: { roles },
+    } = state
+
+    const allowEditing = roles === "admin" || roles === "user"
+
     const [openUpdatePriceDialog, setOpenUpdatePriceDialog] = useState(false)
     const handleOpenUpdatePriceDialog = () => {
         setOpenUpdatePriceDialog((p) => !p)
@@ -49,21 +57,27 @@ const ProductCard = ({ product }) => {
                         <Typography color="red" className="font-bold text-lg">
                             {product_price.toLocaleString()}đ/{product_unit}
                         </Typography>
-                        <Tooltip content="Edit Price">
-                            <IconButton
-                                onClick={handleOpenUpdatePriceDialog}
-                                color="blue"
-                                variant="text"
-                            >
-                                <PencilIcon className="h-4 w-4" />
-                            </IconButton>
-                        </Tooltip>
-                        <ProductUpdateFragment
-                            product={product}
-                            openDialog={openUpdatePriceDialog}
-                            handleOpenDialog={handleOpenUpdatePriceDialog}
-                            onlyUpdatePrice={true}
-                        />
+                        {allowEditing && (
+                            <>
+                                <Tooltip content="Edit Price">
+                                    <IconButton
+                                        onClick={handleOpenUpdatePriceDialog}
+                                        color="blue"
+                                        variant="text"
+                                    >
+                                        <PencilIcon className="h-4 w-4" />
+                                    </IconButton>
+                                </Tooltip>
+                                <ProductUpdateFragment
+                                    product={product}
+                                    openDialog={openUpdatePriceDialog}
+                                    handleOpenDialog={
+                                        handleOpenUpdatePriceDialog
+                                    }
+                                    onlyUpdatePrice={true}
+                                />
+                            </>
+                        )}
                     </div>
                 </div>
             </CardBody>

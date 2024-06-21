@@ -29,7 +29,7 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
 
     const initProductData = {
         product_name: "",
-        product_thumb: "",
+        product_thumb: { url: "", public_id: "" },
         product_price: "",
         product_unit: "",
         product_cate: "",
@@ -66,8 +66,12 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
         const resImg = await cloudinaryUpload(uploadData)
         setProductData({
             ...productData,
-            product_thumb: resImg.metadata.image_url,
+            product_thumb: {
+                url: resImg.metadata.url,
+                public_id: resImg.metadata.public_id,
+            },
         })
+        console.log(productData)
 
         setIsUploading(false)
     }

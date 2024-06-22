@@ -31,7 +31,7 @@ const ProductItem = ({ product, classes }) => {
             <td className={classes}>
                 <div className="flex items-center gap-3">
                     <Avatar
-                        src={product_thumb}
+                        src={product_thumb.url}
                         variant="rounded"
                         alt={product_name}
                         size="md"

@@ -1,3 +1,4 @@
+import { errorMessages } from "@/constants"
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { useCateContext } from "@/contexts/category/providerCate"
 import { PRODUCT_ACTIONS } from "@/contexts/product/actionProduct"
@@ -23,13 +24,18 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
     const { dispatch } = useProductContext()
     const { state } = useAuth()
     const { accessToken } = state
+    const refreshToken = Cookies.get("refresh_token")
+    const tokens = {
+        accessToken,
+        refreshToken,
+    }
 
     const { state: cateState } = useCateContext()
     const { categories } = cateState
 
     const initProductData = {
         product_name: "",
-        product_thumb: "",
+        product_thumb: { url: "", public_id: "" },
         product_price: "",
         product_unit: "",
         product_cate: "",
@@ -53,7 +59,6 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
     }
     const handleChangeCategory = (e) => {
         setProductData({ ...productData, product_cate: e })
-        console.log(productData)
     }
     const handleFileChange = (e) => {
         setFile(e.target.files[0])
@@ -66,18 +71,16 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
         const resImg = await cloudinaryUpload(uploadData)
         setProductData({
             ...productData,
-            product_thumb: resImg.metadata.image_url,
+            product_thumb: {
+                url: resImg.metadata.url,
+                public_id: resImg.metadata.public_id,
+            },
         })
 
         setIsUploading(false)
     }
     const handleAddNewProduct = async () => {
-        const refreshToken = Cookies.get("refresh_token")
-
-        const res = await addNewProduct(productData, {
-            accessToken,
-            refreshToken,
-        })
+        const res = await addNewProduct(productData, tokens)
         if (res.statusCode === 200) {
             dispatch({
                 type: PRODUCT_ACTIONS.ADD,
@@ -87,7 +90,7 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
         } else if (res.statusCode === 400) {
             toast.error(res.message)
         } else {
-            toast.error("Có lỗi xảy ra, vui lòng thử lại")
+            toast.error(errorMessages.SERVER_ERROR.vi)
         }
 
         handleOpenDialog()
@@ -173,7 +176,7 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
                         {productData.product_thumb !== "" && (
                             <img
                                 className="rounded-lg object-cover object-center"
-                                src={productData.product_thumb}
+                                src={productData.product_thumb.url}
                                 alt={productData.product_name}
                             />
                         )}

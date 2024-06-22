@@ -25,4 +25,8 @@ export const errorMessages = {
         en: "You are not allowed to access. Please login again",
         vi: "Bạn đã đăng nhập nơi khác, vui lòng đăng nhập lại",
     },
+    CONFLICTS_USERNAME: {
+        en: "Username exists",
+        vi: "Username đã tồn tại",
+    },
 }

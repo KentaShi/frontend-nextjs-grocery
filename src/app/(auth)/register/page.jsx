@@ -13,6 +13,7 @@ import {
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { register } from "@/service/access"
 import toast from "react-hot-toast"
+import { errorMessages } from "@/constants"
 const RegisterPage = () => {
     const router = useRouter()
     const { state } = useAuth()
@@ -36,8 +37,10 @@ const RegisterPage = () => {
         if (res.statusCode === 200) {
             toast.success(res.message)
             router.push("/login")
+        } else if (res.statusCode === 409) {
+            toast.error(errorMessages.CONFLICTS_USERNAME.vi)
         } else {
-            toast.error(res.message)
+            toast.error(errorMessages.SERVER_ERROR.vi)
         }
         setRegisterData(initState)
     }

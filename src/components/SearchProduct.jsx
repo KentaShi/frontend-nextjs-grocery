@@ -132,7 +132,7 @@ const SearchProduct = () => {
                 </div>
             </div>
 
-            <div className="overflow-scroll px-0 grid grid-cols-2 my-4 gap-1">
+            <div className="px-0 grid grid-cols-2 my-4 gap-1">
                 {products?.length > 0 &&
                     products.map((product, index) => {
                         return <ProductCard key={index} product={product} />

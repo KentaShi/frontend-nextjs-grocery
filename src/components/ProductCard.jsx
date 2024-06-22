@@ -40,7 +40,7 @@ const ProductCard = ({ product }) => {
                 className="h-44 sm:h-52 md:h-72 lg:h-80"
             >
                 <img
-                    src={product_thumb}
+                    src={product_thumb.url}
                     alt="card-image"
                     className="h-full w-full object-cover"
                 />

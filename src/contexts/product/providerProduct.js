@@ -20,11 +20,12 @@ export const ProductProvider = ({ children }) => {
     const { state: authState } = useAuth()
     const { isAuthenticated } = authState
     const { accessToken } = authState
+    const refreshToken = Cookies.get("refresh_token")
+    const tokens = { accessToken, refreshToken }
     useEffect(() => {
         const fetchData = async () => {
-            const refreshToken = Cookies.get("refresh_token")
             const res = await findAllProducts({
-                tokens: { accessToken, refreshToken },
+                tokens,
             })
 
             if (res.statusCode === 200) {

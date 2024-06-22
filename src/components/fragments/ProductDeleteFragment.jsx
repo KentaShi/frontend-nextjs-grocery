@@ -18,11 +18,16 @@ import toast from "react-hot-toast"
 const ProductDeleteFragment = ({ product, openDialog, handleOpenDialog }) => {
     const { dispatch } = useProductContext()
     const { state } = useAuth()
+
     const { accessToken } = state
+    const refreshToken = Cookies.get("refresh_token")
+
+    const tokens = { accessToken, refreshToken }
+
     const { _id, product_name } = product
+
     const handleDeleteProduct = async () => {
-        const refreshToken = Cookies.get("refresh_token")
-        const res = await deleteProduct(_id, { accessToken, refreshToken })
+        const res = await deleteProduct(_id, tokens)
         if (res.statusCode === 200) {
             dispatch({
                 type: PRODUCT_ACTIONS.DELETE,

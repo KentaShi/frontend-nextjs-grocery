@@ -12,7 +12,7 @@ const ProfilePage = () => {
             return redirect("/login")
         }
     }, [isAuthenticated])
-    return <div>Hello {user?.username}</div>
+    return <div className="text-white">Hello {user?.username}</div>
 }
 
 export default ProfilePage

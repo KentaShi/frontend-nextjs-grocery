@@ -13,7 +13,7 @@ import {
 import CategoryItem from "./CategoryItem"
 import CategoryAddFragment from "./fragments/CategoryAddFragment"
 
-const TABLE_HEAD = ["Tên", "Sô lượng sản phẩm", "Tùy chọn"]
+const TABLE_HEAD = ["Tên", "Tùy chọn"]
 
 const Category = ({ categories }) => {
     const [openAddNew, setOpenAddNew] = useState(false)

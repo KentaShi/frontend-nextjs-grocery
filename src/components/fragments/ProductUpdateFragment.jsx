@@ -22,6 +22,7 @@ import toast from "react-hot-toast"
 import { io } from "socket.io-client"
 import Cookies from "js-cookie"
 import { errorMessages } from "@/constants"
+import { useCateContext } from "@/contexts/category/providerCate"
 
 const ProductUpdateFragment = ({
     product,
@@ -32,10 +33,20 @@ const ProductUpdateFragment = ({
     const socket = io("http://localhost:3030")
     const { state } = useAuth()
     const { accessToken } = state
+
+    const { state: cateState } = useCateContext()
+    const { categories } = cateState
+
     const { dispatch } = useProductContext()
     const [productData, setProductData] = useState(product)
-    const { _id, product_name, product_thumb, product_price, product_cate } =
-        productData
+    const {
+        _id,
+        product_name,
+        product_thumb,
+        product_price,
+        product_unit,
+        product_cate,
+    } = productData
 
     const handleChangeInput = (e) => {
         const { name, value } = e.target
@@ -95,9 +106,7 @@ const ProductUpdateFragment = ({
                                 <Typography variant="h4" color="blue-gray">
                                     Cập Nhật Sản Phẩm
                                 </Typography>
-                                <Typography className="-mb-2" variant="h6">
-                                    Tên Sản Phẩm
-                                </Typography>
+
                                 <Input
                                     name="product_name"
                                     value={product_name}
@@ -105,9 +114,7 @@ const ProductUpdateFragment = ({
                                     label="Tên sản phẩm"
                                     size="lg"
                                 />
-                                <Typography className="-mb-2" variant="h6">
-                                    Giá Tiền
-                                </Typography>
+
                                 <Input
                                     name="product_price"
                                     value={product_price}
@@ -115,28 +122,29 @@ const ProductUpdateFragment = ({
                                     label="Giá tiền"
                                     size="lg"
                                 />
-                                <Typography className="-mb-2" variant="h6">
-                                    Phân Loại
-                                </Typography>
+                                <Input
+                                    name="product_unit"
+                                    value={product_unit}
+                                    onChange={handleChangeInput}
+                                    label="Đơn vị tính"
+                                    size="lg"
+                                />
+
                                 <Select
                                     name="product_cate"
                                     onChange={handleChangeCategory}
                                     value={product_cate}
                                     label="Phân Loại"
                                 >
-                                    <Option value="coffee">Cà Phê</Option>
-                                    <Option value="drink">Nước Các Loại</Option>
+                                    {categories.map((cate, index) => (
+                                        <Option
+                                            key={index}
+                                            value={cate.cate_slug}
+                                        >
+                                            {cate.cate_name}
+                                        </Option>
+                                    ))}
                                 </Select>
-                                <Typography className="-mb-2" variant="h6">
-                                    Hình Ảnh
-                                </Typography>
-                                <Input
-                                    name="product_thumb"
-                                    value={product_thumb}
-                                    onChange={handleChangeInput}
-                                    label="Hình Ảnh"
-                                    size="lg"
-                                />
                             </>
                         )}
                     </CardBody>

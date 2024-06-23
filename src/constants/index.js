@@ -14,6 +14,11 @@ export const sidebarLinks = [
         route: "/category",
         imgUrl: "/icons/category.svg",
     },
+    {
+        label: "User",
+        route: "/user",
+        imgUrl: "/icons/user.svg",
+    },
 ]
 
 export const errorMessages = {

@@ -80,18 +80,43 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
         setIsUploading(false)
     }
     const handleAddNewProduct = async () => {
-        const res = await addNewProduct(productData, tokens)
-        if (res.statusCode === 200) {
-            dispatch({
-                type: PRODUCT_ACTIONS.ADD,
-                payload: res.metadata.product,
-            })
-            toast.success(res.message)
-        } else if (res.statusCode === 400) {
-            toast.error(res.message)
-        } else {
+        const formData = new FormData()
+        formData.append("product_name", productData.product_name)
+        formData.append("product_price", productData.product_price)
+        formData.append("product_unit", productData.product_unit)
+        formData.append("product_cate", productData.product_cate)
+        formData.append("file", file)
+
+        try {
+            const res = await addNewProduct(formData, tokens)
+            if (res.statusCode === 200) {
+                dispatch({
+                    type: PRODUCT_ACTIONS.ADD,
+                    payload: res.metadata.product,
+                })
+                toast.success(res.message)
+            } else if (res.statusCode === 400) {
+                toast.error(res.message)
+            } else {
+                toast.error(errorMessages.SERVER_ERROR.vi)
+            }
+        } catch (error) {
+            console.log(error.message)
             toast.error(errorMessages.SERVER_ERROR.vi)
         }
+
+        // const res = await addNewProduct(productData, tokens)
+        // if (res.statusCode === 200) {
+        //     dispatch({
+        //         type: PRODUCT_ACTIONS.ADD,
+        //         payload: res.metadata.product,
+        //     })
+        //     toast.success(res.message)
+        // } else if (res.statusCode === 400) {
+        //     toast.error(res.message)
+        // } else {
+        //     toast.error(errorMessages.SERVER_ERROR.vi)
+        // }
 
         handleOpenDialog()
         setProductData(initProductData)

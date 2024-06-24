@@ -4,9 +4,6 @@ import Cookies from "js-cookie"
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 const instance = axios.create({
     baseURL: BASE_URL,
-    headers: {
-        "Content-Type": "application/json",
-    },
 })
 
 instance.interceptors.response.use(
@@ -47,6 +44,7 @@ instance.interceptors.response.use(
 export const getData = async ({ url, tokens }) => {
     try {
         const headers = {
+            "Content-Type": "application/json",
             authorization: `Bearer ${tokens.accessToken}`,
             "x-refresh-token": tokens.refreshToken,
         }
@@ -68,6 +66,7 @@ export const getData = async ({ url, tokens }) => {
 export const postData = async (url, data = null, tokens = null) => {
     try {
         const headers = {
+            "Content-Type": "application/json",
             authorization: `Bearer ${tokens?.accessToken}`,
             "x-refresh-token": tokens?.refreshToken,
         }
@@ -88,6 +87,7 @@ export const postData = async (url, data = null, tokens = null) => {
 export const deleteData = async (url, tokens) => {
     try {
         const headers = {
+            "Content-Type": "application/json",
             authorization: `Bearer ${tokens.accessToken}`,
             "x-refresh-token": tokens.refreshToken,
         }
@@ -103,6 +103,7 @@ export const deleteData = async (url, tokens) => {
 export const updateData = async ({ url, data, tokens }) => {
     try {
         const headers = {
+            "Content-Type": "application/json",
             authorization: `Bearer ${tokens.accessToken}`,
             "x-refresh-token": tokens.refreshToken,
         }
@@ -116,19 +117,13 @@ export const updateData = async ({ url, data, tokens }) => {
     }
 }
 
-export const upload = async (url, formData, tokens = null) => {
+export const upload = async (url, formData, tokens) => {
     try {
-        // const headers = {
-        //     authorization: `Bearer ${tokens?.accessToken}`,
-        //     "x-refresh-token": tokens?.refreshToken,
-        // }
-        // const response = await instanceFormData.post(url, formData, {
-        //     headers: { ...instance.defaults.headers, ...headers },
-        // })
-
-        const response = await axios.post(`${BASE_URL}${url}`, formData, {
+        const response = await instance.post(url, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
+                authorization: `Bearer ${tokens.accessToken}`,
+                "x-refresh-token": tokens.refreshToken,
             },
         })
 

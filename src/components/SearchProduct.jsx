@@ -75,7 +75,7 @@ const SearchProduct = () => {
         }
     }
     useEffect(() => {
-        socket.on("updated", (updatedProduct) => {
+        socket.on("productUpdated", (updatedProduct) => {
             if (products) {
                 setProducts(
                     products.map((p) =>
@@ -84,7 +84,10 @@ const SearchProduct = () => {
                 )
             }
         })
-    }, [products])
+        return () => {
+            socket.off("productUpdated")
+        }
+    }, [])
     return (
         <>
             <div className="flex flex-col lg:flex-row">

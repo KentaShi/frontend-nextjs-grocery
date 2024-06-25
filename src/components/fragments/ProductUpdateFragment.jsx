@@ -17,7 +17,7 @@ import {
     Tooltip,
     Typography,
 } from "@material-tailwind/react"
-import React, { Fragment, useState } from "react"
+import React, { Fragment, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { io } from "socket.io-client"
 import Cookies from "js-cookie"
@@ -30,7 +30,7 @@ const ProductUpdateFragment = ({
     handleOpenDialog,
     onlyUpdatePrice,
 }) => {
-    const socket = io("http://localhost:3030")
+    // const socket = io("http://localhost:3030")
     const { state } = useAuth()
     const { accessToken } = state
 
@@ -64,13 +64,14 @@ const ProductUpdateFragment = ({
                 type: PRODUCT_ACTIONS.UPDATE,
                 payload: productData,
             })
-            socket.emit("updated", productData)
+            // socket.emit("updated", productData)
             toast.success(res.message)
         } else {
             toast.error(errorMessages.SERVER_ERROR.vi)
         }
         handleOpenDialog()
     }
+
     return (
         <Fragment>
             <Dialog

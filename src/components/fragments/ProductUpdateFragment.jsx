@@ -19,7 +19,6 @@ import {
 } from "@material-tailwind/react"
 import React, { Fragment, useEffect, useState } from "react"
 import toast from "react-hot-toast"
-import { io } from "socket.io-client"
 import Cookies from "js-cookie"
 import { errorMessages } from "@/constants"
 import { useCateContext } from "@/contexts/category/providerCate"

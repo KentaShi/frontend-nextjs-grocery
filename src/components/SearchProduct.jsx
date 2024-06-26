@@ -10,14 +10,15 @@ import React, { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import ProductCard from "./ProductCard"
 import { useProductContext } from "@/contexts/product/providerProduct"
-import { io } from "socket.io-client"
+
 import { useCateContext } from "@/contexts/category/providerCate"
 import { useAuth } from "@/contexts/auth/providerAuth"
 import Cookies from "js-cookie"
 import { errorMessages } from "@/constants"
+import { useSocket } from "@/contexts/socket/providerSocket"
 
 const SearchProduct = () => {
-    const socket = io("http://localhost:3030")
+    const socket = useSocket()
 
     const { state: autheState } = useAuth()
     const { accessToken } = autheState
@@ -74,8 +75,10 @@ const SearchProduct = () => {
             }
         }
     }
+
     useEffect(() => {
-        socket.on("updated", (updatedProduct) => {
+        if (!socket) return
+        socket.on("productUpdated", (updatedProduct) => {
             if (products) {
                 setProducts(
                     products.map((p) =>
@@ -84,7 +87,10 @@ const SearchProduct = () => {
                 )
             }
         })
-    }, [products])
+        return () => {
+            socket.off("productUpdated")
+        }
+    }, [socket, products])
     return (
         <>
             <div className="flex flex-col lg:flex-row">

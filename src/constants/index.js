@@ -34,4 +34,8 @@ export const errorMessages = {
         en: "Username exists",
         vi: "Username đã tồn tại",
     },
+    NOTFOUND: {
+        en: "Not found",
+        vi: "Không tìm thấy",
+    },
 }

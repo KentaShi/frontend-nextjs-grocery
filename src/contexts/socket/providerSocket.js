@@ -13,8 +13,10 @@ export const useSocket = () => {
 export const SocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(null)
 
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+
     useEffect(() => {
-        const newSocket = io("http://localhost:3030")
+        const newSocket = io(BASE_URL)
         setSocket(newSocket)
 
         return () => newSocket.close()

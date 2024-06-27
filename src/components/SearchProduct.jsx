@@ -31,6 +31,8 @@ const SearchProduct = () => {
     const [category, setCategory] = useState("")
     const [products, setProducts] = useState([])
 
+    const [isSearching, setIsSearching] = useState(false)
+
     const refreshToken = Cookies.get("refresh_token")
     const tokens = { accessToken, refreshToken }
     const handleSearch = async () => {
@@ -56,6 +58,7 @@ const SearchProduct = () => {
     }
     const handleSelectCategory = async () => {
         setProducts([])
+        setIsSearching(true)
 
         if (category === "all") {
             const res = await findAllProducts({ tokens })
@@ -67,13 +70,16 @@ const SearchProduct = () => {
         } else {
             const res = await findProductsByCate({ cat: category, tokens })
             if (res.statusCode === 200) {
-                setProducts(res.metadata.products)
-            } else if (res.statusCode === 404) {
-                toast.error("Không có sản phẩm")
+                if (res.metadata.products.length === 0) {
+                    toast.error(errorMessages.NOTFOUND.en)
+                } else {
+                    setProducts(res.metadata.products)
+                }
             } else {
                 toast.error(errorMessages.SERVER_ERROR.vi)
             }
         }
+        setIsSearching(false)
     }
 
     useEffect(() => {
@@ -91,6 +97,7 @@ const SearchProduct = () => {
             socket.off("productUpdated")
         }
     }, [socket, products])
+
     return (
         <>
             <div className="flex flex-col lg:flex-row">
@@ -139,6 +146,11 @@ const SearchProduct = () => {
             </div>
 
             <div className="px-0 grid grid-cols-2 my-4 gap-1">
+                {isSearching && (
+                    <div className="flex items-center justify-center">
+                        <p className="text-white text-xl">Searching...</p>
+                    </div>
+                )}
                 {products?.length > 0 &&
                     products.map((product, index) => {
                         return <ProductCard key={index} product={product} />

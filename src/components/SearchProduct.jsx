@@ -6,9 +6,10 @@ import {
     searchProductFromClient,
 } from "@/service/product"
 import { Button, Input, Option, Select } from "@material-tailwind/react"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast"
-import ProductCard from "./ProductCard"
+// import ProductCard from "./ProductCard"
+const ProductCard = React.lazy(() => import("./ProductCard"))
 import { useProductContext } from "@/contexts/product/providerProduct"
 
 import { useCateContext } from "@/contexts/category/providerCate"
@@ -16,6 +17,8 @@ import { useAuth } from "@/contexts/auth/providerAuth"
 import Cookies from "js-cookie"
 import { errorMessages } from "@/constants"
 import { useSocket } from "@/contexts/socket/providerSocket"
+
+import useIntersectionObserver from "@/hooks/useIntersectionObserver"
 
 const SearchProduct = () => {
     const socket = useSocket()
@@ -30,6 +33,9 @@ const SearchProduct = () => {
     const [query, setQuery] = useState("")
     const [category, setCategory] = useState("")
     const [products, setProducts] = useState([])
+
+    const [page, setPage] = useState(1)
+    const [loading, setLoading] = useState(false)
 
     const [isSearching, setIsSearching] = useState(false)
 
@@ -81,6 +87,14 @@ const SearchProduct = () => {
         }
         setIsSearching(false)
     }
+
+    const loadMore = useCallback(async () => {
+        setLoading(true)
+    })
+
+    useEffect(() => {
+        setLoading(true)
+    }, [])
 
     useEffect(() => {
         if (!socket) return

@@ -34,13 +34,33 @@ const SearchProduct = () => {
     const [category, setCategory] = useState("")
     const [products, setProducts] = useState([])
 
-    const [page, setPage] = useState(1)
+    const PRODUCTS_PER_LOAD = 2
+    const [hasMore, setHasMore] = useState(false)
     const [loading, setLoading] = useState(false)
-
-    const [isSearching, setIsSearching] = useState(false)
+    const [displayedProducts, setDisplayedProducts] = useState([])
 
     const refreshToken = Cookies.get("refresh_token")
     const tokens = { accessToken, refreshToken }
+
+    const loadMore = useCallback(async () => {
+        if (loading || !hasMore) {
+            return
+        }
+        setLoading(true)
+        const nextProducts = products.slice(
+            displayedProducts.length,
+            displayedProducts.length + PRODUCTS_PER_LOAD
+        )
+        setDisplayedProducts((prevProducts) => [
+            ...prevProducts,
+            ...nextProducts,
+        ])
+        setLoading(false)
+        setHasMore(
+            displayedProducts.length + nextProducts.length < products.length
+        )
+    }, [loading, hasMore, products, displayedProducts])
+
     const handleSearch = async () => {
         // search in client
         // const res = searchProductFromClient(productsData, query)
@@ -64,7 +84,7 @@ const SearchProduct = () => {
     }
     const handleSelectCategory = async () => {
         setProducts([])
-        setIsSearching(true)
+        setLoading(true)
 
         if (category === "all") {
             const res = await findAllProducts({ tokens })
@@ -76,25 +96,28 @@ const SearchProduct = () => {
         } else {
             const res = await findProductsByCate({ cat: category, tokens })
             if (res.statusCode === 200) {
-                if (res.metadata.products.length === 0) {
+                const fetchedProducts = res.metadata.products
+                if (fetchedProducts.length === 0) {
                     toast.error(errorMessages.NOTFOUND.en)
                 } else {
-                    setProducts(res.metadata.products)
+                    setProducts(fetchedProducts)
+                    setDisplayedProducts(
+                        fetchedProducts.slice(0, PRODUCTS_PER_LOAD)
+                    )
+                    setHasMore(fetchedProducts.length > PRODUCTS_PER_LOAD)
                 }
             } else {
                 toast.error(errorMessages.SERVER_ERROR.vi)
             }
         }
-        setIsSearching(false)
+        setLoading(false)
     }
 
-    const loadMore = useCallback(async () => {
-        setLoading(true)
-    })
+    const sentinelRef = useIntersectionObserver(loadMore, { threshold: 1 })
 
-    useEffect(() => {
-        setLoading(true)
-    }, [])
+    // useEffect(() => {
+    //     setLoading(true)
+    // }, [])
 
     useEffect(() => {
         if (!socket) return
@@ -160,15 +183,16 @@ const SearchProduct = () => {
             </div>
 
             <div className="px-0 grid grid-cols-2 my-4 gap-1">
-                {isSearching && (
-                    <div className="flex items-center justify-center">
-                        <p className="text-white text-xl">Searching...</p>
-                    </div>
-                )}
                 {products?.length > 0 &&
                     products.map((product, index) => {
                         return <ProductCard key={index} product={product} />
                     })}
+                <div ref={sentinelRef} style={{ height: "10px" }}></div>
+                {loading && (
+                    <div className="flex items-center justify-center">
+                        <p className="text-white text-xl">Searching...</p>
+                    </div>
+                )}
             </div>
         </>
     )

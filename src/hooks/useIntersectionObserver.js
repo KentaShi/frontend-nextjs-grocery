@@ -17,7 +17,7 @@ const useIntersectionObserver = (callback, options) => {
         }
         observer.current = new IntersectionObserver(handleIntersection, options)
 
-        if (observer.current && callback) {
+        if (observer.current && observerEntry) {
             observer.current.observe(observerEntry)
         }
 

@@ -8,8 +8,8 @@ import {
 import { Button, Input, Option, Select } from "@material-tailwind/react"
 import React, { Suspense, useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast"
-// import ProductCard from "./ProductCard"
-const ProductCard = React.lazy(() => import("./ProductCard"))
+import ProductCard from "./ProductCard"
+// const ProductCard = React.lazy(() => import("./ProductCard"))
 import { useProductContext } from "@/contexts/product/providerProduct"
 
 import { useCateContext } from "@/contexts/category/providerCate"
@@ -19,9 +19,12 @@ import { errorMessages } from "@/constants"
 import { useSocket } from "@/contexts/socket/providerSocket"
 
 import useIntersectionObserver from "@/hooks/useIntersectionObserver"
+import { useRouter } from "next/navigation"
+import Loading from "./Loading"
 
 const SearchProduct = () => {
     const socket = useSocket()
+    const router = useRouter()
 
     const { state: autheState } = useAuth()
     const { accessToken } = autheState
@@ -42,40 +45,26 @@ const SearchProduct = () => {
     const refreshToken = Cookies.get("refresh_token")
     const tokens = { accessToken, refreshToken }
 
-    const loadMore = useCallback(async () => {
-        if (loading || !hasMore) {
-            return
-        }
-        setLoading(true)
-        const nextProducts = products.slice(
-            displayedProducts.length,
-            displayedProducts.length + PRODUCTS_PER_LOAD
-        )
-        setDisplayedProducts((prevProducts) => [
-            ...prevProducts,
-            ...nextProducts,
-        ])
-        setLoading(false)
-        setHasMore(
-            displayedProducts.length + nextProducts.length < products.length
-        )
-    }, [loading, hasMore, products, displayedProducts])
-
     const handleSearch = async () => {
-        // search in client
-        // const res = searchProductFromClient(productsData, query)
-        // setProducts(res)
-        // search in server
         setProducts([])
         const res = await searchProduct({ query, tokens })
         if (res.statusCode === 200) {
-            setProducts(res.metadata.products)
-        } else if (res.statusCode === 404) {
-            toast.error("Không có sản phẩm")
-            setProducts([])
+            const fetchedProducts = res.metadata.products
+            if (fetchedProducts.length === 0) {
+                toast.error(errorMessages.NOTFOUND.en)
+            } else {
+                setProducts(fetchedProducts)
+                setDisplayedProducts(
+                    fetchedProducts.slice(0, PRODUCTS_PER_LOAD)
+                )
+
+                setHasMore(fetchedProducts.length > PRODUCTS_PER_LOAD)
+            }
+        } else if (res.statusCode === 403) {
+            toast.error(errorMessages.FORBIDDEN.vi)
+            router.push("/login")
         } else {
-            toast.error("Có lỗi xảy ra, vui lòng thử lại sau")
-            setProducts([])
+            toast.error(errorMessages.SERVER_ERROR.vi)
         }
         setQuery("")
     }
@@ -107,18 +96,35 @@ const SearchProduct = () => {
 
                     setHasMore(fetchedProducts.length > PRODUCTS_PER_LOAD)
                 }
+            } else if (res.statusCode === 403) {
+                toast.error(errorMessages.FORBIDDEN.vi)
+                router.push("/login")
             } else {
                 toast.error(errorMessages.SERVER_ERROR.vi)
             }
         }
         setLoading(false)
     }
+    const loadMore = useCallback(async () => {
+        if (loading || !hasMore) {
+            return
+        }
+        setLoading(true)
+        const nextProducts = products.slice(
+            displayedProducts.length,
+            displayedProducts.length + PRODUCTS_PER_LOAD
+        )
+        setDisplayedProducts((prevProducts) => [
+            ...prevProducts,
+            ...nextProducts,
+        ])
+        setLoading(false)
+        setHasMore(
+            displayedProducts.length + nextProducts.length < products.length
+        )
+    }, [loading, hasMore, products, displayedProducts])
 
-    const sentinelRef = useIntersectionObserver(loadMore, { threshold: 1 })
-
-    // useEffect(() => {
-    //     setLoading(true)
-    // }, [])
+    const sentinelRef = useIntersectionObserver(loadMore, { threshold: 0.5 })
 
     useEffect(() => {
         if (!socket) return
@@ -186,18 +192,10 @@ const SearchProduct = () => {
             <div className="px-0 grid grid-cols-2 my-4 gap-1">
                 {displayedProducts?.length > 0 &&
                     displayedProducts.map((product, index) => {
-                        return (
-                            <Suspense fallback="Loading...">
-                                <ProductCard key={index} product={product} />
-                            </Suspense>
-                        )
+                        return <ProductCard key={index} product={product} />
                     })}
                 <div ref={sentinelRef} style={{ height: "400px" }}></div>
-                {loading && (
-                    <div className="flex items-center justify-center">
-                        <p className="text-white text-xl">Loading...</p>
-                    </div>
-                )}
+                {loading && <Loading />}
             </div>
         </>
     )

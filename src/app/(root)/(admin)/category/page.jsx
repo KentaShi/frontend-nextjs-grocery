@@ -1,9 +1,11 @@
 "use client"
-import Category from "@/components/Category"
+// import Category from "@/components/Category"
+const Category = React.lazy(() => import("@/components/Category"))
+import Loading from "@/components/Loading"
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { useCateContext } from "@/contexts/category/providerCate"
 import { useRouter } from "next/navigation"
-import React, { useEffect } from "react"
+import React, { Suspense, useEffect } from "react"
 
 const CategoryPage = () => {
     const { state: authState } = useAuth()
@@ -18,7 +20,9 @@ const CategoryPage = () => {
     }, [user])
     return (
         <>
-            <Category categories={categories} />
+            <Suspense fallback={<Loading />}>
+                <Category categories={categories} />
+            </Suspense>
         </>
     )
 }

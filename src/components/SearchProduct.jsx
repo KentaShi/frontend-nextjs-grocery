@@ -6,7 +6,7 @@ import {
     searchProductFromClient,
 } from "@/service/product"
 import { Button, Input, Option, Select } from "@material-tailwind/react"
-import React, { useCallback, useEffect, useState } from "react"
+import React, { Suspense, useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 // import ProductCard from "./ProductCard"
 const ProductCard = React.lazy(() => import("./ProductCard"))
@@ -104,6 +104,7 @@ const SearchProduct = () => {
                     setDisplayedProducts(
                         fetchedProducts.slice(0, PRODUCTS_PER_LOAD)
                     )
+
                     setHasMore(fetchedProducts.length > PRODUCTS_PER_LOAD)
                 }
             } else {
@@ -183,14 +184,18 @@ const SearchProduct = () => {
             </div>
 
             <div className="px-0 grid grid-cols-2 my-4 gap-1">
-                {products?.length > 0 &&
-                    products.map((product, index) => {
-                        return <ProductCard key={index} product={product} />
+                {displayedProducts?.length > 0 &&
+                    displayedProducts.map((product, index) => {
+                        return (
+                            <Suspense fallback="Loading...">
+                                <ProductCard key={index} product={product} />
+                            </Suspense>
+                        )
                     })}
-                <div ref={sentinelRef} style={{ height: "10px" }}></div>
+                <div ref={sentinelRef} style={{ height: "400px" }}></div>
                 {loading && (
                     <div className="flex items-center justify-center">
-                        <p className="text-white text-xl">Searching...</p>
+                        <p className="text-white text-xl">Loading...</p>
                     </div>
                 )}
             </div>

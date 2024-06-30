@@ -6,9 +6,10 @@ import {
     searchProductFromClient,
 } from "@/service/product"
 import { Button, Input, Option, Select } from "@material-tailwind/react"
-import React, { useEffect, useState } from "react"
+import React, { Suspense, useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast"
-import ProductCard from "./ProductCard"
+// import ProductCard from "./ProductCard"
+const ProductCard = React.lazy(() => import("./ProductCard"))
 import { useProductContext } from "@/contexts/product/providerProduct"
 
 import { useCateContext } from "@/contexts/category/providerCate"
@@ -16,6 +17,8 @@ import { useAuth } from "@/contexts/auth/providerAuth"
 import Cookies from "js-cookie"
 import { errorMessages } from "@/constants"
 import { useSocket } from "@/contexts/socket/providerSocket"
+
+import useIntersectionObserver from "@/hooks/useIntersectionObserver"
 
 const SearchProduct = () => {
     const socket = useSocket()
@@ -31,10 +34,33 @@ const SearchProduct = () => {
     const [category, setCategory] = useState("")
     const [products, setProducts] = useState([])
 
-    const [isSearching, setIsSearching] = useState(false)
+    const PRODUCTS_PER_LOAD = 2
+    const [hasMore, setHasMore] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [displayedProducts, setDisplayedProducts] = useState([])
 
     const refreshToken = Cookies.get("refresh_token")
     const tokens = { accessToken, refreshToken }
+
+    const loadMore = useCallback(async () => {
+        if (loading || !hasMore) {
+            return
+        }
+        setLoading(true)
+        const nextProducts = products.slice(
+            displayedProducts.length,
+            displayedProducts.length + PRODUCTS_PER_LOAD
+        )
+        setDisplayedProducts((prevProducts) => [
+            ...prevProducts,
+            ...nextProducts,
+        ])
+        setLoading(false)
+        setHasMore(
+            displayedProducts.length + nextProducts.length < products.length
+        )
+    }, [loading, hasMore, products, displayedProducts])
+
     const handleSearch = async () => {
         // search in client
         // const res = searchProductFromClient(productsData, query)
@@ -58,7 +84,7 @@ const SearchProduct = () => {
     }
     const handleSelectCategory = async () => {
         setProducts([])
-        setIsSearching(true)
+        setLoading(true)
 
         if (category === "all") {
             const res = await findAllProducts({ tokens })
@@ -70,17 +96,29 @@ const SearchProduct = () => {
         } else {
             const res = await findProductsByCate({ cat: category, tokens })
             if (res.statusCode === 200) {
-                if (res.metadata.products.length === 0) {
+                const fetchedProducts = res.metadata.products
+                if (fetchedProducts.length === 0) {
                     toast.error(errorMessages.NOTFOUND.en)
                 } else {
-                    setProducts(res.metadata.products)
+                    setProducts(fetchedProducts)
+                    setDisplayedProducts(
+                        fetchedProducts.slice(0, PRODUCTS_PER_LOAD)
+                    )
+
+                    setHasMore(fetchedProducts.length > PRODUCTS_PER_LOAD)
                 }
             } else {
                 toast.error(errorMessages.SERVER_ERROR.vi)
             }
         }
-        setIsSearching(false)
+        setLoading(false)
     }
+
+    const sentinelRef = useIntersectionObserver(loadMore, { threshold: 1 })
+
+    // useEffect(() => {
+    //     setLoading(true)
+    // }, [])
 
     useEffect(() => {
         if (!socket) return
@@ -146,15 +184,20 @@ const SearchProduct = () => {
             </div>
 
             <div className="px-0 grid grid-cols-2 my-4 gap-1">
-                {isSearching && (
+                {displayedProducts?.length > 0 &&
+                    displayedProducts.map((product, index) => {
+                        return (
+                            <Suspense fallback="Loading...">
+                                <ProductCard key={index} product={product} />
+                            </Suspense>
+                        )
+                    })}
+                <div ref={sentinelRef} style={{ height: "400px" }}></div>
+                {loading && (
                     <div className="flex items-center justify-center">
-                        <p className="text-white text-xl">Searching...</p>
+                        <p className="text-white text-xl">Loading...</p>
                     </div>
                 )}
-                {products?.length > 0 &&
-                    products.map((product, index) => {
-                        return <ProductCard key={index} product={product} />
-                    })}
             </div>
         </>
     )

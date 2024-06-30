@@ -1,7 +1,7 @@
 "use client"
 import SearchProduct from "@/components/SearchProduct"
 import { useAuth } from "@/contexts/auth/providerAuth"
-import { useEffect } from "react"
+import React, { Suspense, useEffect } from "react"
 import { useRouter } from "next/navigation"
 
 export default function Home() {

@@ -34,8 +34,16 @@ export const errorMessages = {
         en: "Username exists",
         vi: "Username đã tồn tại",
     },
+    CONFLICTS_CATEGORY: {
+        en: "Category exists",
+        vi: "Phân loại này đã tồn tại",
+    },
     NOTFOUND: {
         en: "Not found",
         vi: "Không tìm thấy",
+    },
+    AUTH_ERROR: {
+        en: "Plase login",
+        vi: "Vui lòng đăng nhập",
     },
 }

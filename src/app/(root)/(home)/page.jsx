@@ -1,8 +1,10 @@
 "use client"
-import SearchProduct from "@/components/SearchProduct"
+// import SearchProduct from "@/components/SearchProduct"
+const SearchProduct = React.lazy(() => import("@/components/SearchProduct"))
 import { useAuth } from "@/contexts/auth/providerAuth"
 import React, { Suspense, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import Loading from "@/components/Loading"
 
 export default function Home() {
     const { state } = useAuth()
@@ -19,7 +21,9 @@ export default function Home() {
                 Welcome to Tap Hoa
             </div>
             <div>
-                <SearchProduct />
+                <Suspense fallback={<Loading />}>
+                    <SearchProduct />
+                </Suspense>
             </div>
         </div>
     )

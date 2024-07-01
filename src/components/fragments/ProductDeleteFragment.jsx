@@ -2,6 +2,7 @@ import { errorMessages } from "@/constants"
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { PRODUCT_ACTIONS } from "@/contexts/product/actionProduct"
 import { useProductContext } from "@/contexts/product/providerProduct"
+import { useLogout } from "@/hooks/useLogout"
 import { deleteProduct } from "@/service/product"
 import {
     Button,
@@ -18,6 +19,7 @@ import toast from "react-hot-toast"
 const ProductDeleteFragment = ({ product, openDialog, handleOpenDialog }) => {
     const { dispatch } = useProductContext()
     const { state } = useAuth()
+    const logout = useLogout()
 
     const { accessToken } = state
     const refreshToken = Cookies.get("refresh_token")
@@ -34,6 +36,9 @@ const ProductDeleteFragment = ({ product, openDialog, handleOpenDialog }) => {
                 payload: { _id },
             })
             toast.success(res.message)
+        } else if (res.statusCode === 403) {
+            toast.error(errorMessages.FORBIDDEN.vi)
+            logout()
         } else {
             toast.error(errorMessages.SERVER_ERROR.vi)
         }

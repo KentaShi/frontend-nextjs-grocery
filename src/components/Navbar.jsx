@@ -12,10 +12,9 @@ import {
     Card,
 } from "@material-tailwind/react"
 import { useAuth } from "@/contexts/auth/providerAuth"
-import Cookies from "js-cookie"
-import { AUTH_ACTIONS } from "@/contexts/auth/actionAuth"
-import { redirect } from "next/navigation"
+import { useLogout } from "@/hooks/useLogout"
 export default function StickyNavbar() {
+    const logout = useLogout()
     const { state, dispatch } = useAuth()
     const { isAuthenticated, user, accessToken } = state
 
@@ -26,12 +25,6 @@ export default function StickyNavbar() {
             () => window.innerWidth >= 960 && setOpenNav(false)
         )
     }, [])
-
-    const handleLogout = () => {
-        Cookies.remove("refresh_token")
-        dispatch({ type: AUTH_ACTIONS.LOGOUT, payload: {} })
-        return redirect("/login")
-    }
 
     const navList = (
         <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -78,7 +71,7 @@ export default function StickyNavbar() {
                             </div>
                             <div className="flex items-center gap-x-1">
                                 <Button
-                                    onClick={handleLogout}
+                                    onClick={logout}
                                     variant="gradient"
                                     size="sm"
                                     className="hidden lg:inline-block"
@@ -144,7 +137,7 @@ export default function StickyNavbar() {
                         {navList}
                         <div className="flex items-center gap-x-1">
                             <Button
-                                onClick={handleLogout}
+                                onClick={logout}
                                 fullWidth
                                 variant="gradient"
                                 size="sm"

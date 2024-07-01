@@ -22,6 +22,7 @@ import toast from "react-hot-toast"
 import Cookies from "js-cookie"
 import { errorMessages } from "@/constants"
 import { useCateContext } from "@/contexts/category/providerCate"
+import { useLogout } from "@/hooks/useLogout"
 
 const ProductUpdateFragment = ({
     product,
@@ -29,7 +30,7 @@ const ProductUpdateFragment = ({
     handleOpenDialog,
     onlyUpdatePrice,
 }) => {
-    // const socket = io("http://localhost:3030")
+    const logout = useLogout()
     const { state } = useAuth()
     const { accessToken } = state
 
@@ -63,8 +64,10 @@ const ProductUpdateFragment = ({
                 type: PRODUCT_ACTIONS.UPDATE,
                 payload: productData,
             })
-            // socket.emit("updated", productData)
             toast.success(res.message)
+        } else if (res.statusCode === 403) {
+            toast.error(errorMessages.FORBIDDEN.vi)
+            logout()
         } else {
             toast.error(errorMessages.SERVER_ERROR.vi)
         }

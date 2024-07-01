@@ -22,17 +22,18 @@ import useIntersectionObserver from "@/hooks/useIntersectionObserver"
 import { useRouter } from "next/navigation"
 import Loading from "./Loading"
 
+import { useLogout } from "@/hooks/useLogout"
+
 const SearchProduct = () => {
     const socket = useSocket()
-    const router = useRouter()
+    const logout = useLogout()
 
     const { state: autheState } = useAuth()
     const { accessToken } = autheState
 
-    const { state } = useProductContext()
     const { state: cateState } = useCateContext()
     const { categories } = cateState
-    const { products: productsData } = state
+
     const [query, setQuery] = useState("")
     const [category, setCategory] = useState("")
     const [products, setProducts] = useState([])
@@ -62,7 +63,7 @@ const SearchProduct = () => {
             }
         } else if (res.statusCode === 403) {
             toast.error(errorMessages.FORBIDDEN.vi)
-            router.push("/login")
+            logout()
         } else {
             toast.error(errorMessages.SERVER_ERROR.vi)
         }
@@ -98,7 +99,7 @@ const SearchProduct = () => {
                 }
             } else if (res.statusCode === 403) {
                 toast.error(errorMessages.FORBIDDEN.vi)
-                router.push("/login")
+                logout()
             } else {
                 toast.error(errorMessages.SERVER_ERROR.vi)
             }

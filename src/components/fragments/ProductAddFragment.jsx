@@ -3,6 +3,7 @@ import { useAuth } from "@/contexts/auth/providerAuth"
 import { useCateContext } from "@/contexts/category/providerCate"
 import { PRODUCT_ACTIONS } from "@/contexts/product/actionProduct"
 import { useProductContext } from "@/contexts/product/providerProduct"
+import { useLogout } from "@/hooks/useLogout"
 import { addNewProduct } from "@/service/product"
 import { cloudinaryUpload } from "@/service/upload"
 import {
@@ -22,6 +23,7 @@ import toast from "react-hot-toast"
 
 const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
     const { dispatch } = useProductContext()
+    const logout = useLogout()
     const { state } = useAuth()
     const { accessToken } = state
     const refreshToken = Cookies.get("refresh_token")
@@ -82,6 +84,9 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
                 toast.success(res.message)
             } else if (res.statusCode === 400) {
                 toast.error(res.message)
+            } else if (res.statusCode === 403) {
+                toast.error(errorMessages.FORBIDDEN.vi)
+                logout()
             } else {
                 toast.error(errorMessages.SERVER_ERROR.vi)
             }

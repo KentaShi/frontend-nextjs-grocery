@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
         const fetchData = async () => {
             const refreshToken = Cookies.get("refresh_token")
             if (!refreshToken) {
-                return toast.error("Vui lòng đăng nhập...")
+                return toast.error(errorMessages.AUTH_ERROR.vi)
             }
             const res = await getAuth({ refreshToken })
             if (res.statusCode === 200) {

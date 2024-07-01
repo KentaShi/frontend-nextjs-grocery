@@ -2,6 +2,7 @@ import { errorMessages } from "@/constants"
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { CATE_ACTIONS } from "@/contexts/category/actionCate"
 import { useCateContext } from "@/contexts/category/providerCate"
+import { useLogout } from "@/hooks/useLogout"
 import { deleteCategory } from "@/service/category"
 import {
     Button,
@@ -20,6 +21,8 @@ const CategoryDeleteFragment = ({ category, openDialog, handleOpenDialog }) => {
     const { state } = useAuth()
     const { accessToken } = state
 
+    const logout = useLogout()
+
     const { _id, cate_name } = category
     const handleDeleteCategory = async () => {
         const refreshToken = Cookies.get("refresh_token")
@@ -33,6 +36,9 @@ const CategoryDeleteFragment = ({ category, openDialog, handleOpenDialog }) => {
                 payload: { _id },
             })
             toast.success(res.message)
+        } else if (res.statusCode === 403) {
+            toast.error(errorMessages.FORBIDDEN.vi)
+            logout()
         } else if (res.statusCode === 400) {
             toast.error("Có sản phầm thuộc phân loại này, không thể xóa!")
         } else {

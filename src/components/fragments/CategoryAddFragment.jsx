@@ -17,12 +17,15 @@ import { CATE_ACTIONS } from "@/contexts/category/actionCate"
 import { errorMessages } from "@/constants"
 import Cookies from "js-cookie"
 import { useAuth } from "@/contexts/auth/providerAuth"
+import { useLogout } from "@/hooks/useLogout"
 
 const CategoryAddFragment = ({ openDialog, handleOpenDialog }) => {
     const { dispatch } = useCateContext()
 
     const { state } = useAuth()
     const { accessToken } = state
+
+    const logout = useLogout()
 
     const [cateName, setCateName] = useState("")
 
@@ -36,7 +39,10 @@ const CategoryAddFragment = ({ openDialog, handleOpenDialog }) => {
             dispatch({ type: CATE_ACTIONS.ADD, payload: res.metadata.category })
             toast.success(res.message)
         } else if (res.statusCode === 409) {
-            toast.error("Đã có phân loại này")
+            toast.error(errorMessages.CONFLICTS_CATEGORY.vi)
+        } else if (res.statusCode === 403) {
+            toast.error(errorMessages.FORBIDDEN.vi)
+            logout()
         } else {
             toast.error(errorMessages.SERVER_ERROR.vi)
         }

@@ -61,23 +61,15 @@ const RegisterPage = () => {
             </Typography>
             <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
                 <div className="mb-1 flex flex-col gap-6">
-                    <Typography variant="h6" color="white" className="-mb-3">
-                        Username
-                    </Typography>
                     <Input
                         color="white"
                         name="username"
                         value={username}
                         onChange={handleChangeInput}
                         size="lg"
-                        className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                        labelProps={{
-                            className: "before:content-none after:content-none",
-                        }}
+                        label="Username"
                     />
-                    <Typography variant="h6" color="white" className="-mb-3">
-                        Password
-                    </Typography>
+
                     <Input
                         color="white"
                         name="password"
@@ -85,14 +77,9 @@ const RegisterPage = () => {
                         onChange={handleChangeInput}
                         type="password"
                         size="lg"
-                        className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                        labelProps={{
-                            className: "before:content-none after:content-none",
-                        }}
+                        label="Password"
                     />
-                    <Typography variant="h6" color="white" className="-mb-3">
-                        Confirm Password
-                    </Typography>
+
                     <Input
                         color="white"
                         name="confirmPassword"
@@ -100,10 +87,7 @@ const RegisterPage = () => {
                         onChange={handleChangeInput}
                         type="password"
                         size="lg"
-                        className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                        labelProps={{
-                            className: "before:content-none after:content-none",
-                        }}
+                        label="Confirm Password"
                     />
                 </div>
                 <Button

@@ -15,6 +15,7 @@ import { useAuth } from "@/contexts/auth/providerAuth"
 import { AUTH_ACTIONS } from "@/contexts/auth/actionAuth"
 import toast from "react-hot-toast"
 import Cookies from "js-cookie"
+import { errorMessages } from "@/constants"
 const LoginPage = () => {
     const router = useRouter()
     const { state, dispatch } = useAuth()
@@ -51,9 +52,9 @@ const LoginPage = () => {
             router.push("/")
             toast.success("Welcome to Tạp Hóa Chị Tuyết")
         } else if (res.statusCode === 400) {
-            toast.error("Username hoặc mật khẩu không đúng")
+            toast.error(errorMessages.LOGIN_FAILED.vi)
         } else {
-            toast.error("Có lỗi xảy ra, vui lòng thử lại sau")
+            toast.error(errorMessages.SERVER_ERROR.vi)
         }
 
         setLoginData(initState)
@@ -74,23 +75,15 @@ const LoginPage = () => {
             </Typography>
             <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
                 <div className="mb-1 flex flex-col gap-6">
-                    <Typography variant="h6" color="white" className="-mb-3">
-                        Username
-                    </Typography>
                     <Input
                         color="white"
                         value={username}
                         onChange={handleChangeInput}
                         name="username"
                         size="lg"
-                        className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                        labelProps={{
-                            className: "before:content-none after:content-none",
-                        }}
+                        label="Username"
                     />
-                    <Typography variant="h6" color="white" className="-mb-3">
-                        Password
-                    </Typography>
+
                     <Input
                         color="white"
                         value={password}
@@ -98,10 +91,7 @@ const LoginPage = () => {
                         name="password"
                         type="password"
                         size="lg"
-                        className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                        labelProps={{
-                            className: "before:content-none after:content-none",
-                        }}
+                        label="Password"
                     />
                 </div>
                 <Button onClick={handleSubmitLogin} className="mt-6" fullWidth>

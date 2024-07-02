@@ -8,22 +8,35 @@ import {
     Typography,
     Button,
     CardBody,
+    CardFooter,
+    IconButton,
 } from "@material-tailwind/react"
 
 import ProductItem from "./ProductItem"
 import ProductAddFragment from "./fragments/ProductAddFragment"
+import Pagination from "./Pagination"
+import { getCurrentRecords } from "@/utils/pagination"
 const TABLE_HEAD = ["Tên sản phẩm", "Giá", "Phân loại", "Tùy chọn"]
 
-const TABLE_ROWS = [
-    {
-        img: "https://docs.material-tailwind.com/img/logos/logo-spotify.svg",
-        name: "Spotify",
-        amount: "$2,500",
-        category: "Wed 3:00pm",
-    },
-]
 const Product = ({ products }) => {
     const [openAddNew, setOpenAddNew] = useState(false)
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const productsPerPage = 5
+    const totalPages = Math.ceil(products.length / productsPerPage)
+
+    // const indexOfLastProduct = currentPage * productsPerPage
+    // const indexOfFirstProduct = indexOfLastProduct - productsPerPage
+    // const currentProducts = products.slice(
+    //     indexOfFirstProduct,
+    //     indexOfLastProduct
+    // )
+
+    const currentProducts = getCurrentRecords(
+        currentPage,
+        productsPerPage,
+        products
+    )
 
     const handleOpenAddNew = () => {
         setOpenAddNew((prev) => !prev)
@@ -87,7 +100,7 @@ const Product = ({ products }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map((product, index) => {
+                        {currentProducts.map((product, index) => {
                             const isLast = index === products.length - 1
                             const classes = isLast
                                 ? "p-4"
@@ -105,43 +118,11 @@ const Product = ({ products }) => {
                 </table>
             </CardBody>
 
-            {/* <CardBody className="overflow-scroll px-0 grid grid-cols-2">
-                {products?.length > 0 &&
-                    products.map((product, index) => {
-                        return <ProductCard key={index} product={product} />
-                    })}
-            </CardBody> */}
-            {/* <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                <Button variant="outlined" size="sm">
-                    Previous
-                </Button>
-                <div className="flex items-center gap-2">
-                    <IconButton variant="outlined" size="sm">
-                        1
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                        2
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                        3
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                        ...
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                        8
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                        9
-                    </IconButton>
-                    <IconButton variant="text" size="sm">
-                        10
-                    </IconButton>
-                </div>
-                <Button variant="outlined" size="sm">
-                    Next
-                </Button>
-            </CardFooter> */}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => setCurrentPage(page)}
+            />
         </Card>
     )
 }

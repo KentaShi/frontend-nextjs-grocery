@@ -12,11 +12,23 @@ import {
 } from "@material-tailwind/react"
 import CategoryItem from "./CategoryItem"
 import CategoryAddFragment from "./fragments/CategoryAddFragment"
+import Pagination from "./Pagination"
+import { getCurrentRecords } from "@/utils/pagination"
 
 const TABLE_HEAD = ["Tên", "Tùy chọn"]
 
 const Category = ({ categories }) => {
     const [openAddNew, setOpenAddNew] = useState(false)
+    const [currentPage, setCurrentPage] = useState(1)
+
+    const categoriesPerPage = 5
+    const totalPages = Math.ceil(categories.length / categoriesPerPage)
+
+    const currentCategories = getCurrentRecords(
+        currentPage,
+        categoriesPerPage,
+        categories
+    )
 
     const handleOpenAddNew = () => {
         setOpenAddNew((prev) => !prev)
@@ -80,7 +92,7 @@ const Category = ({ categories }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {categories.map((cate, index) => {
+                        {currentCategories.map((cate, index) => {
                             const isLast = index === categories.length - 1
                             const classes = isLast
                                 ? "p-4"
@@ -97,6 +109,11 @@ const Category = ({ categories }) => {
                     </tbody>
                 </table>
             </CardBody>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => setCurrentPage(page)}
+            />
         </Card>
     )
 }

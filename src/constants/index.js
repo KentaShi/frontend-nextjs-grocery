@@ -46,4 +46,8 @@ export const errorMessages = {
         en: "Plase login",
         vi: "Vui lòng đăng nhập",
     },
+    LOGIN_FAILED: {
+        en: "Username or password is invalid",
+        vi: "Tên đăng nhập hoặc mật khẩu không đúng",
+    },
 }

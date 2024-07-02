@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
     Card,
     CardHeader,
@@ -22,16 +22,21 @@ const ProductCard = ({ product }) => {
         product_cate,
     } = product
     const { state } = useAuth()
-    const {
-        user: { roles },
-    } = state
+    const { user } = state
 
-    const allowEditing = roles === "admin" || roles === "user"
+    // const allowEditing = roles === "admin" || roles === "user"
 
     const [openUpdatePriceDialog, setOpenUpdatePriceDialog] = useState(false)
+    const [allowEditing, setAllowEditing] = useState(false)
     const handleOpenUpdatePriceDialog = () => {
         setOpenUpdatePriceDialog((p) => !p)
     }
+
+    useEffect(() => {
+        if (!user) return
+        setAllowEditing(user.roles === "admin" || user.roles === "user")
+    }, [state])
+
     return (
         <Card className="m-0 my-1 w-44 sm:w-52 md:w-72 lg:w-80">
             <CardHeader

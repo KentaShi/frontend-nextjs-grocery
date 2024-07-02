@@ -13,7 +13,7 @@ const Product = dynamic(() => import("@/components/Product"), {
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { useProductContext } from "@/contexts/product/providerProduct"
 import { useRouter } from "next/navigation"
-import React, { Suspense, useEffect } from "react"
+import React, { Suspense, useEffect, useState } from "react"
 
 const ProductPage = () => {
     const { state } = useProductContext()

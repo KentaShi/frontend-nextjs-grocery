@@ -1,4 +1,5 @@
 "use client"
+import User from "@/components/User"
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { findAllUsers } from "@/service/user"
 import Cookies from "js-cookie"
@@ -27,7 +28,11 @@ const UserPage = () => {
             fetchData()
         }
     }, [])
-    return <div>UserPage</div>
+    return (
+        <>
+            <User users={users} />
+        </>
+    )
 }
 
 export default UserPage

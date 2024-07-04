@@ -1,7 +1,12 @@
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid"
+import { Cog8ToothIcon, TrashIcon } from "@heroicons/react/24/solid"
 import {
     Avatar,
+    Chip,
     IconButton,
+    Menu,
+    MenuHandler,
+    MenuItem,
+    MenuList,
     Tooltip,
     Typography,
 } from "@material-tailwind/react"
@@ -9,6 +14,7 @@ import React from "react"
 
 const UserItem = ({ user, classes }) => {
     const { _id, username, roles } = user
+    const status = "online"
     return (
         <tr>
             <td className={classes}>
@@ -35,22 +41,34 @@ const UserItem = ({ user, classes }) => {
                 </Typography>
             </td>
             <td className={classes}>
-                <Typography variant="small" color="white" className="font-bold">
-                    active
-                </Typography>
+                <div className="font-bold w-max text-white">
+                    <Chip
+                        variant="ghost"
+                        size="sm"
+                        value={status ? "online" : "offline"}
+                        color={status ? "green" : "blue-gray"}
+                    />
+                </div>
             </td>
 
             <td className={classes}>
-                <Tooltip content="Update user">
-                    <IconButton color="blue" variant="text">
-                        <PencilIcon className="h-4 w-4" />
-                    </IconButton>
-                </Tooltip>
-                <Tooltip content="Delete User">
-                    <IconButton color="red" variant="text">
-                        <TrashIcon className="h-4 w-4" />
-                    </IconButton>
-                </Tooltip>
+                <Menu
+                    animate={{
+                        mount: { y: 0 },
+                        unmount: { y: 25 },
+                    }}
+                >
+                    <MenuHandler>
+                        <IconButton color="blue" variant="text">
+                            <Cog8ToothIcon className="h-4 w-4" />
+                        </IconButton>
+                    </MenuHandler>
+                    <MenuList>
+                        <MenuItem>Block</MenuItem>
+                        <MenuItem>Change role</MenuItem>
+                        <MenuItem>Delete</MenuItem>
+                    </MenuList>
+                </Menu>
             </td>
         </tr>
     )

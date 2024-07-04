@@ -1,10 +1,14 @@
 "use client"
-import User from "@/components/User"
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { findAllUsers } from "@/service/user"
 import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
 import React, { useEffect, useState } from "react"
+import dynamic from "next/dynamic"
+import Loading from "@/components/Loading"
+const User = dynamic(() => import("@/components/User"), {
+    loading: () => <Loading />,
+})
 
 const UserPage = () => {
     const { state: authState } = useAuth()

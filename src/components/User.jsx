@@ -6,12 +6,19 @@ import {
     CardHeader,
     Typography,
 } from "@material-tailwind/react"
-import React from "react"
+import React, { useState } from "react"
 import UserItem from "./UserItem"
+import { getCurrentRecords } from "@/utils/pagination"
+import Pagination from "./Pagination"
 
 const TABLE_HEAD = ["Username", "Role", "Status", "Options"]
 
 const User = ({ users }) => {
+    const [currentPage, setCurrentPage] = useState(1)
+    const userPerPage = 5
+    const totalPages = Math.ceil(users.length / userPerPage)
+
+    const currentUsers = getCurrentRecords(currentPage, userPerPage, users)
     return (
         <Card className="bg-dark-3 h-full w-full">
             <CardHeader
@@ -65,7 +72,7 @@ const User = ({ users }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user, index) => {
+                        {currentUsers.map((user, index) => {
                             const isLast = index === user.length - 1
                             const classes = isLast
                                 ? "p-4"
@@ -83,11 +90,11 @@ const User = ({ users }) => {
                 </table>
             </CardBody>
 
-            {/* <Pagination
+            <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={(page) => setCurrentPage(page)}
-            /> */}
+            />
         </Card>
     )
 }

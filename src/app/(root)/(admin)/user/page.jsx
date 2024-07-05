@@ -20,7 +20,7 @@ const UserPage = () => {
     const [users, setUsers] = useState([])
 
     useEffect(() => {
-        if (user?.roles !== "admin") router.push("/")
+        if (user?.role !== "admin") router.push("/")
         else {
             const fetchData = async () => {
                 const res = await findAllUsers(tokens)

@@ -10,17 +10,22 @@ import {
     Tooltip,
     Typography,
 } from "@material-tailwind/react"
-import React from "react"
+import React, { useEffect, useState } from "react"
 
 const UserItem = ({ user, classes }) => {
-    const { _id, username, roles } = user
+    const { _id, avatar, username, role } = user
     const status = "online"
+
+    const avatarUrl =
+        avatar?.url ||
+        `https://avatar.iran.liara.run/username?username=${username}`
+
     return (
         <tr>
             <td className={classes}>
                 <div className="flex items-center gap-3">
                     <Avatar
-                        src={""}
+                        src={avatarUrl}
                         variant="rounded"
                         alt={username}
                         size="md"
@@ -37,13 +42,12 @@ const UserItem = ({ user, classes }) => {
             </td>
             <td className={classes}>
                 <Typography variant="small" color="white" className="font-bold">
-                    {roles}
+                    {role}
                 </Typography>
             </td>
             <td className={classes}>
                 <div className="font-bold w-max text-white">
                     <Chip
-                        variant="ghost"
                         size="sm"
                         value={status ? "online" : "offline"}
                         color={status ? "green" : "blue-gray"}
@@ -64,9 +68,30 @@ const UserItem = ({ user, classes }) => {
                         </IconButton>
                     </MenuHandler>
                     <MenuList>
-                        <MenuItem>Block</MenuItem>
-                        <MenuItem>Change role</MenuItem>
-                        <MenuItem>Delete</MenuItem>
+                        <MenuItem>
+                            <Chip
+                                variant="ghost"
+                                size="sm"
+                                value="Block"
+                                color="blue"
+                            />
+                        </MenuItem>
+                        <MenuItem>
+                            <Chip
+                                variant="ghost"
+                                size="sm"
+                                value="Change Role"
+                                color="green"
+                            />
+                        </MenuItem>
+                        <MenuItem>
+                            <Chip
+                                variant="ghost"
+                                size="sm"
+                                value="Delete"
+                                color="red"
+                            />
+                        </MenuItem>
                     </MenuList>
                 </Menu>
             </td>

@@ -17,7 +17,7 @@ const Dashboard = () => {
     const router = useRouter()
 
     useEffect(() => {
-        if (user?.roles !== "admin") router.push("/")
+        if (user?.role !== "admin") router.push("/")
     }, [user])
 
     return (

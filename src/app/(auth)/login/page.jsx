@@ -53,6 +53,8 @@ const LoginPage = () => {
             toast.success("Welcome to Tạp Hóa Chị Tuyết")
         } else if (res.statusCode === 400) {
             toast.error(errorMessages.LOGIN_FAILED.vi)
+        } else if (res.statusCode === 403) {
+            toast.error(res.message)
         } else {
             toast.error(errorMessages.SERVER_ERROR.vi)
         }

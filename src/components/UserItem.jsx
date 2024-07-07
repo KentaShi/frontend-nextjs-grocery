@@ -1,3 +1,6 @@
+import { errorMessages } from "@/constants"
+import { useAuth } from "@/contexts/auth/providerAuth"
+import { getUserStatus } from "@/service/user"
 import { Cog8ToothIcon, TrashIcon } from "@heroicons/react/24/solid"
 import {
     Avatar,
@@ -10,15 +13,44 @@ import {
     Tooltip,
     Typography,
 } from "@material-tailwind/react"
+import Cookies from "js-cookie"
 import React, { useEffect, useState } from "react"
+import toast from "react-hot-toast"
 
 const UserItem = ({ user, classes }) => {
-    const { _id, avatar, username, role } = user
-    const status = "online"
+    const { state } = useAuth()
+    const { accessToken } = state
+    const refreshToken = Cookies.get("refresh_token")
+    const tokens = { accessToken, refreshToken }
+
+    const { _id: userId, avatar, username, role } = user
+    const [userStatus, setUserStatus] = useState("")
 
     const avatarUrl =
         avatar?.url ||
         `https://avatar.iran.liara.run/username?username=${username}`
+
+    const menuOptions = [
+        {
+            value: userStatus === "blocked" ? "Unblock" : "Block",
+            color: "blue",
+        },
+        { value: "Change Role", color: "green" },
+        { value: "Delele", color: "red" },
+    ]
+
+    useEffect(() => {
+        const getStatus = async () => {
+            try {
+                const res = await getUserStatus(userId, tokens)
+                setUserStatus(res.metadata.status)
+            } catch (error) {
+                console.log(error.message)
+                toast.error(errorMessages.SERVER_ERROR.vi)
+            }
+        }
+        getStatus()
+    }, [user])
 
     return (
         <tr>
@@ -49,8 +81,14 @@ const UserItem = ({ user, classes }) => {
                 <div className="font-bold w-max text-white">
                     <Chip
                         size="sm"
-                        value={status ? "online" : "offline"}
-                        color={status ? "green" : "blue-gray"}
+                        value={userStatus}
+                        color={
+                            userStatus === "online"
+                                ? "green"
+                                : userStatus === "offline"
+                                ? "blue-gray"
+                                : "red"
+                        }
                     />
                 </div>
             </td>
@@ -70,22 +108,29 @@ const UserItem = ({ user, classes }) => {
                     <MenuList>
                         <MenuItem>
                             <Chip
+                                className="justify-center items-center"
                                 variant="ghost"
                                 size="sm"
-                                value="Block"
+                                value={
+                                    userStatus === "blocked"
+                                        ? "Unblock"
+                                        : "Block"
+                                }
                                 color="blue"
                             />
                         </MenuItem>
                         <MenuItem>
                             <Chip
+                                className="justify-center items-center"
                                 variant="ghost"
                                 size="sm"
-                                value="Change Role"
+                                value="Change role"
                                 color="green"
                             />
                         </MenuItem>
                         <MenuItem>
                             <Chip
+                                className="justify-center items-center"
                                 variant="ghost"
                                 size="sm"
                                 value="Delete"

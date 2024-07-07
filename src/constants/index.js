@@ -27,8 +27,8 @@ export const errorMessages = {
         vi: "Có lỗi xảy ra, vui lòng thử lại sau",
     },
     FORBIDDEN: {
-        en: "You are not allowed to access. Please login again",
-        vi: "Bạn đã đăng nhập nơi khác, vui lòng đăng nhập lại",
+        en: "You are not allowed to access. Please login or try again later",
+        vi: "Bạn không có quyền truy cập, vui lòng đăng nhập hoặc thử lại sau",
     },
     CONFLICTS_USERNAME: {
         en: "Username exists",

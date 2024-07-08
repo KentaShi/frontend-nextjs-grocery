@@ -1,6 +1,6 @@
 import { errorMessages } from "@/constants"
 import { useAuth } from "@/contexts/auth/providerAuth"
-import { getUserStatus } from "@/service/user"
+import { getUserStatus, handleBlocking } from "@/service/user"
 import { Cog8ToothIcon, TrashIcon } from "@heroicons/react/24/solid"
 import {
     Avatar,
@@ -26,18 +26,15 @@ const UserItem = ({ user, classes }) => {
     const { _id: userId, avatar, username, role } = user
     const [userStatus, setUserStatus] = useState("")
 
+    const [actionBlock, setActionBlock] = useState("")
+
     const avatarUrl =
         avatar?.url ||
         `https://avatar.iran.liara.run/username?username=${username}`
 
-    const menuOptions = [
-        {
-            value: userStatus === "blocked" ? "Unblock" : "Block",
-            color: "blue",
-        },
-        { value: "Change Role", color: "green" },
-        { value: "Delele", color: "red" },
-    ]
+    const handleBlockUser = async () => {
+        const res = await handleBlocking(userId, actionBlock, tokens)
+    }
 
     useEffect(() => {
         const getStatus = async () => {
@@ -51,6 +48,10 @@ const UserItem = ({ user, classes }) => {
         }
         getStatus()
     }, [user])
+
+    useEffect(() => {
+        setActionBlock(userStatus === "blocked" ? "unblock" : "block")
+    }, [userStatus])
 
     return (
         <tr>

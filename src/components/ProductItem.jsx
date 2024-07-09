@@ -58,7 +58,7 @@ const ProductItem = ({ product, classes }) => {
             </td>
 
             <td className={classes}>
-                <Tooltip content="Update Product">
+                <Tooltip content="Update">
                     <IconButton
                         onClick={handleOpenUpdateDialog}
                         color="blue"
@@ -67,7 +67,7 @@ const ProductItem = ({ product, classes }) => {
                         <PencilIcon className="h-4 w-4" />
                     </IconButton>
                 </Tooltip>
-                <Tooltip content="Delete Product">
+                <Tooltip content="Delete">
                     <IconButton
                         onClick={handleOpenDeleteDialog}
                         color="red"
@@ -77,6 +77,7 @@ const ProductItem = ({ product, classes }) => {
                     </IconButton>
                 </Tooltip>
                 <ProductUpdateFragment
+                    name={product_name}
                     product={product}
                     openDialog={openUpdateDialog}
                     handleOpenDialog={handleOpenUpdateDialog}

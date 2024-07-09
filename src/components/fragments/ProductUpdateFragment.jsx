@@ -25,6 +25,7 @@ import { useCateContext } from "@/contexts/category/providerCate"
 import { useLogout } from "@/hooks/useLogout"
 
 const ProductUpdateFragment = ({
+    name,
     product,
     openDialog,
     handleOpenDialog,
@@ -38,15 +39,16 @@ const ProductUpdateFragment = ({
     const { categories } = cateState
 
     const { dispatch } = useProductContext()
-    const [productData, setProductData] = useState(product)
-    const {
-        _id,
-        product_name,
-        product_thumb,
-        product_price,
-        product_unit,
-        product_cate,
-    } = productData
+
+    const initProductData = {
+        product_name: product.product_name,
+        product_price: product.product_price,
+        product_unit: product.product_unit,
+        product_cate: product.product_cate,
+    }
+    const [productData, setProductData] = useState(initProductData)
+    const { _id, product_name, product_price, product_unit, product_cate } =
+        productData
 
     const handleChangeInput = (e) => {
         const { name, value } = e.target

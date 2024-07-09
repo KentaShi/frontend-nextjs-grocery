@@ -28,6 +28,8 @@ const ProductDeleteFragment = ({ product, openDialog, handleOpenDialog }) => {
 
     const { _id, product_name } = product
 
+    console.log({ product })
+
     const handleDeleteProduct = async () => {
         const res = await deleteProduct(_id, tokens)
         if (res.statusCode === 200) {

@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { PlusIcon } from "@heroicons/react/24/solid"
 import {
@@ -94,7 +94,7 @@ const Product = ({ products }) => {
                     </thead>
                     <tbody>
                         {currentProducts.map((product, index) => {
-                            const isLast = index === products.length - 1
+                            const isLast = index === currentProducts.length - 1
                             const classes = isLast
                                 ? "p-4"
                                 : "p-4 border-b border-blue-gray-50"

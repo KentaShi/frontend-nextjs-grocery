@@ -77,7 +77,6 @@ const ProductItem = ({ product, classes }) => {
                     </IconButton>
                 </Tooltip>
                 <ProductUpdateFragment
-                    name={product_name}
                     product={product}
                     openDialog={openUpdateDialog}
                     handleOpenDialog={handleOpenUpdateDialog}

@@ -1,13 +1,12 @@
 "use client"
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { useCateContext } from "@/contexts/category/providerCate"
-import { useProductContext } from "@/contexts/product/providerProduct"
+import { useProductContext } from "@/contexts/product/providerProductV2"
 import { useRouter } from "next/navigation"
 import React, { useEffect } from "react"
 
 const Dashboard = () => {
-    const { state: productState } = useProductContext()
-    const { products } = productState
+    const { products } = useProductContext()
     const { state: categoryState } = useCateContext()
     const { categories } = categoryState
 

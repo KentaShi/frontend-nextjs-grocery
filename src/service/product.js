@@ -1,7 +1,7 @@
 import { postData, getData, deleteData, updateData, upload } from "@/utils/api"
 
-export const findAllProducts = async ({ tokens }) => {
-    return await getData({ url: "/api/product/all", tokens })
+export const findAllProducts = async ({ page, tokens }) => {
+    return await getData({ url: `/api/product?page=${page}`, tokens })
 }
 export const findProductsByCate = async ({ cat, tokens }) => {
     return await getData({ url: `/api/product/category/${cat}`, tokens })

@@ -15,21 +15,14 @@ import {
 import ProductItem from "./ProductItem"
 import ProductAddFragment from "./fragments/ProductAddFragment"
 import Pagination from "./Pagination"
-import { getCurrentRecords } from "@/utils/pagination"
+import { useProductContext } from "@/contexts/product/providerProductV2"
 const TABLE_HEAD = ["Tên sản phẩm", "Giá", "Phân loại", "Tùy chọn"]
 
-const Product = ({ products }) => {
+const Product = () => {
     const [openAddNew, setOpenAddNew] = useState(false)
 
-    const [currentPage, setCurrentPage] = useState(1)
-    const productsPerPage = 5
-    const totalPages = Math.ceil(products.length / productsPerPage)
-
-    const currentProducts = getCurrentRecords(
-        currentPage,
-        productsPerPage,
-        products
-    )
+    const { products, currentPage, setCurrentPage, totalPages } =
+        useProductContext()
 
     const handleOpenAddNew = () => {
         setOpenAddNew((prev) => !prev)
@@ -93,8 +86,8 @@ const Product = ({ products }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {currentProducts.map((product, index) => {
-                            const isLast = index === currentProducts.length - 1
+                        {products.map((product, index) => {
+                            const isLast = index === products.length - 1
                             const classes = isLast
                                 ? "p-4"
                                 : "p-4 border-b border-blue-gray-50"

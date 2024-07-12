@@ -46,7 +46,9 @@ export const ProductProvider = ({ children }) => {
     }, [currentPage, isAuthenticated])
 
     useEffect(() => {
-        if (!socket) return
+        if (!socket) {
+            return
+        }
         socket.on("productUpdated", (updatedProduct) => {
             if (products) {
                 setProducts(

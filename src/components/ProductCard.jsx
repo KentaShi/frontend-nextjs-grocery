@@ -34,7 +34,7 @@ const ProductCard = ({ product }) => {
 
     useEffect(() => {
         if (!user) return
-        setAllowEditing(user.roles === "admin" || user.roles === "user")
+        setAllowEditing(user.role === "admin" || user.role === "user")
     }, [state])
 
     return (

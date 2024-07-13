@@ -10,13 +10,17 @@ module.exports = withMT({
         extend: {
             colors: {
                 dark: {
-                    1: "#1C1F2E",
-                    2: "#161925",
-                    3: "#252A41",
-                    4: "#1E2757",
+                    1: "#061827",
+                    2: "#222222",
                 },
                 blue: {
                     1: "#0E78F9",
+                    light: "#e7f5f5",
+                },
+                green: {
+                    1: "#02693B",
+                    2: "#007A4A",
+                    light: "#93DB17",
                 },
                 sky: {
                     1: "#C9DDFF",

@@ -3,9 +3,10 @@ import "./globals.css"
 
 import { AuthProvider } from "@/contexts/auth/providerAuth"
 import { Toaster } from "react-hot-toast"
-import { ProductProvider } from "@/contexts/product/providerProduct"
+
 import { CategoryProvider } from "@/contexts/category/providerCate"
 import { SocketProvider } from "@/contexts/socket/providerSocket"
+import { ProductProvider } from "@/contexts/product/providerProductV2"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -17,18 +18,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
-            <SocketProvider>
-                <AuthProvider>
+            <AuthProvider>
+                <SocketProvider>
                     <CategoryProvider>
                         <ProductProvider>
-                            <body className="bg-dark-1">
+                            <body className="bg-blue-light">
                                 {children}
                                 <Toaster />
                             </body>
                         </ProductProvider>
                     </CategoryProvider>
-                </AuthProvider>
-            </SocketProvider>
+                </SocketProvider>
+            </AuthProvider>
         </html>
     )
 }

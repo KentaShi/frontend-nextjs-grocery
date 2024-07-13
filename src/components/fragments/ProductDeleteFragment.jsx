@@ -17,7 +17,6 @@ import React, { Fragment } from "react"
 import toast from "react-hot-toast"
 
 const ProductDeleteFragment = ({ product, openDialog, handleOpenDialog }) => {
-    const { dispatch } = useProductContext()
     const { state } = useAuth()
     const logout = useLogout()
 
@@ -31,10 +30,6 @@ const ProductDeleteFragment = ({ product, openDialog, handleOpenDialog }) => {
     const handleDeleteProduct = async () => {
         const res = await deleteProduct(_id, tokens)
         if (res.statusCode === 200) {
-            dispatch({
-                type: PRODUCT_ACTIONS.DELETE,
-                payload: { _id },
-            })
             toast.success(res.message)
         } else if (res.statusCode === 403) {
             toast.error(errorMessages.FORBIDDEN.vi)

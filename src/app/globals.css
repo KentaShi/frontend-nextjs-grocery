@@ -11,3 +11,8 @@
         @apply flex justify-between items-center;
     }
 }
+@layer base {
+    .text-outline {
+        -webkit-text-stroke: 1px #007a4a;
+    }
+}

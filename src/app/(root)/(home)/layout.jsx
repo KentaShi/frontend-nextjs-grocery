@@ -7,7 +7,7 @@ const HomeLayout = ({ children }) => {
             <div className="sticky top-0 z-[999] flex w-full items-center">
                 <StickyNavbar />
             </div>
-            <div className="px-6">
+            <div className="px-3">
                 <div className="container mx-auto flex">
                     <div className="mt-6 w-full flex justify-center">
                         {children}

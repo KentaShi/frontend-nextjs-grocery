@@ -37,16 +37,15 @@ const ProductUpdateFragment = ({
     const { state: cateState } = useCateContext()
     const { categories } = cateState
 
-    const { dispatch } = useProductContext()
-    const [productData, setProductData] = useState(product)
-    const {
-        _id,
-        product_name,
-        product_thumb,
-        product_price,
-        product_unit,
-        product_cate,
-    } = productData
+    const initProductData = {
+        product_name: "",
+        product_price: "",
+        product_unit: "",
+        product_cate: "",
+    }
+    const [productData, setProductData] = useState(initProductData)
+    const { product_name, product_price, product_unit, product_cate } =
+        productData
 
     const handleChangeInput = (e) => {
         const { name, value } = e.target
@@ -58,12 +57,12 @@ const ProductUpdateFragment = ({
     const handleUpdateProduct = async () => {
         const refreshToken = Cookies.get("refresh_token")
         const tokens = { accessToken, refreshToken }
-        const res = await updateProduct({ id: _id, data: productData, tokens })
+        const res = await updateProduct({
+            id: product._id,
+            data: productData,
+            tokens,
+        })
         if (res.statusCode === 200) {
-            dispatch({
-                type: PRODUCT_ACTIONS.UPDATE,
-                payload: productData,
-            })
             toast.success(res.message)
         } else if (res.statusCode === 403) {
             toast.error(errorMessages.FORBIDDEN.vi)
@@ -73,6 +72,10 @@ const ProductUpdateFragment = ({
         }
         handleOpenDialog()
     }
+
+    useEffect(() => {
+        setProductData(product)
+    }, [product])
 
     return (
         <Fragment>

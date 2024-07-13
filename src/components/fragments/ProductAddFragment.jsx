@@ -22,7 +22,6 @@ import React, { Fragment, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
 const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
-    const { dispatch } = useProductContext()
     const logout = useLogout()
     const { state } = useAuth()
     const { accessToken } = state
@@ -77,10 +76,6 @@ const ProductAddFragment = ({ openDialog, handleOpenDialog }) => {
         try {
             const res = await addNewProduct(formData, tokens)
             if (res.statusCode === 200) {
-                dispatch({
-                    type: PRODUCT_ACTIONS.ADD,
-                    payload: res.metadata.product,
-                })
                 toast.success(res.message)
             } else if (res.statusCode === 400) {
                 toast.error(res.message)

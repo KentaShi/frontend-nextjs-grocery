@@ -16,11 +16,8 @@ export default function Home() {
         if (!isAuthenticated) return router.push("/login")
     }, [state])
     return (
-        <div className="flex flex-col justify-center items-center">
-            <div className="text-2xl font-bold mb-4 text-white">
-                Welcome to Tap Hoa
-            </div>
-            <div>
+        <div className="w-full flex flex-col justify-center items-center">
+            <div className="w-full">
                 <Suspense fallback={<Loading />}>
                     <SearchProduct />
                 </Suspense>

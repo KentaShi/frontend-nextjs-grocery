@@ -58,8 +58,8 @@ export default function StickyNavbar() {
             <div className="container flex mx-auto items-center justify-between text-blue-gray-900">
                 <Typography className="mr-4 cursor-pointer py-1.5 font-medium">
                     <Link href={"/"}>
-                        <span className="text-2xl font-bold text-white">
-                            Home
+                        <span className="text-base lg:text-3xl font-semibold text-green-light text-outline">
+                            Tạp Hóa Chị Tuyết
                         </span>
                     </Link>
                 </Typography>
@@ -102,7 +102,7 @@ export default function StickyNavbar() {
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
-                                className="h-6 w-6"
+                                className="h-6 w-6 text-green-2"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
                                 strokeWidth={2}
@@ -116,7 +116,7 @@ export default function StickyNavbar() {
                         ) : (
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6"
+                                className="h-6 w-6 text-green-2"
                                 fill="none"
                                 stroke="currentColor"
                                 strokeWidth={2}

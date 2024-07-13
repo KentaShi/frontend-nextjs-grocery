@@ -12,7 +12,7 @@ import { PencilIcon } from "@heroicons/react/24/solid"
 import ProductUpdateFragment from "./fragments/ProductUpdateFragment"
 import { useAuth } from "@/contexts/auth/providerAuth"
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, index }) => {
     const {
         _id,
         product_name,
@@ -38,7 +38,7 @@ const ProductCard = ({ product }) => {
     }, [state])
 
     return (
-        <Card className="m-0 my-1 w-44 sm:w-52 md:w-72 lg:w-80">
+        <Card className="m-0 my-1 w-full ">
             <CardHeader
                 shadow={false}
                 floated={false}
@@ -54,12 +54,15 @@ const ProductCard = ({ product }) => {
                 <div className="flex flex-col items-center justify-between">
                     <Typography
                         color="blue-gray"
-                        className="text-base font-bold"
+                        className="text-xs sm:text-sm font-bold hover:text-green-2"
                     >
                         {product_name}
                     </Typography>
                     <div className="flex flex-row items-center">
-                        <Typography color="red" className="font-bold text-lg">
+                        <Typography
+                            color="red"
+                            className="font-bold text-green-1 text-xs sm:text-sm"
+                        >
                             {product_price.toLocaleString()}đ/{product_unit}
                         </Typography>
                         {allowEditing && (

@@ -21,6 +21,28 @@ export const sidebarLinks = [
     },
 ]
 
+export const title = {
+    LOGIN: {
+        en: "Login - TapHoaChiTuyet",
+        vi: "Đăng Nhập - TapHoaChiTuyet",
+    },
+    REGISTER: {
+        en: "Register - TapHoaChiTuyet",
+        vi: "Đăng Ký - TapHoaChiTuyet",
+    },
+}
+
+export const description = {
+    LOGIN: {
+        en: "Login to Tap Hoa Chi Tuyet",
+        vi: "Đăng Nhập Tạp Hóa Chị Tuyết",
+    },
+    REGISTER: {
+        en: "Register to Tap Hoa Chi Tuyet",
+        vi: "Đăng Ký Tạp Hóa Chị Tuyết",
+    },
+}
+
 export const errorMessages = {
     SERVER_ERROR: {
         en: "Something went wrong, please try again",

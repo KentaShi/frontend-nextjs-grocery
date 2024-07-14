@@ -174,10 +174,9 @@ const SearchProduct = () => {
                     <Button
                         onClick={handleSelectCategory}
                         size="sm"
-                        color="blue-gray"
-                        className="!absolute right-1 top-1 rounded"
+                        className="!absolute right-1 top-1 rounded bg-green-2"
                     >
-                        Search
+                        <MagnifyingGlassIcon className="w-4 h-4" />
                     </Button>
                 </div>
             </div>

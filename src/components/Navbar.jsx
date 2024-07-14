@@ -13,6 +13,7 @@ import {
 } from "@material-tailwind/react"
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { useLogout } from "@/hooks/useLogout"
+import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/solid"
 export default function StickyNavbar() {
     const logout = useLogout()
     const { state, dispatch } = useAuth()
@@ -31,9 +32,8 @@ export default function StickyNavbar() {
             {user?.role === "admin" && (
                 <Typography
                     as="li"
-                    variant="paragraph"
                     color="white"
-                    className="p-1 font-normal"
+                    className="p-1 text-sm font-bold hover:text-green-light"
                 >
                     <Link href="/dashboard" className="flex items-center">
                         Admin
@@ -44,7 +44,7 @@ export default function StickyNavbar() {
                 as="li"
                 variant="paragraph"
                 color="white"
-                className="p-1 font-normal"
+                className="p-1 text-sm font-bold hover:text-green-light"
             >
                 <Link href="/profile" className="flex items-center">
                     Profile
@@ -70,14 +70,11 @@ export default function StickyNavbar() {
                                 {navList}
                             </div>
                             <div className="flex items-center gap-x-1">
-                                <Button
+                                <ArrowRightStartOnRectangleIcon
+                                    color="white"
                                     onClick={logout}
-                                    variant="gradient"
-                                    size="sm"
-                                    className="hidden lg:inline-block"
-                                >
-                                    Log Out
-                                </Button>
+                                    className="w-6 h-6 hover:text-green-light font-bold cursor-pointer hidden lg:inline-block"
+                                />
                             </div>
                         </>
                     ) : (
@@ -136,15 +133,7 @@ export default function StickyNavbar() {
                     <>
                         {navList}
                         <div className="flex items-center gap-x-1">
-                            <Button
-                                onClick={logout}
-                                fullWidth
-                                variant="gradient"
-                                size="sm"
-                                className=""
-                            >
-                                Log Out
-                            </Button>
+                            <ArrowRightStartOnRectangleIcon onClick={logout} />
                         </div>
                     </>
                 ) : (

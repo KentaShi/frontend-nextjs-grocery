@@ -1,8 +1,5 @@
 "use client"
-// import Product from "@/components/Product"
 import Loading from "@/components/Loading"
-//use react lazy
-// const Product = React.lazy(() => import("@/components/Product"))
 
 //use dynamic next js
 import dynamic from "next/dynamic"

@@ -3,13 +3,11 @@ import {
     findAllProducts,
     findProductsByCate,
     searchProduct,
-    searchProductFromClient,
 } from "@/service/product"
 import { Button, Input, Option, Select } from "@material-tailwind/react"
-import React, { Suspense, useCallback, useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import ProductCard from "./ProductCard"
-// const ProductCard = React.lazy(() => import("./ProductCard"))
 import { useProductContext } from "@/contexts/product/providerProduct"
 
 import { useCateContext } from "@/contexts/category/providerCate"
@@ -23,9 +21,14 @@ import { useRouter } from "next/navigation"
 import Loading from "./Loading"
 
 import { useLogout } from "@/hooks/useLogout"
-import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/solid"
+import {
+    AdjustmentsHorizontalIcon,
+    Bars3Icon,
+    MagnifyingGlassIcon,
+} from "@heroicons/react/24/solid"
+import FilterProductFragment from "./fragments/FilterProductFragment"
 
-const SearchProduct = () => {
+const ProductGrid = () => {
     const socket = useSocket()
     const logout = useLogout()
 
@@ -44,8 +47,14 @@ const SearchProduct = () => {
     const [loading, setLoading] = useState(false)
     const [displayedProducts, setDisplayedProducts] = useState([])
 
+    const [openDrawer, setOpenDrawer] = useState(false)
+
     const refreshToken = Cookies.get("refresh_token")
     const tokens = { accessToken, refreshToken }
+
+    const handleOpenDrawer = (p) => {
+        setOpenDrawer(p)
+    }
 
     const handleSearch = async () => {
         setProducts([])
@@ -180,6 +189,16 @@ const SearchProduct = () => {
                     </Button>
                 </div>
             </div>
+            <Button className="bg-green-2" onClick={handleOpenDrawer}>
+                <div className="flex flex-row">
+                    <AdjustmentsHorizontalIcon className="w-4 h-4 mr-2" />
+                    <p>Filter By</p>
+                </div>
+            </Button>
+            <FilterProductFragment
+                open={openDrawer}
+                handleOpen={handleOpenDrawer}
+            />
 
             <div className="grid grid-cols-2 sm:grid-cols-3 my-4 gap-4">
                 {displayedProducts?.length > 0 &&
@@ -199,4 +218,4 @@ const SearchProduct = () => {
     )
 }
 
-export default SearchProduct
+export default ProductGrid

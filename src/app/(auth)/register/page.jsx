@@ -1,113 +1,17 @@
-"use client"
+import React from "react"
+import Register from "@/components/Register"
+import { description, title } from "@/constants"
 
-import React, { useEffect, useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import {
-    Card,
-    Input,
-    Checkbox,
-    Button,
-    Typography,
-} from "@material-tailwind/react"
-import { useAuth } from "@/contexts/auth/providerAuth"
-import { register } from "@/service/access"
-import toast from "react-hot-toast"
-import { errorMessages } from "@/constants"
+export const metadata = {
+    title: title.REGISTER.vi,
+    description: description.REGISTER.vi,
+}
+
 const RegisterPage = () => {
-    const router = useRouter()
-    const { state } = useAuth()
-    const { user } = state
-    const initState = {
-        username: "",
-        password: "",
-        confirmPassword: "",
-    }
-    const [registerData, setRegisterData] = useState(initState)
-    const { username, password, confirmPassword } = registerData
-
-    const handleChangeInput = (e) => {
-        const { name, value } = e.target
-        setRegisterData({ ...registerData, [name]: value })
-    }
-
-    const handleSubmitRegister = async (e) => {
-        console.log(registerData)
-        const res = await register(registerData)
-        if (res.statusCode === 200) {
-            toast.success(res.message)
-            router.push("/login")
-        } else if (res.statusCode === 409) {
-            toast.error(errorMessages.CONFLICTS_USERNAME.vi)
-        } else {
-            toast.error(errorMessages.SERVER_ERROR.vi)
-        }
-        setRegisterData(initState)
-    }
-
-    useEffect(() => {
-        if (user) {
-            router.push("/")
-        }
-    }, [user])
     return (
-        <Card className="bg-dark-3 p-5" shadow={false}>
-            <Typography
-                className="flex justify-center items-center"
-                variant="h4"
-                color="white"
-            >
-                Sign Up
-            </Typography>
-            <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
-                <div className="mb-1 flex flex-col gap-6">
-                    <Input
-                        color="white"
-                        name="username"
-                        value={username}
-                        onChange={handleChangeInput}
-                        size="lg"
-                        label="Username"
-                    />
-
-                    <Input
-                        color="white"
-                        name="password"
-                        value={password}
-                        onChange={handleChangeInput}
-                        type="password"
-                        size="lg"
-                        label="Password"
-                    />
-
-                    <Input
-                        color="white"
-                        name="confirmPassword"
-                        value={confirmPassword}
-                        onChange={handleChangeInput}
-                        type="password"
-                        size="lg"
-                        label="Confirm Password"
-                    />
-                </div>
-                <Button
-                    onClick={handleSubmitRegister}
-                    className="mt-6"
-                    fullWidth
-                >
-                    sign up
-                </Button>
-                <Typography
-                    color="white"
-                    className="mt-4 text-center font-normal"
-                >
-                    Already have an account?{" "}
-                    <Link href="/login" className="font-medium text-blue-1">
-                        Sign In
-                    </Link>
-                </Typography>
-            </form>
-        </Card>
+        <>
+            <Register />
+        </>
     )
 }
 

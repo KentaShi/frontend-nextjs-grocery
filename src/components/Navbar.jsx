@@ -35,7 +35,7 @@ export default function StickyNavbar() {
                     color="white"
                     className="p-1 text-sm font-bold hover:text-green-light"
                 >
-                    <Link href="/dashboard" className="flex items-center">
+                    <Link href="/admin/dashboard" className="flex items-center">
                         Admin
                     </Link>
                 </Typography>

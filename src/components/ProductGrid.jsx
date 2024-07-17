@@ -147,15 +147,22 @@ const ProductGrid = () => {
 
     return (
         <>
-            <div className="flex flex-col lg:flex-row">
-                <div className="relative flex w-full gap-2 mb-2">
-                    <Bars3Icon className="text-green-2 w-7 h-7 absolute !cursor-pointer flex left-1 top-1 justify-center items-center" />
+            <div className="flex items-center justify-center">
+                <div className="relative flex w-full gap-2 mb-2 max-w-[618px]">
+                    <Button
+                        size="sm"
+                        className="!absolute shadow-none bg-white left-1 top-1 z-10"
+                        onClick={handleOpenDrawer}
+                    >
+                        <Bars3Icon className="text-green-2 w-4 h-4 " />
+                    </Button>
+
                     <Input
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         type="search"
                         placeholder="Tìm kiêm..."
-                        className="pr-20 pl-10 text-dark-2"
+                        className="pr-20 pl-20 text-dark-2 bg-white focus:outline"
                         containerProps={{
                             className: "min-w-[288px]",
                         }}
@@ -168,7 +175,7 @@ const ProductGrid = () => {
                         <MagnifyingGlassIcon className="w-4 h-4" />
                     </Button>
                 </div>
-                <div className="relative flex w-full gap-2 mb-2 ">
+                {/* <div className="relative flex w-full gap-2 mb-2 ">
                     <Select
                         onChange={handleChangeCategory}
                         name="category"
@@ -187,14 +194,8 @@ const ProductGrid = () => {
                     >
                         <MagnifyingGlassIcon className="w-4 h-4" />
                     </Button>
-                </div>
+                </div> */}
             </div>
-            <Button className="bg-green-2" onClick={handleOpenDrawer}>
-                <div className="flex flex-row">
-                    <AdjustmentsHorizontalIcon className="w-4 h-4 mr-2" />
-                    <p>Filter By</p>
-                </div>
-            </Button>
             <FilterProductFragment
                 open={openDrawer}
                 handleOpen={handleOpenDrawer}

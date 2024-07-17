@@ -10,6 +10,7 @@ import {
     ListItemSuffix,
     Typography,
 } from "@material-tailwind/react"
+import Link from "next/link"
 import React from "react"
 
 const FilterProductFragment = ({ open, handleOpen }) => {
@@ -17,12 +18,16 @@ const FilterProductFragment = ({ open, handleOpen }) => {
 
     const { state } = useCateContext()
     const { categories } = state
+
+    const handleClickCategory = (e) => {
+        closeDrawer(false)
+    }
     return (
         <React.Fragment>
             <Drawer open={open} onClose={closeDrawer}>
                 <div className="mb-2 flex items-center justify-between p-4">
                     <Typography variant="h5" color="blue-gray">
-                        Filter
+                        Danh mục sản phẩm
                     </Typography>
                     <IconButton
                         variant="text"
@@ -47,21 +52,22 @@ const FilterProductFragment = ({ open, handleOpen }) => {
                 </div>
                 <List className="my-2 p-0">
                     {categories.map((cate, index) => (
-                        <ListItem
-                            onClick={() => closeDrawer(false)}
-                            className="group rounded-none py-1.5 px-3 text-sm font-normal text-blue-gray-700 hover:bg-green-1 hover:text-white focus:bg-green-1 focus:text-white"
-                            key={index}
-                        >
-                            {cate.cate_name}
-                            <ListItemSuffix>
-                                <Chip
-                                    value="5"
-                                    size="sm"
-                                    color="green"
-                                    className="rounded-full"
-                                />
-                            </ListItemSuffix>
-                        </ListItem>
+                        <Link key={index} href={`/category/${cate.cate_slug}`}>
+                            <ListItem
+                                onClick={handleClickCategory}
+                                className="group rounded-none py-1.5 px-3 text-sm font-normal text-blue-gray-700 hover:bg-green-1 hover:text-white focus:bg-green-1 focus:text-white"
+                            >
+                                {cate.cate_name}
+                                <ListItemSuffix>
+                                    <Chip
+                                        value="5"
+                                        size="sm"
+                                        color="green"
+                                        className="rounded-full"
+                                    />
+                                </ListItemSuffix>
+                            </ListItem>
+                        </Link>
                     ))}
                 </List>
             </Drawer>

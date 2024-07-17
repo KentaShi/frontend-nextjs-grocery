@@ -1,22 +1,22 @@
-export const sidebarLinks = [
+export const adminSidebarLinks = [
     {
         label: "Dashboard",
-        route: "/dashboard",
+        route: "/admin/dashboard",
         imgUrl: "/icons/dashboard.svg",
     },
     {
         label: "Product",
-        route: "/product",
+        route: "/admin/product",
         imgUrl: "/icons/product.svg",
     },
     {
         label: "Category",
-        route: "/category",
+        route: "/admin/category",
         imgUrl: "/icons/category.svg",
     },
     {
         label: "User",
-        route: "/user",
+        route: "/admin/user",
         imgUrl: "/icons/account.svg",
     },
 ]

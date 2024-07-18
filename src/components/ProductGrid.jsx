@@ -147,60 +147,6 @@ const ProductGrid = () => {
 
     return (
         <>
-            <div className="flex items-center justify-center">
-                <div className="relative flex w-full gap-2 mb-2 max-w-[618px]">
-                    <Button
-                        size="sm"
-                        className="!absolute shadow-none bg-white left-1 top-1 z-10"
-                        onClick={handleOpenDrawer}
-                    >
-                        <Bars3Icon className="text-green-2 w-4 h-4 " />
-                    </Button>
-
-                    <Input
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        type="search"
-                        placeholder="Tìm kiêm..."
-                        className="pr-20 pl-20 text-dark-2 bg-white focus:outline"
-                        containerProps={{
-                            className: "min-w-[288px]",
-                        }}
-                    />
-                    <Button
-                        onClick={handleSearch}
-                        size="sm"
-                        className="!absolute right-1 top-1 rounded bg-green-2"
-                    >
-                        <MagnifyingGlassIcon className="w-4 h-4" />
-                    </Button>
-                </div>
-                {/* <div className="relative flex w-full gap-2 mb-2 ">
-                    <Select
-                        onChange={handleChangeCategory}
-                        name="category"
-                        label="Phân Loại"
-                    >
-                        {categories.map((cate, index) => (
-                            <Option key={index} value={cate.cate_slug}>
-                                {cate.cate_name}
-                            </Option>
-                        ))}
-                    </Select>
-                    <Button
-                        onClick={handleSelectCategory}
-                        size="sm"
-                        className="!absolute right-1 top-1 rounded bg-green-2"
-                    >
-                        <MagnifyingGlassIcon className="w-4 h-4" />
-                    </Button>
-                </div> */}
-            </div>
-            <FilterProductFragment
-                open={openDrawer}
-                handleOpen={handleOpenDrawer}
-            />
-
             <div className="grid grid-cols-2 sm:grid-cols-3 my-4 gap-4">
                 {displayedProducts?.length > 0 &&
                     displayedProducts.map((product, index) => {

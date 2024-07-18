@@ -54,7 +54,7 @@ export default function StickyNavbar() {
     )
 
     return (
-        <nav className="w-full mx-auto rounded-none bg-dark-1/90 py-1.5 lg:px-8 lg:py-4 px-6">
+        <nav className="w-full mx-auto rounded-none bg-green-3 py-1.5 lg:px-8 lg:py-4 px-6">
             <div className="container flex mx-auto items-center justify-between text-blue-gray-900">
                 <Typography className="mr-4 cursor-pointer py-1.5 font-medium">
                     <Link href={"/"}>

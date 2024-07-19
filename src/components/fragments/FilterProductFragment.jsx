@@ -1,13 +1,9 @@
 import { useCateContext } from "@/contexts/category/providerCate"
 import {
-    Button,
-    Chip,
     Drawer,
     IconButton,
     List,
     ListItem,
-    ListItemPrefix,
-    ListItemSuffix,
     Typography,
 } from "@material-tailwind/react"
 import Link from "next/link"
@@ -58,14 +54,6 @@ const FilterProductFragment = ({ open, handleOpen }) => {
                                 className="group rounded-none py-1.5 px-3 text-sm font-normal text-blue-gray-700 hover:bg-green-1 hover:text-white focus:bg-green-1 focus:text-white"
                             >
                                 {cate.cate_name}
-                                <ListItemSuffix>
-                                    <Chip
-                                        value="5"
-                                        size="sm"
-                                        color="green"
-                                        className="rounded-full"
-                                    />
-                                </ListItemSuffix>
                             </ListItem>
                         </Link>
                     ))}

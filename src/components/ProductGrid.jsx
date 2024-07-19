@@ -1,113 +1,46 @@
 "use client"
-import {
-    findAllProducts,
-    findProductsByCate,
-    searchProduct,
-} from "@/service/product"
-import { Button, Input, Option, Select } from "@material-tailwind/react"
 import React, { useCallback, useEffect, useState } from "react"
-import toast from "react-hot-toast"
-import ProductCard from "./ProductCard"
-import { useProductContext } from "@/contexts/product/providerProduct"
 
-import { useCateContext } from "@/contexts/category/providerCate"
-import { useAuth } from "@/contexts/auth/providerAuth"
-import Cookies from "js-cookie"
-import { errorMessages } from "@/constants"
+import ProductCard from "./ProductCard"
+
 import { useSocket } from "@/contexts/socket/providerSocket"
 
 import useIntersectionObserver from "@/hooks/useIntersectionObserver"
-import { useRouter } from "next/navigation"
+
 import Loading from "./Loading"
+import { Chip } from "@material-tailwind/react"
 
-import { useLogout } from "@/hooks/useLogout"
-import {
-    AdjustmentsHorizontalIcon,
-    Bars3Icon,
-    MagnifyingGlassIcon,
-} from "@heroicons/react/24/solid"
-import FilterProductFragment from "./fragments/FilterProductFragment"
-
-const ProductGrid = () => {
+const ProductGrid = ({ products }) => {
     const socket = useSocket()
-    const logout = useLogout()
-
-    const { state: autheState } = useAuth()
-    const { accessToken } = autheState
-
-    const { state: cateState } = useCateContext()
-    const { categories } = cateState
-
-    const [query, setQuery] = useState("")
-    const [category, setCategory] = useState("")
-    const [products, setProducts] = useState([])
 
     const PRODUCTS_PER_LOAD = 2
     const [hasMore, setHasMore] = useState(false)
     const [loading, setLoading] = useState(false)
     const [displayedProducts, setDisplayedProducts] = useState([])
 
-    const [openDrawer, setOpenDrawer] = useState(false)
+    // const handleSearch = async () => {
+    //     const res = await searchProduct({ query, tokens })
+    //     if (res.statusCode === 200) {
+    //         const fetchedProducts = res.metadata.products
+    //         if (fetchedProducts.length === 0) {
+    //             toast.error(errorMessages.NOTFOUND.en)
+    //         } else {
+    //             setProducts(fetchedProducts)
+    //             setDisplayedProducts(
+    //                 fetchedProducts.slice(0, PRODUCTS_PER_LOAD)
+    //             )
 
-    const refreshToken = Cookies.get("refresh_token")
-    const tokens = { accessToken, refreshToken }
+    //             setHasMore(fetchedProducts.length > PRODUCTS_PER_LOAD)
+    //         }
+    //     } else if (res.statusCode === 403) {
+    //         toast.error(errorMessages.FORBIDDEN.vi)
+    //         logout()
+    //     } else {
+    //         toast.error(errorMessages.SERVER_ERROR.vi)
+    //     }
+    //     setQuery("")
+    // }
 
-    const handleOpenDrawer = (p) => {
-        setOpenDrawer(p)
-    }
-
-    const handleSearch = async () => {
-        setProducts([])
-        const res = await searchProduct({ query, tokens })
-        if (res.statusCode === 200) {
-            const fetchedProducts = res.metadata.products
-            if (fetchedProducts.length === 0) {
-                toast.error(errorMessages.NOTFOUND.en)
-            } else {
-                setProducts(fetchedProducts)
-                setDisplayedProducts(
-                    fetchedProducts.slice(0, PRODUCTS_PER_LOAD)
-                )
-
-                setHasMore(fetchedProducts.length > PRODUCTS_PER_LOAD)
-            }
-        } else if (res.statusCode === 403) {
-            toast.error(errorMessages.FORBIDDEN.vi)
-            logout()
-        } else {
-            toast.error(errorMessages.SERVER_ERROR.vi)
-        }
-        setQuery("")
-    }
-    const handleChangeCategory = (e) => {
-        setCategory(e)
-    }
-    const handleSelectCategory = async () => {
-        setProducts([])
-        setLoading(true)
-
-        const res = await findProductsByCate({ cat: category, tokens })
-        if (res.statusCode === 200) {
-            const fetchedProducts = res.metadata.products
-            if (fetchedProducts.length === 0) {
-                toast.error(errorMessages.NOTFOUND.en)
-            } else {
-                setProducts(fetchedProducts)
-                setDisplayedProducts(
-                    fetchedProducts.slice(0, PRODUCTS_PER_LOAD)
-                )
-
-                setHasMore(fetchedProducts.length > PRODUCTS_PER_LOAD)
-            }
-        } else if (res.statusCode === 403) {
-            toast.error(errorMessages.FORBIDDEN.vi)
-            logout()
-        } else {
-            toast.error(errorMessages.SERVER_ERROR.vi)
-        }
-
-        setLoading(false)
-    }
     const loadMore = useCallback(async () => {
         if (loading || !hasMore) {
             return
@@ -128,6 +61,11 @@ const ProductGrid = () => {
     }, [loading, hasMore, products, displayedProducts])
 
     const sentinelRef = useIntersectionObserver(loadMore, { threshold: 0.5 })
+
+    useEffect(() => {
+        setDisplayedProducts(products.slice(0, PRODUCTS_PER_LOAD))
+        setHasMore(products.length > PRODUCTS_PER_LOAD)
+    }, [products])
 
     useEffect(() => {
         if (!socket) return

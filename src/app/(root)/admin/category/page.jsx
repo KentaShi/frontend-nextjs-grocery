@@ -1,6 +1,6 @@
 "use client"
 // import Category from "@/components/Category"
-const Category = React.lazy(() => import("@/components/Category"))
+const Category = React.lazy(() => import("@/components/admin/Category"))
 import Loading from "@/components/Loading"
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { useCateContext } from "@/contexts/category/providerCate"

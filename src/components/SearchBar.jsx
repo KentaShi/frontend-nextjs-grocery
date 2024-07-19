@@ -8,6 +8,9 @@ import Link from "next/link"
 const SearchBar = () => {
     const [query, setQuery] = useState("")
     const [openDrawer, setOpenDrawer] = useState(false)
+
+    const [placeholder, setPlaceholder] = useState("Bạn cần mua gì...")
+
     const handleOpenDrawer = (p) => {
         setOpenDrawer(p)
     }
@@ -17,21 +20,22 @@ const SearchBar = () => {
                 <div className="relative flex w-full gap-2 mb-2 max-w-[618px]">
                     <Button
                         size="sm"
-                        className="!absolute shadow-none bg-white left-1 top-1 z-10"
+                        className="!absolute shadow-none hover:shadow-none bg-white left-1 border-r-2 top-1 z-10"
                         onClick={handleOpenDrawer}
                     >
                         <Bars3Icon className="text-green-2 w-4 h-4 " />
                     </Button>
 
-                    <Input
+                    <input
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         type="search"
-                        placeholder="Tìm kiêm..."
-                        className="pr-20 pl-20 text-dark-2 bg-white focus:outline"
-                        containerProps={{
-                            className: "min-w-[288px]",
-                        }}
+                        placeholder={placeholder}
+                        onFocus={() =>
+                            setPlaceholder("Nhập tên sản phẩm cần mua...")
+                        }
+                        onBlur={() => setPlaceholder("Bạn cần mua gì...")}
+                        className="px-16 min-w-[288px] text-dark-2 bg-white rounded-lg w-full h-10 focus:outline"
                     />
 
                     <Button

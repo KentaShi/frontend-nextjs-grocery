@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import React, { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import Loading from "@/components/Loading"
-const User = dynamic(() => import("@/components/User"), {
+const User = dynamic(() => import("@/components/admin/User"), {
     loading: () => <Loading />,
 })
 

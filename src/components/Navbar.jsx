@@ -14,6 +14,7 @@ import {
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { useLogout } from "@/hooks/useLogout"
 import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/solid"
+import SearchBar from "./SearchBar"
 export default function StickyNavbar() {
     const logout = useLogout()
     const { state, dispatch } = useAuth()
@@ -63,6 +64,10 @@ export default function StickyNavbar() {
                         </span>
                     </Link>
                 </Typography>
+                //todo: fix navbar height
+                <div className="w-full">
+                    <SearchBar />
+                </div>
                 <div className="flex items-center gap-4">
                     {isAuthenticated ? (
                         <>

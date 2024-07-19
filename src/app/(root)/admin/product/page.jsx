@@ -3,7 +3,7 @@ import Loading from "@/components/Loading"
 
 //use dynamic next js
 import dynamic from "next/dynamic"
-const Product = dynamic(() => import("@/components/Product"), {
+const Product = dynamic(() => import("@/components/admin/Product"), {
     loading: () => <Loading />,
 })
 

@@ -1,24 +1,39 @@
+"use client"
+
+import React, { useState } from "react"
+
 import { PlusIcon } from "@heroicons/react/24/solid"
 import {
-    Button,
     Card,
-    CardBody,
     CardHeader,
     Typography,
+    Button,
+    CardBody,
 } from "@material-tailwind/react"
-import React, { useState } from "react"
-import UserItem from "./UserItem"
+import CategoryItem from "./CategoryItem"
+import CategoryAddFragment from "../fragments/CategoryAddFragment"
+import Pagination from "../Pagination"
 import { getCurrentRecords } from "@/utils/pagination"
-import Pagination from "./Pagination"
 
-const TABLE_HEAD = ["Username", "Role", "Status", "Options"]
+const TABLE_HEAD = ["Tên", "Tùy chọn"]
 
-const User = ({ users }) => {
+const Category = ({ categories }) => {
+    const [openAddNew, setOpenAddNew] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
-    const userPerPage = 5
-    const totalPages = Math.ceil(users.length / userPerPage)
 
-    const currentUsers = getCurrentRecords(currentPage, userPerPage, users)
+    const categoriesPerPage = 5
+    const totalPages = Math.ceil(categories.length / categoriesPerPage)
+
+    const currentCategories = getCurrentRecords(
+        currentPage,
+        categoriesPerPage,
+        categories
+    )
+
+    const handleOpenAddNew = () => {
+        setOpenAddNew((prev) => !prev)
+    }
+
     return (
         <Card className="bg-dark-3 h-full w-full">
             <CardHeader
@@ -29,25 +44,30 @@ const User = ({ users }) => {
                 <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
                     <div>
                         <Typography variant="h6" color="white">
-                            Danh sách User
+                            Danh sách phân loại
                         </Typography>
                         <Typography
                             color="white"
                             variant="paragraph"
                             className="mt-1 font-normal"
                         >
-                            Số lượng: {users.length}
+                            Số lượng: {categories?.length || 0}
                         </Typography>
                     </div>
                     <div className="flex w-full shrink-0 gap-2 md:w-max">
                         <Button
+                            onClick={handleOpenAddNew}
                             className="flex items-center"
                             size="sm"
                             color="deep-orange"
                         >
-                            <PlusIcon strokeWidth={2} className="h-4 w-4" /> Add
-                            User
+                            <PlusIcon strokeWidth={2} className="h-4 w-4" />{" "}
+                            Thêm phân loại
                         </Button>
+                        <CategoryAddFragment
+                            openDialog={openAddNew}
+                            handleOpenDialog={handleOpenAddNew}
+                        />
                     </div>
                 </div>
             </CardHeader>
@@ -72,16 +92,16 @@ const User = ({ users }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {currentUsers.map((user, index) => {
-                            const isLast = index === user.length - 1
+                        {currentCategories.map((cate, index) => {
+                            const isLast = index === categories.length - 1
                             const classes = isLast
                                 ? "p-4"
                                 : "p-4 border-b border-blue-gray-50"
 
                             return (
-                                <UserItem
+                                <CategoryItem
                                     key={index}
-                                    user={user}
+                                    category={cate}
                                     classes={classes}
                                 />
                             )
@@ -89,7 +109,6 @@ const User = ({ users }) => {
                     </tbody>
                 </table>
             </CardBody>
-
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -99,4 +118,4 @@ const User = ({ users }) => {
     )
 }
 
-export default User
+export default Category

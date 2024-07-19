@@ -12,10 +12,7 @@ const HomeLayout = ({ children }) => {
                 <div className="container mx-auto flex">
                     <div className="mt-6 w-full flex justify-center">
                         <div className="w-full flex flex-col justify-center items-center">
-                            <div className="w-full">
-                                <SearchBar />
-                                {children}
-                            </div>
+                            <div className="w-full">{children}</div>
                         </div>
                     </div>
                 </div>

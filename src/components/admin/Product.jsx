@@ -1,6 +1,5 @@
 "use client"
-
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { PlusIcon } from "@heroicons/react/24/solid"
 import {
@@ -9,26 +8,21 @@ import {
     Typography,
     Button,
     CardBody,
+    CardFooter,
+    IconButton,
 } from "@material-tailwind/react"
-import CategoryItem from "./CategoryItem"
-import CategoryAddFragment from "./fragments/CategoryAddFragment"
-import Pagination from "./Pagination"
-import { getCurrentRecords } from "@/utils/pagination"
 
-const TABLE_HEAD = ["Tên", "Tùy chọn"]
+import ProductItem from "./ProductItem"
+import ProductAddFragment from "../fragments/ProductAddFragment"
+import Pagination from "../Pagination"
+import { useProductContext } from "@/contexts/product/providerProductV2"
+const TABLE_HEAD = ["Tên sản phẩm", "Giá", "Phân loại", "Tùy chọn"]
 
-const Category = ({ categories }) => {
+const Product = () => {
     const [openAddNew, setOpenAddNew] = useState(false)
-    const [currentPage, setCurrentPage] = useState(1)
 
-    const categoriesPerPage = 5
-    const totalPages = Math.ceil(categories.length / categoriesPerPage)
-
-    const currentCategories = getCurrentRecords(
-        currentPage,
-        categoriesPerPage,
-        categories
-    )
+    const { products, currentPage, setCurrentPage, totalPages } =
+        useProductContext()
 
     const handleOpenAddNew = () => {
         setOpenAddNew((prev) => !prev)
@@ -44,14 +38,14 @@ const Category = ({ categories }) => {
                 <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
                     <div>
                         <Typography variant="h6" color="white">
-                            Danh sách phân loại
+                            Danh sách sản phẩm
                         </Typography>
                         <Typography
                             color="white"
                             variant="paragraph"
                             className="mt-1 font-normal"
                         >
-                            Số lượng: {categories?.length || 0}
+                            Số lượng: {products?.length ? products.length : 0}
                         </Typography>
                     </div>
                     <div className="flex w-full shrink-0 gap-2 md:w-max">
@@ -62,9 +56,9 @@ const Category = ({ categories }) => {
                             color="deep-orange"
                         >
                             <PlusIcon strokeWidth={2} className="h-4 w-4" />{" "}
-                            Thêm phân loại
+                            Thêm Sản Phẩm
                         </Button>
-                        <CategoryAddFragment
+                        <ProductAddFragment
                             openDialog={openAddNew}
                             handleOpenDialog={handleOpenAddNew}
                         />
@@ -92,16 +86,16 @@ const Category = ({ categories }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {currentCategories.map((cate, index) => {
-                            const isLast = index === categories.length - 1
+                        {products.map((product, index) => {
+                            const isLast = index === products.length - 1
                             const classes = isLast
                                 ? "p-4"
                                 : "p-4 border-b border-blue-gray-50"
 
                             return (
-                                <CategoryItem
+                                <ProductItem
                                     key={index}
-                                    category={cate}
+                                    product={product}
                                     classes={classes}
                                 />
                             )
@@ -109,6 +103,7 @@ const Category = ({ categories }) => {
                     </tbody>
                 </table>
             </CardBody>
+
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -118,4 +113,4 @@ const Category = ({ categories }) => {
     )
 }
 
-export default Category
+export default Product

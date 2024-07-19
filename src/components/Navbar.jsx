@@ -14,6 +14,7 @@ import {
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { useLogout } from "@/hooks/useLogout"
 import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/solid"
+import SearchBar from "./SearchBar"
 export default function StickyNavbar() {
     const logout = useLogout()
     const { state, dispatch } = useAuth()
@@ -35,7 +36,7 @@ export default function StickyNavbar() {
                     color="white"
                     className="p-1 text-sm font-bold hover:text-green-light"
                 >
-                    <Link href="/dashboard" className="flex items-center">
+                    <Link href="/admin/dashboard" className="flex items-center">
                         Admin
                     </Link>
                 </Typography>
@@ -54,7 +55,7 @@ export default function StickyNavbar() {
     )
 
     return (
-        <nav className="w-full mx-auto rounded-none bg-dark-1/90 py-1.5 lg:px-8 lg:py-4 px-6">
+        <nav className="w-full mx-auto rounded-none bg-green-3 py-1.5 lg:px-8 lg:py-4 px-6">
             <div className="container flex mx-auto items-center justify-between text-blue-gray-900">
                 <Typography className="mr-4 cursor-pointer py-1.5 font-medium">
                     <Link href={"/"}>
@@ -63,6 +64,10 @@ export default function StickyNavbar() {
                         </span>
                     </Link>
                 </Typography>
+                //todo: fix navbar height
+                <div className="w-full">
+                    <SearchBar />
+                </div>
                 <div className="flex items-center gap-4">
                     {isAuthenticated ? (
                         <>

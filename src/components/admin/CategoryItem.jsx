@@ -1,7 +1,7 @@
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid"
 import { IconButton, Tooltip, Typography } from "@material-tailwind/react"
 import React, { useEffect, useState } from "react"
-import CategoryDeleteFragment from "./fragments/CategoryDeleteFragment"
+import CategoryDeleteFragment from "../fragments/CategoryDeleteFragment"
 
 const CategoryItem = ({ category, classes }) => {
     const { cate_name, cate_slug } = category

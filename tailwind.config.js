@@ -20,6 +20,7 @@ module.exports = withMT({
                 green: {
                     1: "#02693B",
                     2: "#007A4A",
+                    3: "#00241A",
                     light: "#93DB17",
                 },
                 sky: {

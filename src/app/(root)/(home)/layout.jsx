@@ -1,4 +1,5 @@
 import StickyNavbar from "@/components/Navbar"
+import SearchBar from "@/components/SearchBar"
 import React from "react"
 
 const HomeLayout = ({ children }) => {
@@ -10,7 +11,9 @@ const HomeLayout = ({ children }) => {
             <div className="px-3">
                 <div className="container mx-auto flex">
                     <div className="mt-6 w-full flex justify-center">
-                        {children}
+                        <div className="w-full flex flex-col justify-center items-center">
+                            <div className="w-full">{children}</div>
+                        </div>
                     </div>
                 </div>
             </div>

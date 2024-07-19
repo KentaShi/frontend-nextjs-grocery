@@ -6,8 +6,8 @@ import {
     Typography,
 } from "@material-tailwind/react"
 import React, { useState } from "react"
-import ProductUpdateFragment from "./fragments/ProductUpdateFragment"
-import ProductDeleteFragment from "./fragments/ProductDeleteFragment"
+import ProductUpdateFragment from "../fragments/ProductUpdateFragment"
+import ProductDeleteFragment from "../fragments/ProductDeleteFragment"
 
 const ProductItem = ({ product, classes }) => {
     const {

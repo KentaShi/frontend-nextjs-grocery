@@ -59,15 +59,15 @@ export default function StickyNavbar() {
             <div className="container flex mx-auto items-center justify-between text-blue-gray-900">
                 <Typography className="mr-4 cursor-pointer py-1.5 font-medium">
                     <Link href={"/"}>
-                        <span className="text-base lg:text-3xl font-semibold text-green-light text-outline">
+                        <span className="text-base lg:text-2xl font-semibold text-green-light text-outline">
                             Tạp Hóa Chị Tuyết
                         </span>
                     </Link>
                 </Typography>
-                //todo: fix navbar height
-                <div className="w-full">
+                <div className="w-full max-w-[618px]">
                     <SearchBar />
                 </div>
+
                 <div className="flex items-center gap-4">
                     {isAuthenticated ? (
                         <>

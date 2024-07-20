@@ -16,8 +16,8 @@ const Dashboard = () => {
     const router = useRouter()
 
     useEffect(() => {
-        if (user?.role !== "admin") router.push("/")
-    }, [user])
+        if (user && user?.role !== "admin") router.push("/")
+    }, [user, router])
 
     return (
         <div className="flex flex-col items-start justify-center gap-3">

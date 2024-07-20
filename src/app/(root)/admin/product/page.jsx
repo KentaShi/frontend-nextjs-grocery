@@ -17,8 +17,8 @@ const ProductPage = () => {
     const router = useRouter()
 
     useEffect(() => {
-        if (user?.role !== "admin") router.push("/")
-    }, [user])
+        if (user && user?.role !== "admin") router.push("/")
+    }, [user, router])
     return (
         <>
             <Product />

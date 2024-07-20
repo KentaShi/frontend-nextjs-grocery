@@ -17,7 +17,7 @@ const SearchBar = () => {
     return (
         <>
             <div className="flex items-center justify-center">
-                <div className="relative flex w-full gap-2 mb-2 max-w-[618px]">
+                <div className="relative flex w-full gap-2 mb-2">
                     <Button
                         size="sm"
                         className="!absolute shadow-none hover:shadow-none bg-white left-1 border-r-2 top-1 z-10"
@@ -38,14 +38,12 @@ const SearchBar = () => {
                         className="px-16 min-w-[288px] text-dark-2 bg-white rounded-lg w-full h-10 focus:outline"
                     />
 
-                    <Button
-                        size="sm"
-                        className="!absolute right-1 top-1 rounded bg-green-2"
+                    <Link
+                        href={`/search?q=${query}`}
+                        className="!absolute right-1 top-1 rounded bg-green-2 py-2 px-4"
                     >
-                        <Link href={`/search?q=${query}`}>
-                            <MagnifyingGlassIcon className="w-4 h-4" />
-                        </Link>
-                    </Button>
+                        <MagnifyingGlassIcon className="w-4 h-4 text-white" />
+                    </Link>
                 </div>
             </div>
             <FilterProductFragment

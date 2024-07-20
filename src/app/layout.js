@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
                 <SocketProvider>
                     <CategoryProvider>
                         <ProductProvider>
-                            <body>
+                            <body className="bg-blue-light">
                                 {children}
                                 <Toaster />
                             </body>

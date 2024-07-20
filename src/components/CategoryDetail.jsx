@@ -1,50 +1,30 @@
 "use client"
-import { errorMessages } from "@/constants"
-import { useAuth } from "@/contexts/auth/providerAuth"
-import { useLogout } from "@/hooks/useLogout"
-import { findProductsByCate } from "@/service/product"
-import Cookies from "js-cookie"
-import React, { useEffect, useState } from "react"
-import toast from "react-hot-toast"
+
+import React, { useMemo } from "react"
 import ProductGrid from "./ProductGrid"
 import { Chip } from "@material-tailwind/react"
+import { useCateContext } from "@/contexts/category/providerCate"
 
-const CategoryDetail = ({ slug }) => {
-    const logout = useLogout()
-    const { state } = useAuth()
-    const { accessToken } = state
-    const refreshToken = Cookies.get("refresh_token")
-    const tokens = { accessToken, refreshToken }
+const CategoryDetail = ({ slug, products }) => {
+    const { state: cateState } = useCateContext()
+    const { categories } = cateState
 
-    const [products, setProducts] = useState([])
+    const cateName = useMemo(() => {
+        const cate = categories.find((c) => c.cate_slug === slug)
+        return cate?.cate_name
+    }, [slug, categories])
 
-    useEffect(() => {
-        const getProducts = async () => {
-            try {
-                const res = await findProductsByCate(slug, tokens)
-                if (res.statusCode === 200) {
-                    setProducts(res.metadata.products)
-                } else if (res.statusCode === 403) {
-                    toast.error(errorMessages.FORBIDDEN.vi)
-                    logout()
-                } else {
-                    toast.error(errorMessages.SERVER_ERROR.vi)
-                }
-            } catch (error) {
-                console.log(error.message)
-                toast.error(errorMessages.SERVER_ERROR.vi)
-            }
-        }
-        getProducts()
-    }, [slug])
+    const displayName = `${cateName} (${products.length} sản phẩm})`
+
     return (
         <>
+            <title>{cateName}</title>
             <div className="flex items-center justify-center ">
                 <div className="max-w-[618px] w-full">
                     <Chip
                         className="min-w-[288px] bg-green-2 rounded-lg w-full h-10 hover:bg-green-1 flex items-center justify-center"
                         size="md"
-                        value={slug}
+                        value={displayName}
                     />
                 </div>
             </div>

@@ -4,7 +4,7 @@ import React from "react"
 
 const HomeLayout = ({ children }) => {
     return (
-        <main className="relative mb-8 h-screen w-full bg-blue-light bg-cover">
+        <main className="relative mb-8 h-screen w-full">
             <div className="sticky top-0 z-[999] flex w-full items-center">
                 <StickyNavbar />
             </div>

@@ -1,5 +1,5 @@
 import StickyNavbar from "@/components/Navbar"
-import SearchBar from "@/components/SearchBar"
+
 import React from "react"
 
 const HomeLayout = ({ children }) => {

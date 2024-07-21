@@ -8,7 +8,6 @@ import { useSocket } from "@/contexts/socket/providerSocket"
 import useIntersectionObserver from "@/hooks/useIntersectionObserver"
 
 import Loading from "./Loading"
-import { Chip } from "@material-tailwind/react"
 
 const ProductGrid = ({ products }) => {
     const socket = useSocket()

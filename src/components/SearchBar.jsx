@@ -1,11 +1,14 @@
 "use client"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import FilterProductFragment from "./fragments/FilterProductFragment"
 import { Button, Input } from "@material-tailwind/react"
 import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/solid"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 const SearchBar = () => {
+    const pathName = usePathname()
+
     const [query, setQuery] = useState("")
     const [openDrawer, setOpenDrawer] = useState(false)
 
@@ -14,6 +17,11 @@ const SearchBar = () => {
     const handleOpenDrawer = (p) => {
         setOpenDrawer(p)
     }
+
+    useEffect(() => {
+        if (pathName !== "/search") setQuery("")
+    }, [pathName])
+
     return (
         <>
             <div className="flex items-center justify-center">
@@ -39,6 +47,7 @@ const SearchBar = () => {
                     />
 
                     <Link
+                        onClick={() => setQuery("")}
                         href={`/search?q=${query}`}
                         className="!absolute right-1 top-1 rounded bg-green-2 py-2 px-4"
                     >

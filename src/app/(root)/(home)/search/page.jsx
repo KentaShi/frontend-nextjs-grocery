@@ -5,9 +5,9 @@ import { ArrowLongLeftIcon } from "@heroicons/react/24/solid"
 import { Chip } from "@material-tailwind/react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
-import React, { useEffect, useState } from "react"
+import React, { Suspense, useEffect, useState } from "react"
 
-const SearchPage = () => {
+const Search = () => {
     const searchParams = useSearchParams()
     const { q } = Object.fromEntries(searchParams.entries())
 
@@ -63,6 +63,14 @@ const SearchPage = () => {
                 <ProductGrid products={products} />
             </div>
         </>
+    )
+}
+
+const SearchPage = () => {
+    return (
+        <Suspense>
+            <Search />
+        </Suspense>
     )
 }
 

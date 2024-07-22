@@ -4,6 +4,7 @@ import React, { useMemo } from "react"
 import ProductGrid from "./ProductGrid"
 import { Chip } from "@material-tailwind/react"
 import { useCateContext } from "@/contexts/category/providerCate"
+import LinkToHome from "./ui/LinkToHome"
 
 const CategoryDetail = ({ slug, products }) => {
     const { state: cateState } = useCateContext()
@@ -19,7 +20,7 @@ const CategoryDetail = ({ slug, products }) => {
     return (
         <>
             <title>{cateName}</title>
-            <div className="flex items-center justify-center ">
+            <div className="flex flex-col items-center justify-center ">
                 <div className="max-w-[618px] w-full">
                     <Chip
                         className="min-w-[288px] bg-green-2 rounded-lg w-full h-10 hover:bg-green-1 flex items-center justify-center"
@@ -27,6 +28,7 @@ const CategoryDetail = ({ slug, products }) => {
                         value={displayName}
                     />
                 </div>
+                <LinkToHome />
             </div>
             <div>
                 <ProductGrid products={products} />

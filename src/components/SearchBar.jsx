@@ -5,9 +5,12 @@ import { Button, Input } from "@material-tailwind/react"
 import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/solid"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 const SearchBar = () => {
     const pathName = usePathname()
+
+    const router = useRouter()
 
     const [query, setQuery] = useState("")
     const [openDrawer, setOpenDrawer] = useState(false)
@@ -16,6 +19,13 @@ const SearchBar = () => {
 
     const handleOpenDrawer = (p) => {
         setOpenDrawer(p)
+    }
+
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter") {
+            router.push(`/search?q=${query}`)
+            setQuery("")
+        }
     }
 
     useEffect(() => {
@@ -35,6 +45,7 @@ const SearchBar = () => {
                     </Button>
 
                     <input
+                        onKeyPress={handleKeyPress}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         type="search"

@@ -63,7 +63,7 @@ const ProductGrid = ({ products }) => {
 
     return (
         <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 my-4 gap-4">
+            <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 my-4 gap-1">
                 {displayedProducts?.length > 0 &&
                     displayedProducts.map((product, index) => {
                         return (

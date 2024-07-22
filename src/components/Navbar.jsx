@@ -13,7 +13,10 @@ import {
 } from "@material-tailwind/react"
 import { useAuth } from "@/contexts/auth/providerAuth"
 import { useLogout } from "@/hooks/useLogout"
-import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/solid"
+import {
+    ArrowRightStartOnRectangleIcon,
+    HomeIcon,
+} from "@heroicons/react/24/solid"
 import SearchBar from "./SearchBar"
 export default function StickyNavbar() {
     const logout = useLogout()
@@ -59,9 +62,10 @@ export default function StickyNavbar() {
             <div className="container flex mx-auto items-center justify-between text-blue-gray-900">
                 <Typography className="mr-4 cursor-pointer py-1.5 font-medium">
                     <Link href={"/"}>
-                        <span className="text-base lg:text-2xl font-semibold text-green-light text-outline">
+                        <span className="text-base lg:text-2xl font-semibold text-green-light text-outline hidden lg:block">
                             Tạp Hóa Chị Tuyết
                         </span>
+                        <HomeIcon className="w-8 h-8 text-green-light lg:hidden" />
                     </Link>
                 </Typography>
                 <div className="w-full max-w-[618px]">

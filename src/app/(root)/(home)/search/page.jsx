@@ -1,5 +1,6 @@
 "use client"
 import ProductGrid from "@/components/ProductGrid"
+import LinkToHome from "@/components/ui/LinkToHome"
 import instance from "@/utils/api"
 import { ArrowLongLeftIcon } from "@heroicons/react/24/solid"
 import { Chip } from "@material-tailwind/react"
@@ -51,13 +52,7 @@ const Search = () => {
                         value={displayName}
                     />
                 </div>
-                <Link
-                    className="flex flex-row items-center my-2 hover:text-blue-500"
-                    href={"/"}
-                >
-                    <ArrowLongLeftIcon className="w-6 h-6" />
-                    <p className="text-sm">Về trang chủ</p>
-                </Link>
+                <LinkToHome />
             </div>
             <div>
                 <ProductGrid products={products} />

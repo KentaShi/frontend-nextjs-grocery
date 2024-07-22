@@ -18,13 +18,13 @@ const ProductBlock = ({ cate_slug, products }) => {
     }, [cate_slug, categories])
     return (
         <>
-            <div className="bg-green-100 my-4 rounded-lg">
+            <div className="bg-gradient-to-br from-lime-300/50 to-light-green-300/50 my-4 rounded-sm">
                 <div className="w-full flex justify-center">
                     <p className="text-white min-w-[288px] max-w-[309px]  bg-green-2 rounded-b-lg w-full h-10 hover:bg-green-1 flex items-center justify-center uppercase font-bold text-base">
                         {cateName}
                     </p>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 my-4 mx-4 gap-4">
+                <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 my-4 gap-1 mx-4">
                     {products.length > 0 &&
                         products.map((product, index) => {
                             return (

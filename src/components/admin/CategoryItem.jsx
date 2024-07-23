@@ -1,5 +1,14 @@
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid"
-import { IconButton, Tooltip, Typography } from "@material-tailwind/react"
+import { Cog8ToothIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid"
+import {
+    Chip,
+    IconButton,
+    Menu,
+    MenuHandler,
+    MenuItem,
+    MenuList,
+    Tooltip,
+    Typography,
+} from "@material-tailwind/react"
 import React, { useEffect, useState } from "react"
 import CategoryDeleteFragment from "../fragments/CategoryDeleteFragment"
 
@@ -20,15 +29,30 @@ const CategoryItem = ({ category, classes }) => {
             </td>
 
             <td className={classes}>
-                <Tooltip content="Delete">
-                    <IconButton
-                        onClick={handleOpenDeleteDialog}
-                        color="red"
-                        variant="text"
-                    >
-                        <TrashIcon className="h-4 w-4" />
-                    </IconButton>
-                </Tooltip>
+                <Menu
+                    animate={{
+                        mount: { y: 0 },
+                        unmount: { y: 25 },
+                    }}
+                >
+                    <MenuHandler>
+                        <IconButton color="blue" variant="text">
+                            <Cog8ToothIcon className="h-4 w-4" />
+                        </IconButton>
+                    </MenuHandler>
+                    <MenuList>
+                        <MenuItem onClick={handleOpenDeleteDialog}>
+                            <Chip
+                                className="justify-center items-center"
+                                variant="ghost"
+                                size="sm"
+                                value="Delete"
+                                color="red"
+                            />
+                        </MenuItem>
+                    </MenuList>
+                </Menu>
+
                 <CategoryDeleteFragment
                     category={category}
                     openDialog={openDeleteDialog}

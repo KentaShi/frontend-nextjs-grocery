@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
                 <SocketProvider>
                     <CategoryProvider>
                         <ProductProvider>
-                            <body className="bg-blue-light">
+                            <body className="bg-blue-light overflow-x-hidden">
                                 {children}
                                 <Toaster />
                             </body>

@@ -39,7 +39,7 @@ const ProductCard = ({ product, index }) => {
     }, [state])
 
     return (
-        <Card className="m-0 w-full rounded-sm border border-green-light">
+        <Card className="m-0 w-full rounded-sm border border-green-light hover:shadow transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-300">
             <CardHeader
                 shadow={false}
                 floated={false}

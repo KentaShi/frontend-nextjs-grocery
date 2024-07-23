@@ -58,16 +58,15 @@ export default function StickyNavbar() {
     )
 
     return (
-        <nav className="w-full mx-auto rounded-none bg-green-3 py-1.5 lg:px-8 lg:py-4 px-6">
-            <div className="container flex mx-auto items-center justify-between text-blue-gray-900">
-                <Typography className="mr-4 cursor-pointer py-1.5 font-medium">
-                    <Link href={"/"}>
-                        <span className="text-base lg:text-2xl font-semibold text-green-light text-outline hidden lg:block">
-                            Tạp Hóa Chị Tuyết
-                        </span>
-                        <HomeIcon className="w-8 h-8 text-green-light lg:hidden" />
-                    </Link>
-                </Typography>
+        <nav className="w-full mx-auto rounded-none bg-green-3 py-1.5 lg:px-8 lg:py-4 px-4">
+            <div className="flex container mx-auto items-center justify-around text-blue-gray-900">
+                <Link href={"/"} className="flex items-center justify-center">
+                    <span className="text-base lg:text-2xl font-semibold text-green-light text-outline hidden lg:block">
+                        Tạp Hóa Chị Tuyết
+                    </span>
+                    <HomeIcon className="w-8 h-8 text-green-light lg:hidden mr-2" />
+                </Link>
+
                 <div className="w-full max-w-[618px]">
                     <SearchBar />
                 </div>
@@ -142,7 +141,11 @@ export default function StickyNavbar() {
                     <>
                         {navList}
                         <div className="flex items-center gap-x-1">
-                            <ArrowRightStartOnRectangleIcon onClick={logout} />
+                            <ArrowRightStartOnRectangleIcon
+                                color="white"
+                                className="w-6 h-6 hover:text-green-light font-bold cursor-pointer "
+                                onClick={logout}
+                            />
                         </div>
                     </>
                 ) : (

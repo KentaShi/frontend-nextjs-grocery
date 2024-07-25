@@ -12,7 +12,7 @@ import Loading from "./Loading"
 const ProductGrid = ({ products }) => {
     const socket = useSocket()
 
-    const PRODUCTS_PER_LOAD = 2
+    const PRODUCTS_PER_LOAD = 3
     const [hasMore, setHasMore] = useState(false)
     const [loading, setLoading] = useState(false)
     const [displayedProducts, setDisplayedProducts] = useState([])
@@ -74,7 +74,7 @@ const ProductGrid = ({ products }) => {
                             />
                         )
                     })}
-                <div ref={sentinelRef} style={{ height: "400px" }}></div>
+                <div ref={sentinelRef}></div>
                 {loading && <Loading />}
             </div>
         </>

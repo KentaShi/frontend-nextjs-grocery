@@ -41,12 +41,12 @@ instance.interceptors.response.use(
     }
 )
 
-export const getData = async ({ url, tokens }) => {
+export const getData = async ({ url, tokens = null }) => {
     try {
         const headers = {
             "Content-Type": "application/json",
-            authorization: `Bearer ${tokens.accessToken}`,
-            "x-refresh-token": tokens.refreshToken,
+            authorization: `Bearer ${tokens?.accessToken}`,
+            "x-refresh-token": tokens?.refreshToken,
         }
         const response = await instance.get(url, {
             headers: { ...instance.defaults.headers, ...headers },

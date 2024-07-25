@@ -34,7 +34,7 @@ const SearchBar = () => {
 
     return (
         <>
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center mr-2">
                 <div className="relative flex w-full gap-2 my-2">
                     <Button
                         size="sm"

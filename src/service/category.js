@@ -1,7 +1,7 @@
 import { postData, getData, deleteData, updateData } from "@/utils/api"
 
-export const findAllCategories = async ({ tokens }) => {
-    return await getData({ url: "/api/category/", tokens })
+export const findAllCategories = async () => {
+    return await getData({ url: "/api/category/" })
 }
 export const addCategory = async ({ data, tokens }) => {
     return await postData("/api/category/", data, tokens)

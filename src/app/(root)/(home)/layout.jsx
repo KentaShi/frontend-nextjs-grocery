@@ -1,3 +1,4 @@
+import BottomNavbar from "@/components/BottomNavbar"
 import StickyNavbar from "@/components/Navbar"
 
 import React from "react"
@@ -16,6 +17,9 @@ const HomeLayout = ({ children }) => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="lg:hidden">
+                <BottomNavbar />
             </div>
         </main>
     )

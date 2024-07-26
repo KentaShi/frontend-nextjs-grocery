@@ -43,7 +43,7 @@ const ProductCard = ({ product, index }) => {
             <CardHeader
                 shadow={false}
                 floated={false}
-                className="m-0 h-44 sm:h-52 md:h-72 lg:h-80 rounded-none"
+                className="m-0 h-32 sm:h-44 md:h-52 lg:h-72 rounded-none"
             >
                 <img
                     src={product_thumb.url}

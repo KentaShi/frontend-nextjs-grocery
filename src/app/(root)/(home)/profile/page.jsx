@@ -1,18 +1,16 @@
-"use client"
-import { useAuth } from "@/contexts/auth/providerAuth"
-import React, { useEffect } from "react"
-import { redirect } from "next/navigation"
+import Loading from "@/components/Loading"
+import dynamic from "next/dynamic"
+import React from "react"
+const Profile = dynamic(() => import("@/components/Profile"), {
+    loading: () => <Loading />,
+})
 
-const ProfilePage = () => {
-    const { state } = useAuth()
-    const { user, isAuthenticated } = state
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            return redirect("/login")
-        }
-    }, [isAuthenticated])
-    return <div className="text-white">Hello {user?.username}</div>
+const page = () => {
+    return (
+        <>
+            <Profile />
+        </>
+    )
 }
 
-export default ProfilePage
+export default page

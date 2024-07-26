@@ -25,17 +25,6 @@ export default function StickyNavbar() {
 
     const navList = (
         <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-            {user?.role === "admin" && (
-                <Typography
-                    as="li"
-                    color="white"
-                    className="p-1 text-sm font-bold hover:text-green-light"
-                >
-                    <Link href="/admin/dashboard" className="flex items-center">
-                        Admin
-                    </Link>
-                </Typography>
-            )}
             <Typography
                 as="li"
                 variant="paragraph"

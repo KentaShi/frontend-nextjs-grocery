@@ -9,8 +9,8 @@ import React from "react"
 
 const BottomNavbar = () => {
     return (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
-            <div className="flex justify-between items-center max-w-lg mx-auto p-4">
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 h-14">
+            <div className="grid h-full grid-cols-4 max-w-lg mx-auto p-4">
                 <Link href="/">
                     <p className="flex flex-col items-center">
                         <HomeIcon className="h-6 w-6 text-gray-600" />
